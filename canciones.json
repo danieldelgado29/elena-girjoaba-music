@@ -1,0 +1,1483 @@
+[
+  {
+    "numero": 1,
+    "titulo": "Afuera",
+    "artista": "Caifanes",
+    "busqueda": "1 afuera caifanes",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 2,
+    "titulo": "Ahora Te Puedes Marchar",
+    "artista": "Luis Miguel",
+    "busqueda": "2 ahora te puedes marchar luis miguel",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 3,
+    "titulo": "A La La Long",
+    "artista": "Inner Circle",
+    "busqueda": "3 a la la long inner circle",
+    "categorias": [
+      "Reggae",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 4,
+    "titulo": "All About That Bass",
+    "artista": "Postmodern Jukebox",
+    "busqueda": "4 all about that bass postmodern jukebox pmj",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 5,
+    "titulo": "All That She Wants",
+    "artista": "Ace of Base",
+    "busqueda": "5 all that she wants ace of base",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 6,
+    "titulo": "American Woman",
+    "artista": "Lenny Kravitz",
+    "busqueda": "6 american woman lenny kravitz",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 7,
+    "titulo": "Another One Bites the Dust",
+    "artista": "Queen",
+    "busqueda": "7 another one bites the dust queen",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 8,
+    "titulo": "Are You Gonna Be My Girl",
+    "artista": "Jet",
+    "busqueda": "8 are you gonna be my girl jet",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 9,
+    "titulo": "Are You Gonna Go My Way",
+    "artista": "Lenny Kravitz",
+    "busqueda": "9 are you gonna go my way lenny kravitz",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 10,
+    "titulo": "Así Es la Vida",
+    "artista": "Elefante",
+    "busqueda": "10 asi es la vida elefante",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 11,
+    "titulo": "Back to Black",
+    "artista": "Amy Winehouse",
+    "busqueda": "11 back to black amy winehouse",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 12,
+    "titulo": "Baracunatana",
+    "artista": "Aterciopelados",
+    "busqueda": "12 baracunatana aterciopelados",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 13,
+    "titulo": "Beds Are Burning",
+    "artista": "Midnight Oil",
+    "busqueda": "13 beds are burning midnight oil",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 14,
+    "titulo": "Beggin'",
+    "artista": "Måneskin",
+    "busqueda": "14 beggin maneskin",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 15,
+    "titulo": "Billie Jean",
+    "artista": "Michael Jackson",
+    "busqueda": "15 billie jean michael jackson",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 16,
+    "titulo": "Born to Be Wild",
+    "artista": "Steppenwolf",
+    "busqueda": "16 born to be wild steppenwolf",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 17,
+    "titulo": "Call Me",
+    "artista": "Blondie",
+    "busqueda": "17 call me blondie",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 18,
+    "titulo": "Chica de Humo",
+    "artista": "Emmanuel",
+    "busqueda": "18 chica de humo emmanuel",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 19,
+    "titulo": "Clavado en un Bar",
+    "artista": "Maná",
+    "busqueda": "19 clavado en un bar mana",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 20,
+    "titulo": "Corazón",
+    "artista": "Los Auténticos Decadentes",
+    "busqueda": "20 corazon los autenticos decadentes autenticos d autenticos",
+    "categorias": [
+      "Rock",
+      "Rock Español",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 21,
+    "titulo": "Come Together",
+    "artista": "The Beatles",
+    "busqueda": "21 come together the beatles",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 22,
+    "titulo": "Como la Flor",
+    "artista": "Selena",
+    "busqueda": "22 como la flor selena",
+    "categorias": [
+      "Pop",
+      "Bailables",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 23,
+    "titulo": "Could You Be Loved",
+    "artista": "Bob Marley & The Wailers",
+    "busqueda": "23 could you be loved bob marley the wailers bob marley",
+    "categorias": [
+      "Reggae"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 24,
+    "titulo": "Crazy",
+    "artista": "Gnarls Barkley",
+    "busqueda": "24 crazy gnarls barkley",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 25,
+    "titulo": "Crazy Little Thing Called Love",
+    "artista": "Queen",
+    "busqueda": "25 crazy little thing called love queen",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 26,
+    "titulo": "Creep",
+    "artista": "Radiohead",
+    "busqueda": "26 creep radiohead",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 27,
+    "titulo": "Dance Monkey",
+    "artista": "Tones and I",
+    "busqueda": "27 dance monkey tones and i",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 28,
+    "titulo": "Don't Look Back in Anger",
+    "artista": "Oasis",
+    "busqueda": "28 don t look back in anger oasis",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 29,
+    "titulo": "Don't Speak",
+    "artista": "No Doubt",
+    "busqueda": "29 don t speak no doubt",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 30,
+    "titulo": "Don't Start Now",
+    "artista": "Dua Lipa",
+    "busqueda": "30 don t start now dua lipa",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 31,
+    "titulo": "Don't Stop Me Now",
+    "artista": "Queen",
+    "busqueda": "31 don t stop me now queen",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 32,
+    "titulo": "El Embrujo",
+    "artista": "Américo",
+    "busqueda": "32 el embrujo americo",
+    "categorias": [
+      "Bailables",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 33,
+    "titulo": "El Murguero",
+    "artista": "Los Auténticos Decadentes",
+    "busqueda": "33 el murguero los autenticos decadentes autenticos d autenticos",
+    "categorias": [
+      "Rock",
+      "Rock Español",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 34,
+    "titulo": "Enjoy the Silence",
+    "artista": "Depeche Mode",
+    "busqueda": "34 enjoy the silence depeche mode",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 35,
+    "titulo": "Enter Sandman",
+    "artista": "Metallica",
+    "busqueda": "35 enter sandman metallica",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 36,
+    "titulo": "Es Mejor Así",
+    "artista": "Cristian Castro",
+    "busqueda": "36 es mejor asi cristian castro",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 37,
+    "titulo": "Every Breath You Take",
+    "artista": "The Police",
+    "busqueda": "37 every breath you take the police",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 38,
+    "titulo": "Feel",
+    "artista": "Robbie Williams",
+    "busqueda": "38 feel robbie williams",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 39,
+    "titulo": "Flowers",
+    "artista": "Miley Cyrus",
+    "busqueda": "39 flowers miley cyrus",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 40,
+    "titulo": "Get Lucky",
+    "artista": "Daft Punk",
+    "busqueda": "40 get lucky daft punk",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 41,
+    "titulo": "Gimme! Gimme! Gimme!",
+    "artista": "ABBA",
+    "busqueda": "41 gimme gimme gimme abba",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 42,
+    "titulo": "Heart of Glass",
+    "artista": "Miley Cyrus",
+    "busqueda": "42 heart of glass miley cyrus heart of glass blondie",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 43,
+    "titulo": "Happy",
+    "artista": "Pharrell Williams",
+    "busqueda": "43 happy pharrell williams",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 44,
+    "titulo": "Havana",
+    "artista": "Camila Cabello",
+    "busqueda": "44 havana camila cabello",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 45,
+    "titulo": "Have You Ever Seen the Rain",
+    "artista": "Creedence Clearwater Revival",
+    "busqueda": "45 have you ever seen the rain creedence clearwater revival ccr",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 46,
+    "titulo": "Highway to Hell",
+    "artista": "AC/DC",
+    "busqueda": "46 highway to hell ac dc acdc ac dc",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 47,
+    "titulo": "Hit Me With Your Best Shot",
+    "artista": "Pat Benatar",
+    "busqueda": "47 hit me with your best shot pat benatar",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 48,
+    "titulo": "Hit the Road Jack",
+    "artista": "Ray Charles",
+    "busqueda": "48 hit the road jack ray charles",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 49,
+    "titulo": "Hold the Line",
+    "artista": "Toto",
+    "busqueda": "49 hold the line toto",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 50,
+    "titulo": "Hot Stuff",
+    "artista": "Donna Summer",
+    "busqueda": "50 hot stuff donna summer",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 51,
+    "titulo": "Hurts So Good",
+    "artista": "John Mellencamp",
+    "busqueda": "51 hurts so good john mellencamp",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 52,
+    "titulo": "I Don't Want to Miss a Thing",
+    "artista": "Aerosmith",
+    "busqueda": "52 i don t want to miss a thing aerosmith",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 53,
+    "titulo": "I Hate Myself for Loving You",
+    "artista": "Joan Jett & The Blackhearts",
+    "busqueda": "53 i hate myself for loving you joan jett the blackhearts joan jett",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 54,
+    "titulo": "I Love Rock 'n' Roll",
+    "artista": "Joan Jett & The Blackhearts",
+    "busqueda": "54 i love rock n roll joan jett the blackhearts joan jett",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 55,
+    "titulo": "I'm Yours",
+    "artista": "Jason Mraz",
+    "busqueda": "55 i m yours jason mraz",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 56,
+    "titulo": "I'm Not the Only One",
+    "artista": "Sam Smith",
+    "busqueda": "56 i m not the only one sam smith",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 57,
+    "titulo": "I Want to Break Free",
+    "artista": "Queen",
+    "busqueda": "57 i want to break free queen",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 58,
+    "titulo": "I Was Made for Lovin' You",
+    "artista": "Kiss",
+    "busqueda": "58 i was made for lovin you kiss",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 59,
+    "titulo": "Is This Love",
+    "artista": "Bob Marley & The Wailers",
+    "busqueda": "59 is this love bob marley the wailers bob marley",
+    "categorias": [
+      "Reggae",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 60,
+    "titulo": "It's My Life",
+    "artista": "Bon Jovi",
+    "busqueda": "60 it s my life bon jovi",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 61,
+    "titulo": "Jamming",
+    "artista": "Bob Marley & The Wailers",
+    "busqueda": "61 jamming bob marley the wailers bob marley",
+    "categorias": [
+      "Reggae"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 62,
+    "titulo": "Johnny B. Goode",
+    "artista": "Chuck Berry",
+    "busqueda": "62 johnny b goode chuck berry",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 63,
+    "titulo": "Killing in the Name",
+    "artista": "Rage Against the Machine",
+    "busqueda": "63 killing in the name rage against the machine rage",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 64,
+    "titulo": "La Guitarra",
+    "artista": "Los Auténticos Decadentes",
+    "busqueda": "64 la guitarra los autenticos decadentes los autenticos autenticos d",
+    "categorias": [
+      "Rock",
+      "Rock Español",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 65,
+    "titulo": "Lamento Boliviano",
+    "artista": "Los Enanitos Verdes",
+    "busqueda": "65 lamento boliviano los enanitos verdes enanitos",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 66,
+    "titulo": "La Muralla Verde",
+    "artista": "Los Enanitos Verdes",
+    "busqueda": "66 la muralla verde los enanitos verdes enanitos",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 67,
+    "titulo": "Lemon Tree",
+    "artista": "Fool's Garden",
+    "busqueda": "67 lemon tree fool s garden",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 68,
+    "titulo": "Let It Be",
+    "artista": "The Beatles",
+    "busqueda": "68 let it be the beatles",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 69,
+    "titulo": "Levitating",
+    "artista": "Dua Lipa",
+    "busqueda": "69 levitating dua lipa",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 70,
+    "titulo": "Like a Stone",
+    "artista": "Audioslave",
+    "busqueda": "70 like a stone audioslave",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 71,
+    "titulo": "Livin' on a Prayer",
+    "artista": "Bon Jovi",
+    "busqueda": "71 livin on a prayer bon jovi living on a prayer",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 72,
+    "titulo": "Locked Out of Heaven",
+    "artista": "Bruno Mars",
+    "busqueda": "72 locked out of heaven bruno mars",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 73,
+    "titulo": "Losing My Religion",
+    "artista": "R.E.M.",
+    "busqueda": "73 losing my religion r e m",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 74,
+    "titulo": "Luna de Miel",
+    "artista": "Virus",
+    "busqueda": "74 luna de miel virus",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 75,
+    "titulo": "Mambo No. 5",
+    "artista": "Lou Bega",
+    "busqueda": "75 mambo no 5 lou bega",
+    "categorias": [
+      "Pop",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 76,
+    "titulo": "Man! I Feel Like a Woman!",
+    "artista": "Shania Twain",
+    "busqueda": "76 man i feel like a woman shania twain shania twain man i feel like a woman",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 77,
+    "titulo": "Maniac",
+    "artista": "Michael Sembello",
+    "busqueda": "77 maniac michael sembello",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 78,
+    "titulo": "Mentirosa",
+    "artista": "Ráfaga",
+    "busqueda": "78 mentirosa rafaga",
+    "categorias": [
+      "Bailables",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 79,
+    "titulo": "Mil Horas",
+    "artista": "Los Abuelos de la Nada",
+    "busqueda": "79 mil horas los abuelos de la nada",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 80,
+    "titulo": "Move Over",
+    "artista": "Janis Joplin",
+    "busqueda": "80 move over janis joplin",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 81,
+    "titulo": "De Música Ligera",
+    "artista": "Soda Stereo",
+    "busqueda": "81 de musica ligera soda stereo musica ligera",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 82,
+    "titulo": "My Sharona",
+    "artista": "The Knack",
+    "busqueda": "82 my sharona the knack",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 83,
+    "titulo": "No Woman, No Cry",
+    "artista": "Bob Marley & The Wailers",
+    "busqueda": "83 no woman no cry bob marley the wailers bob marley",
+    "categorias": [
+      "Reggae"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 84,
+    "titulo": "Nowhere Fast",
+    "artista": "Fire Inc.",
+    "busqueda": "84 nowhere fast fire inc",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 85,
+    "titulo": "Nunca Es Suficiente",
+    "artista": "Natalia Lafourcade",
+    "busqueda": "85 nunca es suficiente natalia lafourcade natalia l",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 86,
+    "titulo": "One Way or Another",
+    "artista": "Blondie",
+    "busqueda": "86 one way or another blondie one way blondie",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 87,
+    "titulo": "Oye Mi Amor",
+    "artista": "Maná",
+    "busqueda": "87 oye mi amor mana",
+    "categorias": [
+      "Rock",
+      "Rock Español",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 88,
+    "titulo": "Para No Verte Más",
+    "artista": "La Mosca Tsé-Tsé",
+    "busqueda": "88 para no verte mas la mosca tse tse",
+    "categorias": [
+      "Rock",
+      "Rock Español",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 89,
+    "titulo": "Persiana Americana",
+    "artista": "Soda Stereo",
+    "busqueda": "89 persiana americana soda stereo",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 90,
+    "titulo": "Personal Jesus",
+    "artista": "Depeche Mode",
+    "busqueda": "90 personal jesus depeche mode",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 91,
+    "titulo": "Psycho Killer",
+    "artista": "Talking Heads",
+    "busqueda": "91 psycho killer talking heads",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 92,
+    "titulo": "Puto",
+    "artista": "Molotov",
+    "busqueda": "92 puto molotov",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 93,
+    "titulo": "Qué Bello",
+    "artista": "La Sonora Dinamita",
+    "busqueda": "93 que bello la sonora dinamita la sonora d",
+    "categorias": [
+      "Bailables",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 94,
+    "titulo": "Rebel Yell",
+    "artista": "Billy Idol",
+    "busqueda": "94 rebel yell billy idol",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 95,
+    "titulo": "Red Red Wine",
+    "artista": "UB40",
+    "busqueda": "95 red red wine ub40 ub40",
+    "categorias": [
+      "Reggae"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 96,
+    "titulo": "Rehab",
+    "artista": "Amy Winehouse",
+    "busqueda": "96 rehab amy winehouse",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 97,
+    "titulo": "Roadhouse Blues",
+    "artista": "The Doors",
+    "busqueda": "97 roadhouse blues the doors",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 98,
+    "titulo": "Rolling in the Deep",
+    "artista": "Adele",
+    "busqueda": "98 rolling in the deep adele",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 99,
+    "titulo": "Roxanne",
+    "artista": "The Police",
+    "busqueda": "99 roxanne the police",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 100,
+    "titulo": "(I Can't Get No) Satisfaction",
+    "artista": "The Rolling Stones",
+    "busqueda": "100 i can t get no satisfaction the rolling stones satisfaction rolling stones",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 101,
+    "titulo": "Seven Nation Army",
+    "artista": "The White Stripes",
+    "busqueda": "101 seven nation army the white stripes white stripes w stripes",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 102,
+    "titulo": "Sex on Fire",
+    "artista": "Kings of Leon",
+    "busqueda": "102 sex on fire kings of leon",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 103,
+    "titulo": "Si Antes Te Hubiera Conocido",
+    "artista": "Karol G",
+    "busqueda": "103 si antes te hubiera conocido karol g",
+    "categorias": [
+      "Pop",
+      "Bailables"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 104,
+    "titulo": "Sin Documentos",
+    "artista": "Los Rodríguez",
+    "busqueda": "104 sin documentos los rodriguez",
+    "categorias": [
+      "Rock",
+      "Rock Español"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 105,
+    "titulo": "Smells Like Teen Spirit",
+    "artista": "Nirvana",
+    "busqueda": "105 smells like teen spirit nirvana",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 106,
+    "titulo": "Somebody's Watching Me",
+    "artista": "Rockwell",
+    "busqueda": "106 somebody s watching me rockwell",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 107,
+    "titulo": "Stay",
+    "artista": "Rihanna",
+    "busqueda": "107 stay rihanna",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 108,
+    "titulo": "Stand by Me",
+    "artista": "Ben E. King",
+    "busqueda": "108 stand by me ben e king",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 109,
+    "titulo": "Sweet Child o' Mine",
+    "artista": "Guns N' Roses",
+    "busqueda": "109 sweet child o mine guns n roses g and r gnr",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 110,
+    "titulo": "Sweet Dreams (Are Made of This)",
+    "artista": "Eurythmics",
+    "busqueda": "110 sweet dreams are made of this eurythmics",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 111,
+    "titulo": "Take on Me",
+    "artista": "a-ha",
+    "busqueda": "111 take on me a ha",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 112,
+    "titulo": "Te Vas",
+    "artista": "Américo",
+    "busqueda": "112 te vas americo",
+    "categorias": [
+      "Bailables",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 113,
+    "titulo": "The Scientist",
+    "artista": "Coldplay",
+    "busqueda": "113 the scientist coldplay",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 114,
+    "titulo": "The Way You Make Me Feel",
+    "artista": "Michael Jackson",
+    "busqueda": "114 the way you make me feel michael jackson m jackson",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 115,
+    "titulo": "Thriller",
+    "artista": "Michael Jackson",
+    "busqueda": "115 thriller michael jackson m jackson",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 116,
+    "titulo": "Torn",
+    "artista": "Natalie Imbruglia",
+    "busqueda": "116 torn natalie imbruglia",
+    "categorias": [
+      "Pop",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 117,
+    "titulo": "Tu Cárcel",
+    "artista": "Los Enanitos Verdes",
+    "busqueda": "117 tu carcel los enanitos verdes enanitos",
+    "categorias": [
+      "Rock",
+      "Rock Español",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 118,
+    "titulo": "Valerie",
+    "artista": "Amy Winehouse",
+    "busqueda": "118 valerie amy winehouse",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 119,
+    "titulo": "We Are the Champions",
+    "artista": "Queen",
+    "busqueda": "119 we are the champions queen",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 120,
+    "titulo": "We Will Rock You",
+    "artista": "Queen",
+    "busqueda": "120 we will rock you queen",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 121,
+    "titulo": "Whole Lotta Love",
+    "artista": "Led Zeppelin",
+    "busqueda": "121 whole lotta love led zeppelin",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 122,
+    "titulo": "Wonderwall",
+    "artista": "Oasis",
+    "busqueda": "122 wonderwall oasis",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 123,
+    "titulo": "What's Up?",
+    "artista": "4 Non Blondes",
+    "busqueda": "123 what s up 4 non blondes",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 124,
+    "titulo": "Wicked Game",
+    "artista": "Chris Isaak",
+    "busqueda": "124 wicked game chris isaak",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 125,
+    "titulo": "Yesterday",
+    "artista": "The Beatles",
+    "busqueda": "125 yesterday the beatles",
+    "categorias": [
+      "Rock",
+      "Románticas"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 126,
+    "titulo": "You Know I'm No Good",
+    "artista": "Amy Winehouse",
+    "busqueda": "126 you know i m no good amy winehouse winehouse",
+    "categorias": [
+      "Pop"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 127,
+    "titulo": "You Shook Me All Night Long",
+    "artista": "AC/DC",
+    "busqueda": "127 you shook me all night long ac dc acdc ac dc you shook me",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 128,
+    "titulo": "Your Love",
+    "artista": "The Outfield",
+    "busqueda": "128 your love the outfield",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 129,
+    "titulo": "You Oughta Know",
+    "artista": "Alanis Morissette",
+    "busqueda": "129 you oughta know alanis morissette",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  },
+  {
+    "numero": 130,
+    "titulo": "Zombie",
+    "artista": "The Cranberries",
+    "busqueda": "130 zombie the cranberries",
+    "categorias": [
+      "Rock"
+    ],
+    "favorita": false,
+    "nueva": false
+  }
+]

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Elena Girjoaba Music — Música en vivo para tu evento. Disfruta de una experiencia interactiva y elige la canción que quieres escuchar.">
+  <meta name="author" content="Elena Girjoaba Music">
+
+  <meta property="og:title" content="Elena Girjoaba Music">
+  <meta property="og:description" content="Música en vivo para tu evento. Tú eliges la canción, nosotros la tocamos.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/foto-banda.jpg">
+
+  <title>Elena Girjoaba Music | Música a la Carta</title>
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenidoPrincipal">Ir al contenido principal</a>
+
+  <!-- =========================================================
+       PANTALLA INICIAL / LANDING
+       ========================================================= -->
+  <section
+    id="landing"
+    class="landing"
+    aria-labelledby="landingTitulo"
+  >
+    <div class="landing__fondo" aria-hidden="true"></div>
+    <div class="landing__overlay" aria-hidden="true"></div>
+
+    <div class="landing__contenido">
+      <p class="landing__marca">ELENA GIRJOABA MUSIC</p>
+
+      <h1 id="landingTitulo" class="landing__titulo">
+        Música en vivo para tu evento
+      </h1>
+
+      <p class="landing__descripcion">
+        Disfruta de esta experiencia interactiva y descubre cómo hacemos que cada evento sea único.
+      </p>
+
+
+      <div id="continuarExperiencia" class="landing__continuar" hidden>
+        <p class="landing__continuar-etiqueta">SIGUIENTE PASO</p>
+        <button
+          id="entrarRepertorio"
+          class="boton boton--repertorio boton--repertorio-destacado"
+          type="button"
+          aria-controls="app"
+        >
+          <span class="boton__icono boton__icono--grande" aria-hidden="true">♪</span>
+          <span class="boton__contenido">
+            <strong>Música a la Carta</strong>
+            <small>Entrar y elegir tu canción</small>
+          </span>
+          <span class="boton__avance" aria-hidden="true">›</span>
+        </button>
+      </div>
+
+      <div class="formatos" aria-label="Formatos disponibles">
+        <article class="formato">
+          <span class="formato__icono" aria-hidden="true">🎤</span>
+          <h2 class="formato__titulo">Dúo</h2>
+          <p class="formato__texto">Un formato íntimo, cercano y versátil.</p>
+        </article>
+
+        <article class="formato">
+          <span class="formato__icono" aria-hidden="true">🥁</span>
+          <h2 class="formato__titulo">Trío</h2>
+          <p class="formato__texto">Más energía para celebraciones y eventos especiales.</p>
+        </article>
+
+        <article class="formato">
+          <span class="formato__icono" aria-hidden="true">🎸</span>
+          <h2 class="formato__titulo">Banda completa</h2>
+          <p class="formato__texto">La fuerza de un concierto para una experiencia inolvidable.</p>
+        </article>
+      </div>
+
+      <div class="landing__llamada">
+        <p class="landing__pregunta">¿Te gusta lo que escuchas?</p>
+        <p class="landing__ayuda">
+          Síguenos y acompáñanos en nuestros próximos shows.
+        </p>
+      </div>
+
+      <div class="landing__acciones">
+        <a
+          id="seguirInstagram"
+          class="boton boton--instagram"
+          href="https://instagram.com/elenagirjoabamusic"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Seguir a Elena Girjoaba Music en Instagram"
+        >
+          <span class="boton__icono" aria-hidden="true">◎</span>
+          <span>Seguir en Instagram</span>
+        </a>
+      </div>
+
+      <p class="landing__repertorio">
+        Más de 130 canciones en inglés y español.
+        <strong>Tú eliges la canción, nosotros la tocamos.</strong>
+      </p>
+
+      <a
+        class="landing__contrataciones"
+        href="https://wa.me/593987388915"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Consultar contrataciones
+      </a>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       APLICACIÓN / REPERTORIO
+       ========================================================= -->
+  <div id="app" class="app" hidden>
+    <header class="hero" id="inicio">
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <nav class="barra" aria-label="Navegación principal">
+        <a class="barra__marca" href="#inicio" aria-label="Ir al inicio">
+          ELENA GIRJOABA MUSIC
+        </a>
+
+        <div class="barra__enlaces">
+          <a
+            href="https://instagram.com/elenagirjoabamusic"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
+
+          <a
+            class="barra__contrataciones"
+            href="https://wa.me/593987388915"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Contrataciones
+          </a>
+        </div>
+      </nav>
+
+      <div class="hero__contenido">
+        <p class="hero__marca">ELENA GIRJOABA MUSIC</p>
+
+        <h2 class="hero__titulo">MÚSICA A LA CARTA</h2>
+
+        <p class="hero__slogan">
+          Tú eliges la canción, nosotros la tocamos.
+        </p>
+
+        <a class="hero__flecha" href="#contenidoPrincipal" aria-label="Bajar al repertorio">
+          <span aria-hidden="true">⌄</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="contenidoPrincipal" class="contenido-principal">
+      <section class="explorador" aria-labelledby="tituloExplorador">
+        <div class="explorador__encabezado">
+          <p class="explorador__eyebrow">ELIGE TU CANCIÓN</p>
+          <h2 id="tituloExplorador" class="explorador__titulo">
+            ¿Qué quieres escuchar?
+          </h2>
+          <p class="explorador__descripcion">
+            Busca por nombre, artista o número. También puedes explorar por género.
+          </p>
+        </div>
+
+        <div id="menuCanciones" class="menu-ancla" aria-hidden="true"></div>
+
+        <button id="mostrarTodo" class="mostrar-todo mostrar-todo--principal" type="button">
+            <span class="mostrar-todo__icono" aria-hidden="true">♫</span>
+            <span class="mostrar-todo__contenido">
+              <strong>Ver todas las canciones</strong>
+              <small>130 canciones disponibles</small>
+            </span>
+            <span class="mostrar-todo__flecha" aria-hidden="true">›</span>
+          </button>
+
+        <div class="categorias" role="group" aria-label="Filtrar canciones por categoría">
+          <button class="categoria categoria--todas" type="button" data-categoria="Todas">
+            Todas
+          </button>
+          <button class="categoria categoria--rock" type="button" data-categoria="Rock">
+            Rock
+          </button>
+          <button class="categoria" type="button" data-categoria="Rock Español">
+            Rock Español
+          </button>
+          <button class="categoria" type="button" data-categoria="Pop">
+            Pop
+          </button>
+          <button class="categoria" type="button" data-categoria="Bailables">
+            Bailables
+          </button>
+          <button class="categoria" type="button" data-categoria="Románticas">
+            Románticas
+          </button>
+          <button class="categoria" type="button" data-categoria="Reggae">
+            Reggae
+          </button>
+        </div>
+
+        <div class="buscador">
+          <label class="sr-only" for="buscar">Buscar canción o artista</label>
+
+          <span class="buscador__icono" aria-hidden="true">⌕</span>
+
+          <input
+            id="buscar"
+            class="buscador__campo"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            placeholder="Buscar canción o artista..."
+            aria-describedby="ayudaBusqueda"
+          >
+
+          <button
+            id="limpiarBusqueda"
+            class="buscador__limpiar"
+            type="button"
+            aria-label="Limpiar búsqueda"
+            hidden
+          >
+            ×
+          </button>
+        </div>
+
+        <p id="ayudaBusqueda" class="buscador__ayuda">
+          Puedes escribir, por ejemplo: “Maná”, “Música Ligera” o “87”.
+        </p>
+
+        <div class="estado-lista" aria-live="polite" aria-atomic="true">
+          <p id="contadorCanciones" class="contador-canciones">
+            Cargando canciones...
+          </p>
+        </div>
+
+        <div
+          id="listaCanciones"
+          class="lista-canciones"
+          role="list"
+          aria-label="Lista de canciones"
+        ></div>
+
+        <div id="sinResultados" class="sin-resultados" hidden>
+          <span class="sin-resultados__icono" aria-hidden="true">♪</span>
+          <h3>No encontramos esa canción.</h3>
+          <p>
+            Prueba escribiendo parte del título, el artista o el número.
+          </p>
+        </div>
+
+        <div id="errorCarga" class="error-carga" role="alert" hidden>
+          <h3>No pudimos cargar las canciones.</h3>
+          <p>
+            Abre esta página desde GitHub Pages o mediante un servidor local e inténtalo nuevamente.
+          </p>
+          <button id="reintentarCarga" type="button">Reintentar</button>
+        </div>
+      </section>
+
+      <section class="mensaje-final" aria-labelledby="mensajeFinalTitulo">
+        <p class="mensaje-final__simbolo" aria-hidden="true">✦</p>
+        <h2 id="mensajeFinalTitulo">La música la eliges tú</h2>
+        <p>
+          Cuando encuentres tu canción, grita el número o el nombre durante el show.
+        </p>
+        <p class="mensaje-final__nota">
+          ¿No encuentras una canción? Pregúntanos durante el show.
+          Siempre estamos ampliando nuestro repertorio.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__contenido">
+        <div class="footer__marca">
+          <strong>ELENA GIRJOABA MUSIC</strong>
+          <span>Música en vivo para tu evento</span>
+        </div>
+
+        <div class="footer__enlaces">
+          <a
+            href="https://instagram.com/elenagirjoabamusic"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @elenagirjoabamusic
+          </a>
+
+          <a
+            href="https://wa.me/593987388915"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Contrataciones
+          </a>
+        </div>
+      </div>
+
+      <p class="footer__copyright">
+        © <span id="anioActual"></span> Elena Girjoaba Music.
+      </p>
+    </footer>
+
+    <button
+      id="volverArriba"
+      class="volver-arriba"
+      type="button"
+      aria-label="Volver al menú de canciones"
+      hidden
+    >
+      <span class="volver-arriba__flecha" aria-hidden="true">↑</span>
+      <span class="volver-arriba__texto">Menú</span>
+    </button>
+  </div>
+
+  <noscript>
+    <div class="noscript">
+      Esta página necesita JavaScript para mostrar y filtrar las canciones.
+    </div>
+  </noscript>
+</body>
+</html>
