@@ -3037,3 +3037,21 @@ a {
     font-size: .76rem;
   }
 }
+
+
+/* =========================================================
+   AJUSTE V3.2 — RESTAURAR FRANJA SUPERIOR DEL REPERTORIO
+   La primera landing continúa sin espacio negro.
+   La segunda pantalla conserva la franja para Instagram
+   y Cotizar mi evento.
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .hero__imagen {
+    margin-top: 64px !important;
+  }
+
+  .hero__contenido {
+    padding-top: min(54vw, 410px) !important;
+  }
+}
