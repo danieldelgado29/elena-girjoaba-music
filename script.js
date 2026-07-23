@@ -1,67 +1,69 @@
-
 "use strict";
 
 /* =========================================================
    ELENA GIRJOABA MUSIC
-   script.js
+   script.js — Versión 2.0
    ========================================================= */
 
 (() => {
-  /* ---------------------------------------------------------
-     01. CONFIGURACIÓN
-     --------------------------------------------------------- */
   const CONFIG = Object.freeze({
     rutaCanciones: "canciones.json",
-    claveLanding: "egmLandingVisitada",
+    instagramApp: "instagram://user?username=elenagirjoabamusic",
+    instagramWeb: "https://instagram.com/elenagirjoabamusic",
+    whatsappApp: "whatsapp://send?phone=593987388915&text=Hola%20Elena%20Girjoaba%20Music.%20%F0%9F%91%8B%0A%0AMe%20gustar%C3%ADa%20cotizar%20m%C3%BAsica%20en%20vivo%20para%20un%20evento.%0A%0A%C2%BFPodr%C3%ADan%20darme%20informaci%C3%B3n%20sobre%20disponibilidad%20y%20precios%3F%0A%0A%C2%A1Muchas%20gracias%21",
+    whatsappWeb: "https://wa.me/593987388915?text=Hola%20Elena%20Girjoaba%20Music.%20%F0%9F%91%8B%0A%0AMe%20gustar%C3%ADa%20cotizar%20m%C3%BAsica%20en%20vivo%20para%20un%20evento.%0A%0A%C2%BFPodr%C3%ADan%20darme%20informaci%C3%B3n%20sobre%20disponibilidad%20y%20precios%3F%0A%0A%C2%A1Muchas%20gracias%21",
+    esperaFallbackApp: 1200,
     tiempoSalidaLanding: 650,
     tiempoSeleccionTarjeta: 900,
     limiteAnimacionTarjetas: 24,
-    categoriaInicial: "Todas"
+    categoriaInicial: "Todas",
+    claveInstagramVisitado: "egmInstagramVisitado"
   });
 
-  /* ---------------------------------------------------------
-     02. ESTADO
-     --------------------------------------------------------- */
   const estado = {
     canciones: [],
     categoriaActiva: null,
     consulta: "",
     mostrarTodas: false,
     cargando: false,
-    error: null
+    error: null,
+    instagramVisitado: false
   };
 
-  /* ---------------------------------------------------------
-     03. REFERENCIAS DEL DOM
-     --------------------------------------------------------- */
   const DOM = {};
 
   function capturarDOM() {
     DOM.landing = document.querySelector("#landing");
     DOM.app = document.querySelector("#app");
     DOM.seguirInstagram = document.querySelector("#seguirInstagram");
-    DOM.entrarRepertorio = document.querySelector("#entrarRepertorio");
     DOM.continuarExperiencia = document.querySelector("#continuarExperiencia");
+    DOM.entrarRepertorio = document.querySelector("#entrarRepertorio");
 
     DOM.mostrarTodo = document.querySelector("#mostrarTodo");
+    DOM.totalCancionesBoton = document.querySelector("#totalCancionesBoton");
     DOM.buscar = document.querySelector("#buscar");
     DOM.limpiarBusqueda = document.querySelector("#limpiarBusqueda");
     DOM.contadorCanciones = document.querySelector("#contadorCanciones");
     DOM.listaCanciones = document.querySelector("#listaCanciones");
-    DOM.menuCanciones = document.querySelector("#menuCanciones");
-    DOM.explorador = document.querySelector(".explorador");
     DOM.sinResultados = document.querySelector("#sinResultados");
     DOM.errorCarga = document.querySelector("#errorCarga");
     DOM.reintentarCarga = document.querySelector("#reintentarCarga");
     DOM.categorias = [...document.querySelectorAll(".categoria")];
 
+    DOM.menuCanciones = document.querySelector("#menuCanciones");
+    DOM.controlesCanciones = document.querySelector("#controlesCanciones");
     DOM.volverArriba = document.querySelector("#volverArriba");
     DOM.anioActual = document.querySelector("#anioActual");
+
+    DOM.enlacesWhatsApp = [
+      ...document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]')
+    ];
+
+    DOM.enlacesInstagram = [
+      ...document.querySelectorAll('a[href*="instagram.com"]')
+    ];
   }
 
-  /* ---------------------------------------------------------
-     04. UTILIDADES
-     --------------------------------------------------------- */
   function normalizarTexto(valor = "") {
     return String(valor)
       .normalize("NFD")
@@ -81,24 +83,6 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
-  }
-
-  function guardarPreferencia(clave, valor) {
-    try {
-      sessionStorage.setItem(clave, JSON.stringify(valor));
-    } catch (error) {
-      console.warn("No se pudo guardar la preferencia local:", error);
-    }
-  }
-
-  function leerPreferencia(clave, valorPredeterminado = null) {
-    try {
-      const valor = sessionStorage.getItem(clave);
-      return valor === null ? valorPredeterminado : JSON.parse(valor);
-    } catch (error) {
-      console.warn("No se pudo leer la preferencia local:", error);
-      return valorPredeterminado;
-    }
   }
 
   function desplazarA(elemento, opciones = {}) {
@@ -148,18 +132,129 @@
     });
   }
 
-  /* ---------------------------------------------------------
-     05. LANDING
-     --------------------------------------------------------- */
-  function marcarInstagramVisitado() {
-    DOM.landing?.classList.add("instagram-visitado");
+  function esDispositivoMovil() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
 
-    if (DOM.continuarExperiencia) {
-      DOM.continuarExperiencia.hidden = false;
-      DOM.continuarExperiencia.classList.remove("is-visible");
-      void DOM.continuarExperiencia.offsetWidth;
-      DOM.continuarExperiencia.classList.add("is-visible");
+  function guardarInstagramVisitado() {
+    estado.instagramVisitado = true;
+
+    try {
+      sessionStorage.setItem(CONFIG.claveInstagramVisitado, "1");
+    } catch (error) {
+      console.warn("No se pudo guardar el estado de Instagram:", error);
     }
+  }
+
+  function instagramFueVisitado() {
+    if (estado.instagramVisitado) return true;
+
+    try {
+      return sessionStorage.getItem(CONFIG.claveInstagramVisitado) === "1";
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     APERTURA INTELIGENTE DE APPS
+     --------------------------------------------------------- */
+  function abrirAplicacionConRespaldo(urlApp, urlWeb) {
+    // En computadora abrimos la web en otra pestaña para conservar la landing.
+    if (!esDispositivoMovil()) {
+      window.open(urlWeb, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    let paginaOculta = false;
+    let fallbackId;
+
+    const detectarSalida = () => {
+      if (document.visibilityState === "hidden") {
+        paginaOculta = true;
+        window.clearTimeout(fallbackId);
+      }
+    };
+
+    document.addEventListener("visibilitychange", detectarSalida, { once: true });
+
+    window.location.href = urlApp;
+
+    fallbackId = window.setTimeout(() => {
+      if (!paginaOculta && document.visibilityState === "visible") {
+        window.location.href = urlWeb;
+      }
+    }, CONFIG.esperaFallbackApp);
+  }
+
+  function prepararInstagram() {
+    if (!DOM.seguirInstagram) return;
+
+    DOM.seguirInstagram.removeAttribute("target");
+
+    DOM.seguirInstagram.addEventListener("click", (evento) => {
+      evento.preventDefault();
+
+      guardarInstagramVisitado();
+      mostrarContinuacionInstagram();
+      abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
+    });
+
+    DOM.enlacesInstagram
+      .filter((enlace) => enlace !== DOM.seguirInstagram)
+      .forEach((enlace) => {
+        enlace.removeAttribute("target");
+
+        enlace.addEventListener("click", (evento) => {
+          evento.preventDefault();
+          abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
+        });
+      });
+  }
+
+  function prepararWhatsApp() {
+    DOM.enlacesWhatsApp.forEach((enlace) => {
+      enlace.removeAttribute("target");
+
+      enlace.addEventListener("click", (evento) => {
+        evento.preventDefault();
+        abrirAplicacionConRespaldo(CONFIG.whatsappApp, CONFIG.whatsappWeb);
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------
+     LANDING
+     --------------------------------------------------------- */
+  function mostrarContinuacionInstagram() {
+    if (!DOM.continuarExperiencia || !DOM.entrarRepertorio) return;
+
+    DOM.continuarExperiencia.hidden = false;
+    DOM.entrarRepertorio.hidden = false;
+
+    DOM.continuarExperiencia.classList.remove("is-visible");
+    void DOM.continuarExperiencia.offsetWidth;
+    DOM.continuarExperiencia.classList.add("is-visible");
+  }
+
+  function fijarBotonMenu() {
+    if (!DOM.volverArriba) return;
+
+    // Lo movemos al final del body para evitar que cualquier contenedor
+    // limite su posición fija o lo mande al final de la página.
+    if (DOM.volverArriba.parentElement !== document.body) {
+      document.body.appendChild(DOM.volverArriba);
+    }
+
+    DOM.volverArriba.hidden = false;
+    DOM.volverArriba.style.position = "fixed";
+    DOM.volverArriba.style.right = "16px";
+    DOM.volverArriba.style.bottom = "16px";
+    DOM.volverArriba.style.zIndex = "99999";
+    DOM.volverArriba.style.display = "inline-flex";
+    DOM.volverArriba.style.visibility = "visible";
+    DOM.volverArriba.style.opacity = "1";
+    DOM.volverArriba.style.pointerEvents = "auto";
   }
 
   function mostrarAplicacion({ inmediato = false } = {}) {
@@ -175,12 +270,12 @@
       DOM.app.classList.add("is-visible");
       document.body.classList.add("app-abierta");
 
+      fijarBotonMenu();
+
       window.scrollTo({
         top: 0,
         behavior: inmediato ? "auto" : "smooth"
       });
-
-      window.requestAnimationFrame(actualizarBotonVolverArriba);
     };
 
     if (inmediato || !DOM.landing || DOM.landing.hidden) {
@@ -193,19 +288,49 @@
   }
 
   function configurarLanding() {
-    // Siempre comienza únicamente con el botón de Instagram.
-    DOM.landing?.classList.remove("instagram-visitado");
     if (DOM.continuarExperiencia) {
       DOM.continuarExperiencia.hidden = true;
       DOM.continuarExperiencia.classList.remove("is-visible");
     }
 
-    DOM.seguirInstagram?.addEventListener("click", marcarInstagramVisitado);
-    DOM.entrarRepertorio?.addEventListener("click", () => mostrarAplicacion());
+    if (DOM.entrarRepertorio) {
+      DOM.entrarRepertorio.hidden = true;
+      DOM.entrarRepertorio.addEventListener("click", () => mostrarAplicacion());
+    }
+
+    // Si regresó desde Instagram, incluso usando el botón Atrás,
+    // recuperamos el estado guardado en esta sesión.
+    if (instagramFueVisitado()) {
+      estado.instagramVisitado = true;
+      mostrarContinuacionInstagram();
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (
+        document.visibilityState === "visible" &&
+        instagramFueVisitado() &&
+        DOM.landing &&
+        !DOM.landing.hidden
+      ) {
+        estado.instagramVisitado = true;
+        mostrarContinuacionInstagram();
+      }
+    });
+
+    window.addEventListener("pageshow", () => {
+      if (
+        instagramFueVisitado() &&
+        DOM.landing &&
+        !DOM.landing.hidden
+      ) {
+        estado.instagramVisitado = true;
+        mostrarContinuacionInstagram();
+      }
+    });
   }
 
   /* ---------------------------------------------------------
-     06. CARGA Y VALIDACIÓN DEL JSON
+     CARGA DEL REPERTORIO
      --------------------------------------------------------- */
   async function cargarCanciones() {
     estado.cargando = true;
@@ -236,11 +361,13 @@
         throw new Error("No se encontraron canciones válidas.");
       }
 
-      validarNumeracion(validas);
-
       estado.canciones = validas;
       estado.cargando = false;
       estado.error = null;
+
+      if (DOM.totalCancionesBoton) {
+        DOM.totalCancionesBoton.textContent = String(validas.length);
+      }
 
       actualizarEstadoCarga();
       actualizarInterfaz();
@@ -252,38 +379,6 @@
       estado.error = error;
 
       actualizarEstadoCarga();
-    }
-  }
-
-  function validarNumeracion(canciones) {
-    const numeros = canciones.map((cancion) => cancion.numero);
-    const duplicados = numeros.filter(
-      (numero, indice) => numeros.indexOf(numero) !== indice
-    );
-
-    if (duplicados.length > 0) {
-      console.warn("Hay números de canción duplicados:", [...new Set(duplicados)]);
-    }
-
-    const numeroMinimo = Math.min(...numeros);
-    const numeroMaximo = Math.max(...numeros);
-    const faltantes = [];
-
-    for (let numero = numeroMinimo; numero <= numeroMaximo; numero += 1) {
-      if (!numeros.includes(numero)) {
-        faltantes.push(numero);
-      }
-    }
-
-    if (faltantes.length > 0) {
-      console.warn("Faltan números en la secuencia:", faltantes);
-    }
-
-    if (canciones.length !== 130) {
-      console.info(
-        `El repertorio contiene ${canciones.length} canciones. ` +
-        "El contador se actualizará automáticamente."
-      );
     }
   }
 
@@ -306,7 +401,7 @@
   }
 
   /* ---------------------------------------------------------
-     07. FILTROS Y BÚSQUEDA
+     FILTROS Y BÚSQUEDA
      --------------------------------------------------------- */
   function obtenerTerminosBusqueda() {
     return normalizarTexto(estado.consulta)
@@ -358,6 +453,11 @@
   function mostrarTodasLasCanciones() {
     estado.mostrarTodas = true;
     estado.categoriaActiva = "Todas";
+    estado.consulta = "";
+
+    if (DOM.buscar) {
+      DOM.buscar.value = "";
+    }
 
     actualizarBotonesCategorias();
     actualizarBotonMostrarTodo();
@@ -376,7 +476,7 @@
   }
 
   /* ---------------------------------------------------------
-     08. RENDER DE TARJETAS
+     RENDER
      --------------------------------------------------------- */
   function crearTarjetaCancion(cancion, indice) {
     const tarjeta = document.createElement("article");
@@ -451,9 +551,18 @@
     DOM.listaCanciones.appendChild(fragmento);
   }
 
-  /* ---------------------------------------------------------
-     09. ACTUALIZACIÓN DE INTERFAZ
-     --------------------------------------------------------- */
+  function actualizarModoLista() {
+    const consultaLimpia = normalizarTexto(estado.consulta);
+    const mostrandoListaCompleta =
+      estado.mostrarTodas &&
+      estado.categoriaActiva === "Todas" &&
+      consultaLimpia.length === 0 &&
+      estado.canciones.length === 130;
+
+    DOM.listaCanciones.dataset.modo =
+      mostrandoListaCompleta ? "todas" : "filtrada";
+  }
+
   function actualizarInterfaz() {
     if (estado.cargando || estado.error) return;
 
@@ -464,6 +573,7 @@
       hayBusqueda ||
       Boolean(estado.categoriaActiva);
 
+    actualizarModoLista();
     renderizarCanciones(cancionesVisibles);
 
     DOM.sinResultados.hidden = !(
@@ -474,7 +584,6 @@
 
     actualizarContador(cancionesVisibles);
     actualizarBotonLimpiar();
-    actualizarBotonVolverArriba();
   }
 
   function actualizarContador(cancionesVisibles) {
@@ -506,7 +615,6 @@
   function actualizarBotonesCategorias() {
     DOM.categorias.forEach((boton) => {
       const activa = boton.dataset.categoria === estado.categoriaActiva;
-
       boton.classList.toggle("is-active", activa);
       boton.setAttribute("aria-pressed", String(activa));
     });
@@ -526,20 +634,7 @@
   }
 
   /* ---------------------------------------------------------
-     10. BOTÓN VOLVER ARRIBA
-     --------------------------------------------------------- */
-  function actualizarBotonVolverArriba() {
-    if (!DOM.volverArriba || DOM.app?.hidden) {
-      if (DOM.volverArriba) DOM.volverArriba.hidden = true;
-      return;
-    }
-
-    // Regla simple y estable para computadora y celular.
-    DOM.volverArriba.hidden = window.scrollY <= 600;
-  }
-
-  /* ---------------------------------------------------------
-     11. EVENTOS
+     EVENTOS
      --------------------------------------------------------- */
   function registrarEventos() {
     DOM.mostrarTodo?.addEventListener("click", mostrarTodasLasCanciones);
@@ -548,7 +643,9 @@
       boton.setAttribute("aria-pressed", "false");
 
       boton.addEventListener("click", () => {
-        seleccionarCategoria(boton.dataset.categoria || CONFIG.categoriaInicial);
+        seleccionarCategoria(
+          boton.dataset.categoria || CONFIG.categoriaInicial
+        );
       });
     });
 
@@ -557,8 +654,10 @@
 
       if (normalizarTexto(estado.consulta)) {
         estado.mostrarTodas = false;
+        estado.categoriaActiva = null;
       }
 
+      actualizarBotonesCategorias();
       actualizarBotonMostrarTodo();
       actualizarInterfaz();
     });
@@ -570,50 +669,17 @@
     });
 
     DOM.limpiarBusqueda?.addEventListener("click", limpiarBusqueda);
-
     DOM.reintentarCarga?.addEventListener("click", cargarCanciones);
 
-    DOM.volverArriba?.addEventListener("click", () => {
-      desplazarA(DOM.menuCanciones, { bloque: "start" });
-    });
+    DOM.volverArriba?.addEventListener("click", (evento) => {
+      evento.preventDefault();
 
-    let scrollPendiente = false;
-
-    window.addEventListener("scroll", () => {
-      if (scrollPendiente) return;
-
-      scrollPendiente = true;
-      window.requestAnimationFrame(() => {
-        actualizarBotonVolverArriba();
-        scrollPendiente = false;
+      desplazarA(DOM.controlesCanciones || DOM.menuCanciones, {
+        bloque: "start"
       });
-    }, { passive: true });
-
-    window.addEventListener("resize", actualizarBotonVolverArriba, {
-      passive: true
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") {
-        actualizarBotonVolverArriba();
-
-        if (
-          DOM.landing &&
-          !DOM.landing.hidden &&
-          DOM.continuarExperiencia &&
-          !DOM.continuarExperiencia.hidden
-        ) {
-          DOM.continuarExperiencia.classList.remove("is-visible");
-          void DOM.continuarExperiencia.offsetWidth;
-          DOM.continuarExperiencia.classList.add("is-visible");
-        }
-      }
     });
   }
 
-  /* ---------------------------------------------------------
-     12. INICIALIZACIÓN
-     --------------------------------------------------------- */
   async function iniciar() {
     capturarDOM();
 
@@ -622,8 +688,13 @@
     }
 
     configurarLanding();
+    prepararInstagram();
+    prepararWhatsApp();
     registrarEventos();
-    actualizarBotonVolverArriba();
+
+    if (DOM.volverArriba) {
+      DOM.volverArriba.hidden = true;
+    }
 
     await cargarCanciones();
   }

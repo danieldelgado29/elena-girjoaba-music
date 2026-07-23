@@ -2051,3 +2051,856 @@ a {
     animation: none !important;
   }
 }
+
+
+/* =========================================================
+   ELENA GIRJOABA MUSIC — VERSIÓN 2.0
+   OPTIMIZACIÓN MÓVIL Y NUEVA ESTRUCTURA
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   01. IMÁGENES RESPONSIVE REALES
+   --------------------------------------------------------- */
+.landing__fondo,
+.hero {
+  background-image: none !important;
+}
+
+.landing__media,
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+}
+
+.landing__imagen,
+.hero__imagen {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.landing__imagen {
+  object-position: center 28%;
+  transform: scale(1.025);
+  animation: landingZoom 12s ease-out both;
+}
+
+.hero__imagen {
+  object-position: center 22%;
+}
+
+.landing__fondo {
+  background: none !important;
+}
+
+.hero__media {
+  z-index: -3;
+}
+
+/* ---------------------------------------------------------
+   02. ENLACE DE ACCESIBILIDAD
+   Nunca debe quedar visible sin foco real.
+   --------------------------------------------------------- */
+.skip-link:not(:focus):not(:focus-visible) {
+  transform: translateY(-220%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ---------------------------------------------------------
+   03. BOTÓN MÚSICA A LA CARTA
+   --------------------------------------------------------- */
+.landing__continuar {
+  width: min(100%, 760px);
+  margin: 26px auto 24px;
+}
+
+.landing__continuar[hidden] {
+  display: none !important;
+}
+
+.landing__continuar.is-visible {
+  display: block;
+  animation: continuarEntradaV2 1.55s cubic-bezier(.16,.78,.18,1) both;
+}
+
+.boton--repertorio-destacado {
+  position: relative;
+  width: 100%;
+  min-height: 110px;
+  display: grid;
+  grid-template-columns: 58px 1fr 34px;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 24px;
+  overflow: hidden;
+  color: var(--blanco);
+  text-align: left;
+  background:
+    radial-gradient(circle at 12% 50%, rgba(234,211,153,.22), transparent 34%),
+    linear-gradient(135deg, rgba(213,178,104,.16), rgba(255,255,255,.035)),
+    rgba(8,8,8,.96);
+  border: 2px solid rgba(234,211,153,.92);
+  border-radius: 24px;
+  box-shadow:
+    0 28px 88px rgba(0,0,0,.62),
+    0 0 0 4px rgba(213,178,104,.08),
+    0 0 72px rgba(213,178,104,.30);
+  animation: respiracionRepertorioV2 6.4s ease-in-out 1.8s infinite;
+}
+
+.boton--repertorio-destacado::after {
+  content: "";
+  position: absolute;
+  top: -45%;
+  left: -35%;
+  width: 24%;
+  height: 190%;
+  opacity: 0;
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.34), transparent);
+  animation: brilloContinuarV2 7.2s ease-in-out 2.2s infinite;
+  pointer-events: none;
+}
+
+.landing__continuar .boton__icono {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: var(--dorado-claro);
+  background: rgba(213,178,104,.12);
+  border: 1px solid rgba(234,211,153,.48);
+  border-radius: 50%;
+  font-size: 1.55rem;
+}
+
+.landing__continuar-texto {
+  display: grid;
+  gap: 4px;
+}
+
+.landing__continuar-etiqueta {
+  color: var(--dorado-claro);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.landing__continuar-titulo {
+  color: var(--blanco);
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.18;
+}
+
+.landing__continuar-flecha {
+  color: var(--dorado-claro);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------
+   04. FORMATOS: COMPLETAMENTE INFORMATIVOS
+   --------------------------------------------------------- */
+.formato {
+  pointer-events: none !important;
+  cursor: default !important;
+  user-select: none;
+  -webkit-user-select: none;
+  animation: none !important;
+  transform: none !important;
+}
+
+.formato,
+.formato *,
+.formato::before,
+.formato::after {
+  transition: none !important;
+}
+
+.formato:hover,
+.formato:active,
+.formato:focus {
+  transform: none !important;
+  border-color: rgba(255,255,255,.13) !important;
+  box-shadow: 0 16px 45px rgba(0,0,0,.24) !important;
+}
+
+.formato:hover::before,
+.formato:active::before {
+  opacity: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   05. CONTROLES DEL REPERTORIO
+   --------------------------------------------------------- */
+.controles-canciones {
+  scroll-margin-top: 18px;
+}
+
+.menu-ancla {
+  height: 1px;
+  scroll-margin-top: 18px;
+}
+
+.mostrar-todo--principal {
+  width: min(100%, 720px);
+  min-height: 92px;
+  grid-template-columns: 58px 1fr 30px;
+  gap: 18px;
+  margin: 32px auto 22px;
+  padding: 16px 24px;
+  border-radius: 22px;
+  border-color: rgba(234,211,153,.92);
+  box-shadow:
+    0 24px 62px rgba(0,0,0,.44),
+    0 0 0 2px rgba(213,178,104,.08),
+    0 0 42px rgba(213,178,104,.16);
+}
+
+.mostrar-todo__icono {
+  width: 52px;
+  height: 52px;
+  font-size: 1.55rem;
+}
+
+.mostrar-todo__contenido strong {
+  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+}
+
+.mostrar-todo__contenido small {
+  font-size: .8rem;
+}
+
+.categorias {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------
+   06. BOTÓN MENÚ SIEMPRE VISIBLE EN EL REPERTORIO
+   --------------------------------------------------------- */
+.volver-arriba {
+  position: fixed !important;
+  right: max(16px, env(safe-area-inset-right)) !important;
+  bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  z-index: 99999 !important;
+  min-width: 76px;
+  min-height: 60px;
+  display: inline-flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 16px 9px;
+  color: var(--blanco) !important;
+  background: rgba(5,5,5,.96) !important;
+  border: 2px solid var(--dorado-claro) !important;
+  border-radius: 19px;
+  box-shadow:
+    0 20px 58px rgba(0,0,0,.7),
+    0 0 34px rgba(213,178,104,.25) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.volver-arriba[hidden] {
+  display: inline-flex !important;
+}
+
+.volver-arriba__flecha {
+  color: var(--dorado-claro);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.volver-arriba__texto {
+  color: var(--blanco);
+  font-size: .69rem;
+  font-weight: 800;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------
+   07. LISTA: GANCHO PARA ORDEN POR COLUMNAS
+   El JavaScript V2 activará data-modo="todas".
+   --------------------------------------------------------- */
+.lista-canciones[data-modo="todas"] {
+  grid-auto-flow: column;
+}
+
+@media (min-width: 761px) {
+  .lista-canciones[data-modo="todas"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(65, auto);
+  }
+}
+
+/* ---------------------------------------------------------
+   08. MÓVIL
+   --------------------------------------------------------- */
+@media (max-width: 760px) {
+  .landing {
+    min-height: 100svh;
+    align-items: end;
+    padding: 92px 16px 24px;
+  }
+
+  .landing__contenido {
+    padding-top: 245px;
+  }
+
+  .landing__imagen {
+    object-position: center 20%;
+    transform: none;
+  }
+
+  .landing__overlay {
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.20) 32%, rgba(0,0,0,.82) 72%, #070707 100%),
+      radial-gradient(circle at 50% 18%, rgba(213,178,104,.10), transparent 38%);
+  }
+
+  .hero {
+    min-height: 72svh;
+  }
+
+  .hero__imagen {
+    object-position: center 18%;
+  }
+
+  .hero::before {
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.18) 35%, rgba(0,0,0,.80) 78%, var(--negro) 100%);
+  }
+
+  .hero__contenido {
+    padding-bottom: 44px;
+  }
+
+  .landing__continuar {
+    margin: 22px auto 20px;
+  }
+
+  .boton--repertorio-destacado {
+    min-height: 98px;
+    grid-template-columns: 50px 1fr 24px;
+    gap: 14px;
+    padding: 15px 16px;
+    border-radius: 20px;
+  }
+
+  .landing__continuar .boton__icono {
+    width: 48px;
+    height: 48px;
+    font-size: 1.35rem;
+  }
+
+  .landing__continuar-etiqueta {
+    font-size: .64rem;
+  }
+
+  .landing__continuar-titulo {
+    font-size: 1rem;
+  }
+
+  .mostrar-todo--principal {
+    min-height: 84px;
+    grid-template-columns: 48px 1fr 22px;
+    gap: 13px;
+    padding: 13px 15px;
+    border-radius: 19px;
+  }
+
+  .mostrar-todo__icono {
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
+  }
+
+  .mostrar-todo__contenido strong {
+    font-size: 1rem;
+  }
+
+  .mostrar-todo__contenido small {
+    font-size: .71rem;
+  }
+
+  .lista-canciones[data-modo="todas"] {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .lista-canciones {
+    gap: 17px;
+  }
+
+  .volver-arriba {
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    min-width: 68px;
+    min-height: 56px;
+    padding: 7px 13px 8px;
+  }
+}
+
+/* ---------------------------------------------------------
+   09. ANIMACIONES V2
+   --------------------------------------------------------- */
+@keyframes continuarEntradaV2 {
+  0% {
+    opacity: 0;
+    transform: translateY(34px) scale(.94);
+    filter: blur(7px);
+  }
+  58% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes respiracionRepertorioV2 {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 28px 88px rgba(0,0,0,.62),
+      0 0 0 4px rgba(213,178,104,.08),
+      0 0 54px rgba(213,178,104,.24);
+  }
+  50% {
+    transform: scale(1.012);
+    box-shadow:
+      0 34px 96px rgba(0,0,0,.68),
+      0 0 0 5px rgba(213,178,104,.13),
+      0 0 82px rgba(213,178,104,.40);
+  }
+}
+
+@keyframes brilloContinuarV2 {
+  0%, 70%, 100% {
+    left: -35%;
+    opacity: 0;
+  }
+  78% {
+    opacity: .72;
+  }
+  94% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing__imagen,
+  .landing__continuar.is-visible,
+  .boton--repertorio-destacado,
+  .boton--repertorio-destacado::after {
+    animation: none !important;
+  }
+}
+
+
+/* =========================================================
+   V2.1 — FOTOGRAFÍAS ORIGINALES EN MÓVIL
+   Sin recortes agresivos, sin montaje y sin bordes visibles
+   ========================================================= */
+
+@media (max-width: 760px) {
+  /* La fotografía original completa se muestra horizontal,
+     centrada y fundida con el fondo oscuro de la landing. */
+  .landing__fondo {
+    background: #070707 !important;
+    overflow: hidden;
+  }
+
+  .landing__media {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(7,7,7,.08) 0%,
+        rgba(7,7,7,.04) 20%,
+        rgba(7,7,7,.20) 43%,
+        rgba(7,7,7,.76) 68%,
+        #070707 88%
+      );
+  }
+
+  .landing__imagen {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    margin-top: 74px;
+    object-fit: contain;
+    object-position: center top;
+    transform: none !important;
+    animation: fotoOriginalRespira 14s ease-in-out infinite alternate;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 5%,
+      #000 72%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 5%,
+      #000 72%,
+      transparent 100%
+    );
+  }
+
+  .landing__overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.08) 0%,
+        rgba(0,0,0,.12) 27%,
+        rgba(0,0,0,.46) 50%,
+        rgba(0,0,0,.86) 72%,
+        #070707 100%
+      ) !important;
+  }
+
+  /* El logo ya está dentro de la fotografía; evitamos repetir la marca. */
+  .landing__marca {
+    display: none !important;
+  }
+
+  .landing__contenido {
+    padding-top: min(56vw, 430px) !important;
+  }
+
+  /* Hero del repertorio con la fotografía original completa,
+     centrada y sin cortar el logo integrado. */
+  .hero {
+    min-height: 78svh;
+    background: #070707 !important;
+  }
+
+  .hero__media {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background: #070707;
+  }
+
+  .hero__imagen {
+    width: 100%;
+    height: auto;
+    margin-top: 64px;
+    object-fit: contain;
+    object-position: center top;
+    transform: none !important;
+    animation: heroOriginalRespira 15s ease-in-out infinite alternate;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 5%,
+      #000 74%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 5%,
+      #000 74%,
+      transparent 100%
+    );
+  }
+
+  .hero::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.04) 0%,
+        rgba(0,0,0,.08) 30%,
+        rgba(0,0,0,.48) 56%,
+        rgba(0,0,0,.88) 80%,
+        #070707 100%
+      ) !important;
+  }
+
+  .hero__contenido {
+    padding-top: min(54vw, 410px);
+    padding-bottom: 42px;
+  }
+
+  /* En móvil la fotografía ya contiene el logo, así que la marca
+     superior del hero se oculta para evitar superposición. */
+  .hero__marca {
+    display: none !important;
+  }
+}
+
+@keyframes fotoOriginalRespira {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.018);
+  }
+}
+
+@keyframes heroOriginalRespira {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.016);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing__imagen,
+  .hero__imagen {
+    animation: none !important;
+  }
+}
+
+
+/* =========================================================
+   DISEÑO FINAL — TEXTOS Y LLAMADAS A LA ACCIÓN
+   ========================================================= */
+
+.boton__texto-doble {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+
+.boton__texto-doble strong {
+  font-size: inherit;
+  line-height: 1.15;
+}
+
+.boton__texto-doble small {
+  color: rgba(255,255,255,.72);
+  font-size: .7rem;
+  font-weight: 500;
+}
+
+.landing__cotizacion {
+  min-height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 18px;
+  padding: 10px 20px;
+  color: var(--blanco);
+  background: rgba(12,12,12,.78);
+  border: 1px solid rgba(213,178,104,.62);
+  border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(0,0,0,.3);
+  text-decoration: none;
+}
+
+.landing__cotizacion > span:last-child {
+  display: grid;
+  text-align: left;
+}
+
+.landing__cotizacion strong {
+  font-size: .88rem;
+}
+
+.landing__cotizacion small {
+  color: var(--gris);
+  font-size: .68rem;
+}
+
+.landing__tipos-evento {
+  margin: 11px auto 0;
+  color: var(--gris-2);
+  font-size: .7rem;
+  letter-spacing: .02em;
+}
+
+.barra__contrataciones {
+  white-space: nowrap;
+}
+
+.mensaje-final--acciones {
+  width: min(calc(100% - 44px), 1080px);
+}
+
+.cierre-acciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.cierre-accion {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(213,178,104,.08), transparent 48%),
+    rgba(255,255,255,.018);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 22px;
+}
+
+.cierre-accion__etiqueta {
+  margin: 0 0 15px;
+  color: var(--blanco);
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  font-weight: 750;
+}
+
+.cierre-accion__descripcion {
+  max-width: 430px;
+  margin: -3px auto 18px;
+  color: var(--gris);
+  font-size: .86rem;
+  line-height: 1.65;
+}
+
+.cierre-accion__nota {
+  margin: 13px 0 0;
+  color: var(--gris-2);
+  font-size: .69rem;
+}
+
+.boton--cotizar-final,
+.cierre-instagram {
+  width: min(100%, 360px);
+  min-height: 62px;
+}
+
+.boton--cotizar-final {
+  color: var(--blanco);
+  background:
+    linear-gradient(135deg, rgba(213,178,104,.16), rgba(255,255,255,.025)),
+    #0d0d0d;
+  border-color: rgba(213,178,104,.72);
+  box-shadow: 0 18px 44px rgba(213,178,104,.10);
+}
+
+.footer__enlaces {
+  align-items: center;
+}
+
+.footer__boton {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 13px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.025);
+}
+
+.footer__boton--instagram {
+  border-color: rgba(212,75,123,.35);
+}
+
+.footer__boton--whatsapp {
+  border-color: rgba(213,178,104,.35);
+}
+
+/* Cabecera móvil: acciones claras, sin superposición con el logo de la foto. */
+@media (max-width: 760px) {
+  .barra {
+    justify-content: flex-end;
+    padding: 14px 12px;
+  }
+
+  .barra__marca {
+    display: none !important;
+  }
+
+  .barra__enlaces {
+    width: 100%;
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 8px;
+  }
+
+  .barra__enlaces > a:first-child {
+    display: inline-flex !important;
+  }
+
+  .barra__enlaces a {
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 9px;
+    color: var(--blanco-suave);
+    background: rgba(5,5,5,.68);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    font-size: .68rem;
+    text-align: center;
+  }
+
+  .barra__contrataciones {
+    color: var(--dorado-claro) !important;
+    border-color: rgba(213,178,104,.6) !important;
+  }
+
+  .landing__cotizacion {
+    width: 100%;
+  }
+
+  .landing__tipos-evento {
+    max-width: 320px;
+    line-height: 1.55;
+  }
+
+  .cierre-acciones {
+    grid-template-columns: 1fr;
+  }
+
+  .cierre-accion {
+    min-height: auto;
+    padding: 27px 18px;
+  }
+
+  .boton--cotizar-final,
+  .cierre-instagram {
+    width: 100%;
+  }
+
+  .footer__enlaces {
+    width: 100%;
+    display: grid;
+    gap: 9px;
+  }
+
+  .footer__boton {
+    justify-content: center;
+  }
+}
