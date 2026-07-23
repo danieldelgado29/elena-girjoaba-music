@@ -1,13 +1,10 @@
-# Elena Girjoaba Music
+# Elena Girjoaba Music — Ajustes v3.1
 
-Versión de diseño final con:
-
-- Música a la Carta
-- 130 canciones
-- Buscador y categorías
-- Instagram con acceso inteligente
-- WhatsApp con mensaje de cotización
-- Botón flotante Menú
-- Llamados finales de Instagram y cotización
-
-Prueba local: `python3 -m http.server 8000` o Live Server.
+Cambios:
+- Sin espacio negro grande sobre la foto inicial.
+- Fotos con más color, contraste y fuerza.
+- Título “Formatos disponibles”.
+- Texto “Sigamos conectados” eliminado solo de la landing.
+- Botones de WhatsApp sin “Respuesta rápida por WhatsApp”.
+- Botón de categoría “Todas” eliminado.
+- Instagram móvil sin salto automático a instagram.com detrás de la app.

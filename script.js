@@ -187,6 +187,18 @@
     }, CONFIG.esperaFallbackApp);
   }
 
+  function abrirInstagram() {
+    if (!esDispositivoMovil()) {
+      window.open(CONFIG.instagramWeb, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    // No usamos respaldo automático en móvil:
+    // así la página original queda detrás de Instagram y al volver
+    // aparece directamente el botón Música a la Carta.
+    window.location.href = CONFIG.instagramApp;
+  }
+
   function prepararInstagram() {
     if (!DOM.seguirInstagram) return;
 
@@ -197,7 +209,7 @@
 
       guardarInstagramVisitado();
       mostrarContinuacionInstagram();
-      abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
+      abrirInstagram();
     });
 
     DOM.enlacesInstagram
@@ -207,7 +219,7 @@
 
         enlace.addEventListener("click", (evento) => {
           evento.preventDefault();
-          abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
+          abrirInstagram();
         });
       });
   }

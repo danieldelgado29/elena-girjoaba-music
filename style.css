@@ -2904,3 +2904,136 @@ a {
     justify-content: center;
   }
 }
+
+
+/* =========================================================
+   AJUSTES V3.1 — FOTOS, FORMATOS Y CONTROLES
+   ========================================================= */
+
+/* Título de formatos */
+.bloque-formatos {
+  width: 100%;
+  margin-top: 28px;
+}
+
+.formatos__encabezado {
+  margin: 0 0 16px;
+  color: var(--dorado-claro);
+  font-size: clamp(.82rem, 2vw, 1rem);
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Al quitar el texto informativo, acercamos el botón de Instagram. */
+.landing__acciones {
+  margin-top: 22px;
+}
+
+/* Botones WhatsApp sin subtítulo: texto centrado y limpio. */
+.landing__cotizacion > span:last-child,
+.boton--cotizar-final .boton__texto-doble {
+  display: block;
+  text-align: center;
+}
+
+.boton--cotizar-final .boton__texto-doble strong,
+.landing__cotizacion strong {
+  display: block;
+}
+
+/* Fotos con más fuerza y color. */
+.landing__imagen,
+.hero__imagen {
+  filter:
+    saturate(1.28)
+    contrast(1.16)
+    brightness(1.03)
+    sepia(.015);
+}
+
+/* Reducir el aspecto lavado de las capas oscuras. */
+.landing__overlay {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.03) 0%,
+      rgba(0,0,0,.07) 30%,
+      rgba(0,0,0,.34) 55%,
+      rgba(0,0,0,.82) 82%,
+      #070707 100%
+    ) !important;
+}
+
+.hero::before {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.02) 0%,
+      rgba(0,0,0,.06) 32%,
+      rgba(0,0,0,.36) 58%,
+      rgba(0,0,0,.84) 84%,
+      #070707 100%
+    ) !important;
+}
+
+@media (max-width: 760px) {
+  /* Eliminar el gran espacio negro superior. */
+  .landing {
+    padding-top: 0 !important;
+  }
+
+  .landing__media {
+    align-items: flex-start;
+  }
+
+  .landing__imagen {
+    margin-top: 0 !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 74%,
+      transparent 100%
+    ) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 74%,
+      transparent 100%
+    ) !important;
+  }
+
+  .landing__contenido {
+    padding-top: min(51vw, 390px) !important;
+  }
+
+  .hero__imagen {
+    margin-top: 0 !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 76%,
+      transparent 100%
+    ) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 76%,
+      transparent 100%
+    ) !important;
+  }
+
+  .hero__contenido {
+    padding-top: min(49vw, 370px) !important;
+  }
+
+  .bloque-formatos {
+    margin-top: 24px;
+  }
+
+  .formatos__encabezado {
+    margin-bottom: 13px;
+    font-size: .76rem;
+  }
+}
