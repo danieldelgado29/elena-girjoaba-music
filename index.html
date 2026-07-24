@@ -22,7 +22,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+
+  <script>
+    // Respaldo independiente para desbloquear Música a la Carta.
+    // Funciona aunque Firebase o el script principal fallen.
+    document.addEventListener("DOMContentLoaded", function () {
+      const instagram = document.getElementById("seguirInstagram");
+      const continuar = document.getElementById("continuarExperiencia");
+      const entrar = document.getElementById("entrarRepertorio");
+
+      if (!instagram || !continuar || !entrar) return;
+
+      function mostrarBoton() {
+        continuar.hidden = false;
+        entrar.hidden = false;
+        continuar.classList.remove("is-visible");
+        void continuar.offsetWidth;
+        continuar.classList.add("is-visible");
+      }
+
+      instagram.addEventListener("click", function () {
+        try {
+          sessionStorage.setItem("egmInstagramVisitado", "1");
+          sessionStorage.setItem(
+            "egmInstagramDesbloqueo",
+            String(Date.now() + 5000)
+          );
+        } catch (error) {}
+
+        window.setTimeout(mostrarBoton, 5000);
+      });
+
+      try {
+        const visitado =
+          sessionStorage.getItem("egmInstagramVisitado") === "1";
+        const desbloqueo = Number(
+          sessionStorage.getItem("egmInstagramDesbloqueo") || 0
+        );
+
+        if (visitado) {
+          window.setTimeout(
+            mostrarBoton,
+            Math.max(0, desbloqueo - Date.now())
+          );
+        }
+      } catch (error) {}
+    });
+  </script>
+
+  <script type="module" src="script.js"></script>
 </head>
 
 <body>
@@ -74,7 +122,7 @@
           <span class="boton__icono boton__icono--grande" aria-hidden="true">♪</span>
           <span class="boton__contenido">
             <strong>Música a la Carta</strong>
-            <small>Entrar y elegir tu canción</small>
+            <small>Entra y elige tu canción</small>
           </span>
           <span class="boton__avance" aria-hidden="true">›</span>
         </button>
@@ -109,13 +157,14 @@
           id="seguirInstagram"
           class="boton boton--instagram"
           href="https://instagram.com/elenagirjoabamusic"
+          target="_blank"
           data-instagram-app="instagram://user?username=elenagirjoabamusic"
           data-instagram-web="https://instagram.com/elenagirjoabamusic"
           rel="noopener noreferrer"
           aria-label="Abrir Instagram y seguir a Elena Girjoaba Music"
         >
           <span class="boton__icono" aria-hidden="true">◎</span>
-          <span class="boton__texto-doble"><strong>Seguir en Instagram</strong><small>@elenagirjoabamusic</small></span>
+          <span class="boton__texto-doble"><strong>Síguenos para desbloquear la lista de canciones</strong><small>@elenagirjoabamusic</small></span>
         </a>
       </div>
 
@@ -207,7 +256,7 @@
             Explora nuestro repertorio
           </h2>
           <p class="explorador__descripcion">
-            Busca por nombre, artista o número, o explora las canciones por género.
+            Busca por nombre, artista o explora las canciones por género.
           </p>
         </div>
 
@@ -217,8 +266,8 @@
           <button id="mostrarTodo" class="mostrar-todo mostrar-todo--principal" type="button">
             <span class="mostrar-todo__icono" aria-hidden="true">♫</span>
             <span class="mostrar-todo__contenido">
-              <strong>Ver las 130 canciones</strong>
-              <small><span id="totalCancionesBoton">130</span> canciones disponibles</small>
+              <strong id="textoMostrarTodo">Ver las 130 canciones</strong>
+              <small><span id="totalCancionesBoton">0</span> canciones disponibles</small>
             </span>
             <span class="mostrar-todo__flecha" aria-hidden="true">›</span>
           </button>
@@ -241,6 +290,12 @@
             </button>
             <button class="categoria" type="button" data-categoria="Reggae">
               Reggae
+            </button>
+            <button class="categoria" type="button" data-categoria="Blues">
+              Blues
+            </button>
+            <button class="categoria" type="button" data-categoria="Jazz">
+              Jazz
             </button>
           </div>
 
@@ -271,7 +326,7 @@
           </div>
 
           <p id="ayudaBusqueda" class="buscador__ayuda">
-            Puedes escribir, por ejemplo: “Maná”, “Música Ligera” o “87”.
+            Puedes escribir, por ejemplo: “Maná”, “Música Ligera” o “Amy Winehouse”.
           </p>
         </div>
 
@@ -292,7 +347,7 @@
           <span class="sin-resultados__icono" aria-hidden="true">♪</span>
           <h3>No encontramos esa canción.</h3>
           <p>
-            Prueba escribiendo parte del título, el artista o el número.
+            Prueba escribiendo parte del título o el artista.
           </p>
         </div>
 
@@ -302,6 +357,33 @@
             Abre esta página desde GitHub Pages o mediante un servidor local e inténtalo nuevamente.
           </p>
           <button id="reintentarCarga" type="button">Reintentar</button>
+        </div>
+      </section>
+
+
+      <section id="estadoShowPublico" class="show-en-vivo" aria-labelledby="colaPublicaTitulo" hidden>
+        <div class="show-en-vivo__encabezado">
+          <p class="explorador__eyebrow">SHOW EN VIVO</p>
+          <h2 id="colaPublicaTitulo">Próximas canciones</h2>
+          <p>Esta lista se actualiza automáticamente durante el show.</p>
+        </div>
+
+        <div class="show-en-vivo__columnas">
+          <article class="show-en-vivo__bloque">
+            <h3>En la cola</h3>
+            <ol id="colaPublica" class="cola-publica"></ol>
+            <p id="colaPublicaVacia" class="show-en-vivo__vacio">
+              Todavía no hay canciones en la cola.
+            </p>
+          </article>
+
+          <article class="show-en-vivo__bloque">
+            <h3>Ya sonaron</h3>
+            <ul id="tocadasPublicas" class="tocadas-publicas"></ul>
+            <p id="tocadasPublicasVacia" class="show-en-vivo__vacio">
+              Aún no hemos marcado canciones como tocadas.
+            </p>
+          </article>
         </div>
       </section>
 
@@ -375,9 +457,9 @@
         </div>
       </div>
 
-      <p class="footer__copyright">
+      <button id="adminTrigger" class="footer__copyright footer__admin-trigger" type="button" aria-label="Configuración de listas">
         © <span id="anioActual"></span> Elena Girjoaba Music.
-      </p>
+      </button>
     </footer>
 
     <button
@@ -389,6 +471,322 @@
       <span class="volver-arriba__flecha" aria-hidden="true">↑</span>
       <span class="volver-arriba__texto">Menú</span>
     </button>
+  </div>
+
+
+  <div id="adminModal" class="admin-modal" hidden>
+    <div class="admin-modal__fondo" data-cerrar-admin></div>
+
+    <section class="admin-panel admin-panel--manager" role="dialog" aria-modal="true" aria-labelledby="adminTitulo">
+      <button class="admin-panel__cerrar" type="button" data-cerrar-admin aria-label="Cerrar">×</button>
+
+      <div id="adminAcceso">
+        <p class="admin-panel__eyebrow">PANEL MAESTRO</p>
+        <h2 id="adminTitulo">Control de Elena</h2>
+
+        <label class="admin-panel__label" for="adminClave">Contraseña</label>
+        <input
+          id="adminClave"
+          class="admin-panel__input"
+          type="password"
+          inputmode="numeric"
+          maxlength="4"
+          autocomplete="off"
+        >
+
+        <p id="adminError" class="admin-panel__error" hidden>
+          Contraseña incorrecta.
+        </p>
+
+        <button id="adminIngresar" class="admin-panel__boton" type="button">
+          Entrar
+        </button>
+      </div>
+
+      <div id="adminSelector" hidden>
+        <header class="admin-topbar">
+          <div class="admin-topbar__titulo">
+            <div>
+              <p class="admin-panel__eyebrow">PANEL MAESTRO</p>
+              <h2 id="adminVistaTitulo">Configuración del show</h2>
+            </div>
+
+            <div id="adminAccionesCanciones" class="admin-topbar__controles" hidden>
+              <button id="adminVolverConfiguracion" class="admin-topbar__boton admin-topbar__boton--volver" type="button">
+                ← Volver a configuración
+              </button>
+
+              <button id="adminFinalizarShow" class="admin-topbar__boton admin-topbar__boton--finalizar" type="button">
+                Finalizar show
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-topbar__acciones">
+            <span id="firebaseEstado" class="firebase-estado">Conectando…</span>
+
+            <button
+              id="adminMenuBoton"
+              class="admin-menu-boton"
+              type="button"
+              aria-label="Abrir menú"
+              aria-expanded="false"
+              aria-controls="adminMenuLateral"
+            >
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </header>
+
+        <aside id="adminMenuLateral" class="admin-menu-lateral" hidden>
+          <button type="button" data-admin-seccion="estadisticas">Estadísticas y contactos</button>
+          <button type="button" data-admin-seccion="herramientas">Compartir y enlaces</button>
+          <button type="button" data-admin-seccion="configuracion">Configuración del show</button>
+          <button id="adminCerrarSesion" type="button">Cerrar panel</button>
+        </aside>
+
+        <main>
+          <section id="adminPasoConfiguracion" class="admin-vista">
+            <section class="admin-seccion">
+              <h3>1. Lista de canciones</h3>
+              <div id="adminOpciones" class="admin-opciones"></div>
+            </section>
+
+            <section class="admin-seccion">
+              <h3>2. Configuración del evento</h3>
+
+              <label class="admin-panel__label" for="adminLugar">
+                Lugar
+              </label>
+              <input
+                id="adminLugar"
+                class="admin-panel__input"
+                type="text"
+                placeholder="Ejemplo: Hotel Oro Verde"
+                autocomplete="organization"
+              >
+
+              <fieldset class="admin-perfil">
+                <legend>Perfil de clientes</legend>
+
+                <label>
+                  <input type="radio" name="perfilClientes" value="alto">
+                  <span>Alto potencial</span>
+                </label>
+
+                <label>
+                  <input type="radio" name="perfilClientes" value="medio" checked>
+                  <span>Potencial medio</span>
+                </label>
+
+                <label>
+                  <input type="radio" name="perfilClientes" value="bajo">
+                  <span>Bajo potencial</span>
+                </label>
+              </fieldset>
+
+              <div class="admin-configuracion">
+                <label class="admin-switch">
+                  <input id="adminPedidosWhatsapp" type="checkbox">
+                  <span>
+                    <strong>Permitir pedidos por WhatsApp</strong>
+                    <small>El público podrá pedir una canción desde su teléfono.</small>
+                  </span>
+                </label>
+
+                <label class="admin-switch">
+                  <input id="adminMostrarCola" type="checkbox">
+                  <span>
+                    <strong>Mostrar cola en vivo</strong>
+                    <small>El público verá las próximas canciones y las que ya sonaron.</small>
+                  </span>
+                </label>
+              </div>
+            </section>
+
+            <p id="adminEstado" class="admin-panel__estado" aria-live="polite"></p>
+
+            <button id="adminGuardar" class="admin-panel__boton admin-panel__boton--comenzar" type="button">
+              Guardar configuración y comenzar show
+            </button>
+          </section>
+
+          <section id="adminPasoCanciones" class="admin-vista" hidden>
+            <div class="admin-show-resumen">
+              <div>
+                <small>Lugar</small>
+                <strong id="adminShowLugar">Sin definir</strong>
+              </div>
+              <div>
+                <small>Lista</small>
+                <strong id="adminShowLista">Principal diario</strong>
+              </div>
+              <div>
+                <small>Perfil</small>
+                <strong id="adminShowPerfil">Potencial medio</strong>
+              </div>
+            </div>
+
+            <section id="adminControlCanciones" class="admin-seccion admin-seccion--sin-borde">
+              <label class="sr-only" for="adminBuscarCancion">Buscar canción</label>
+              <div class="admin-buscador-fijo">
+                <input
+                  id="adminBuscarCancion"
+                  class="admin-panel__input"
+                  type="search"
+                  placeholder="Buscar canción o artista…"
+                  autocomplete="off"
+                >
+              </div>
+
+              <div id="adminListaCompleta" class="admin-lista-completa"></div>
+            </section>
+
+
+            <button id="adminSubir" class="admin-subir" type="button" aria-label="Subir al buscador">
+              ↑
+              <span>MENÚ</span>
+            </button>
+          </section>
+
+          <section id="adminVistaEstadisticas" class="admin-vista" hidden>
+            <button class="admin-volver-vista" type="button" data-admin-volver>← Volver</button>
+
+            <section class="admin-seccion admin-seccion--sin-borde">
+              <div class="admin-seccion__titulo">
+                <h3>Contactos</h3>
+                <span id="adminCantidadContactos">0</span>
+              </div>
+
+              <div class="admin-filtros-contactos" role="group" aria-label="Filtrar contactos">
+                <button class="admin-filtro-contactos is-active" type="button" data-contactos-filtro="show">
+                  Este show
+                </button>
+                <button class="admin-filtro-contactos" type="button" data-contactos-filtro="mes">
+                  Últimos 30 días
+                </button>
+                <button class="admin-filtro-contactos" type="button" data-contactos-filtro="todos">
+                  Todos
+                </button>
+              </div>
+
+              <div id="adminListaContactos" class="admin-contactos">
+                <p class="admin-panel__ayuda">Todavía no hay contactos registrados.</p>
+              </div>
+
+              <div class="admin-herramientas admin-herramientas--contactos">
+                <button id="adminCompartirContactosElena" class="admin-panel__boton admin-panel__boton--whatsapp" type="button">
+                  Compartir contactos con Elena
+                </button>
+
+                <button id="adminCompartirContactosDaniel" class="admin-panel__boton admin-panel__boton--whatsapp" type="button">
+                  Compartir contactos con Daniel
+                </button>
+
+                <button id="adminExportarContactos" class="admin-panel__boton admin-panel__boton--secundario" type="button">
+                  Exportar contactos
+                </button>
+              </div>
+            </section>
+          </section>
+
+          <section id="adminVistaHerramientas" class="admin-vista" hidden>
+            <button class="admin-volver-vista" type="button" data-admin-volver>← Volver</button>
+
+            <section class="admin-seccion admin-seccion--sin-borde">
+              <h3>Compartir y enlaces</h3>
+
+              <div class="admin-herramientas">
+                <button id="adminAbrirPublico" class="admin-panel__boton admin-panel__boton--secundario" type="button">
+                  Abrir página del público
+                </button>
+
+                <button id="adminAbrirClientes" class="admin-panel__boton admin-panel__boton--secundario" type="button">
+                  Abrir lista completa para clientes
+                </button>
+
+                <button id="adminCopiarEnlace" class="admin-panel__boton admin-panel__boton--secundario" type="button">
+                  Copiar enlace del show
+                </button>
+
+                <button id="adminCompartirElena" class="admin-panel__boton admin-panel__boton--whatsapp" type="button">
+                  Compartir resumen con Elena
+                </button>
+
+                <button id="adminCompartirDaniel" class="admin-panel__boton admin-panel__boton--whatsapp" type="button">
+                  Compartir resumen con Daniel
+                </button>
+
+                <button id="adminExportarDatos" class="admin-panel__boton admin-panel__boton--secundario" type="button">
+                  Exportar datos del show
+                </button>
+              </div>
+            </section>
+          </section>
+        </main>
+      </div>
+    </section>
+  </div>
+
+  <div id="pedidoModal" class="pedido-modal" hidden>
+    <div class="pedido-modal__fondo" data-cerrar-pedido></div>
+    <section class="pedido-panel" role="dialog" aria-modal="true" aria-labelledby="pedidoTitulo">
+      <button class="pedido-panel__cerrar" type="button" data-cerrar-pedido aria-label="Cerrar">×</button>
+      <p class="admin-panel__eyebrow">PEDIR CANCIÓN</p>
+      <h2 id="pedidoTitulo">Enviar por WhatsApp</h2>
+      <p id="pedidoCancion" class="pedido-panel__cancion"></p>
+
+      <label class="pedido-panel__label" for="pedidoNombre">Nombre</label>
+      <input
+        id="pedidoNombre"
+        class="admin-panel__input"
+        type="text"
+        autocomplete="name"
+        placeholder="Tu nombre"
+      >
+
+      <label class="pedido-panel__label" for="pedidoTelefono">Número de WhatsApp</label>
+      <input
+        id="pedidoTelefono"
+        class="admin-panel__input"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="Ejemplo: 0991234567"
+      >
+
+      <label class="pedido-consentimiento">
+        <input id="pedidoConsentimiento" type="checkbox">
+        <span>
+          Acepto que Elena Girjoaba Music guarde mis datos para responder a este pedido
+          y mantener el contacto.
+        </span>
+      </label>
+
+      <p id="pedidoError" class="admin-panel__error" hidden>
+        Ingresa un número válido y acepta el uso de tus datos.
+      </p>
+
+      <p class="pedido-panel__nota">
+        Al continuar, la canción se agregará a la cola del show.
+      </p>
+
+      <button id="pedidoEnviar" class="admin-panel__boton" type="button">
+        Enviar por WhatsApp
+      </button>
+    </section>
+  </div>
+
+
+  <div id="notasModal" class="notas-modal" hidden>
+    <div class="notas-modal__fondo" data-cerrar-notas></div>
+
+    <section class="notas-panel" role="dialog" aria-modal="true" aria-labelledby="notasTitulo">
+      <button class="notas-panel__cerrar" type="button" data-cerrar-notas aria-label="Cerrar">×</button>
+      <h2 id="notasTitulo">Notas de la canción</h2>
+      <p id="notasCancion" class="notas-panel__cancion"></p>
+      <img id="notasImagen" class="notas-panel__imagen" alt="">
+    </section>
   </div>
 
   <noscript>

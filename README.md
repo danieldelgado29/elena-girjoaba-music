@@ -1,6 +1,10 @@
-# Elena Girjoaba Music — Ajustes v3.4
+# Elena Girjoaba Music — Panel Maestro v6.9
 
-Cambio:
+Cambio final de interfaz:
 
-- Se centró correctamente el botón “Cotizar mi evento” en la barra superior de la segunda página.
-- No se modificó ninguna otra parte del diseño ni la funcionalidad.
+- El botón ahora dice **← Volver a configuración**.
+- Se mantiene alineado junto a **Finalizar show**.
+- No se modificó ninguna lógica.
+- `script.js` fue validado correctamente.
+
+Siguiente paso del proyecto: generar el QR definitivo con el enlace público.
