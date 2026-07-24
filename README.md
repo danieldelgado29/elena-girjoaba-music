@@ -1,8 +1,8 @@
-# Elena Girjoaba Music — Ajustes v3.2
+# Elena Girjoaba Music — Ajustes v3.3
 
-Corrección final:
+Cambio:
 
-- Primera pantalla: permanece sin espacio negro superior.
-- Segunda pantalla: se restaura la franja negra superior donde están
-  los botones Instagram y Cotizar mi evento.
-- No se modifica ninguna funcionalidad.
+- El botón “Música a la Carta” ya no aparece inmediatamente al tocar Instagram.
+- Se muestra 5 segundos después.
+- La espera se conserva aunque Instagram abra la aplicación y la página quede en segundo plano.
+- No se modificó el resto del diseño ni la funcionalidad.

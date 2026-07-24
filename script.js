@@ -17,7 +17,9 @@
     tiempoSeleccionTarjeta: 900,
     limiteAnimacionTarjetas: 24,
     categoriaInicial: "Todas",
-    claveInstagramVisitado: "egmInstagramVisitado"
+    claveInstagramVisitado: "egmInstagramVisitado",
+    claveInstagramDesbloqueo: "egmInstagramDesbloqueo",
+    demoraContinuacionInstagram: 5000
   });
 
   const estado = {
@@ -141,6 +143,10 @@
 
     try {
       sessionStorage.setItem(CONFIG.claveInstagramVisitado, "1");
+      sessionStorage.setItem(
+        CONFIG.claveInstagramDesbloqueo,
+        String(Date.now() + CONFIG.demoraContinuacionInstagram)
+      );
     } catch (error) {
       console.warn("No se pudo guardar el estado de Instagram:", error);
     }
@@ -154,6 +160,38 @@
     } catch (error) {
       return false;
     }
+  }
+
+  let temporizadorContinuacionInstagram = null;
+
+  function obtenerDemoraRestanteInstagram() {
+    try {
+      const desbloqueo = Number(
+        sessionStorage.getItem(CONFIG.claveInstagramDesbloqueo)
+      );
+
+      if (!Number.isFinite(desbloqueo)) {
+        return CONFIG.demoraContinuacionInstagram;
+      }
+
+      return Math.max(0, desbloqueo - Date.now());
+    } catch (error) {
+      return CONFIG.demoraContinuacionInstagram;
+    }
+  }
+
+  function programarContinuacionInstagram() {
+    if (!instagramFueVisitado()) return;
+
+    window.clearTimeout(temporizadorContinuacionInstagram);
+
+    const demora = obtenerDemoraRestanteInstagram();
+
+    temporizadorContinuacionInstagram = window.setTimeout(() => {
+      if (DOM.landing && !DOM.landing.hidden) {
+        mostrarContinuacionInstagram();
+      }
+    }, demora);
   }
 
   /* ---------------------------------------------------------
@@ -208,7 +246,7 @@
       evento.preventDefault();
 
       guardarInstagramVisitado();
-      mostrarContinuacionInstagram();
+      programarContinuacionInstagram();
       abrirInstagram();
     });
 
@@ -314,7 +352,7 @@
     // recuperamos el estado guardado en esta sesión.
     if (instagramFueVisitado()) {
       estado.instagramVisitado = true;
-      mostrarContinuacionInstagram();
+      programarContinuacionInstagram();
     }
 
     document.addEventListener("visibilitychange", () => {
@@ -325,7 +363,7 @@
         !DOM.landing.hidden
       ) {
         estado.instagramVisitado = true;
-        mostrarContinuacionInstagram();
+        programarContinuacionInstagram();
       }
     });
 
@@ -336,7 +374,7 @@
         !DOM.landing.hidden
       ) {
         estado.instagramVisitado = true;
-        mostrarContinuacionInstagram();
+        programarContinuacionInstagram();
       }
     });
   }
