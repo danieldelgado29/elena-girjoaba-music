@@ -3055,3 +3055,37 @@ a {
     padding-top: min(54vw, 410px) !important;
   }
 }
+
+
+/* =========================================================
+   AJUSTE V3.4 — CENTRAR “COTIZAR MI EVENTO”
+   EN LA SEGUNDA PÁGINA
+   ========================================================= */
+
+.barra__contrataciones {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+@media (max-width: 760px) {
+  .barra__enlaces {
+    align-items: stretch;
+  }
+
+  .barra__enlaces a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.15;
+  }
+
+  .barra__contrataciones {
+    width: 100%;
+    min-height: 38px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}

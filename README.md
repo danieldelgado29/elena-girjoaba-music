@@ -1,8 +1,6 @@
-# Elena Girjoaba Music — Ajustes v3.3
+# Elena Girjoaba Music — Ajustes v3.4
 
 Cambio:
 
-- El botón “Música a la Carta” ya no aparece inmediatamente al tocar Instagram.
-- Se muestra 5 segundos después.
-- La espera se conserva aunque Instagram abra la aplicación y la página quede en segundo plano.
-- No se modificó el resto del diseño ni la funcionalidad.
+- Se centró correctamente el botón “Cotizar mi evento” en la barra superior de la segunda página.
+- No se modificó ninguna otra parte del diseño ni la funcionalidad.
