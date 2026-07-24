@@ -3089,3 +3089,1277 @@ a {
     padding-right: 10px !important;
   }
 }
+
+
+/* =========================================================
+   V4.0 — LISTAS DINÁMICAS Y MENÚ PRIVADO
+   ========================================================= */
+.footer__admin-trigger {
+  appearance: none;
+  width: 100%;
+  padding: 12px 16px 18px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: default;
+  font: inherit;
+}
+
+.admin-modal[hidden] { display: none !important; }
+.admin-modal { position: fixed; inset: 0; z-index: 120000; display: grid; place-items: center; padding: 18px; }
+.admin-modal__fondo { position: absolute; inset: 0; background: rgba(0,0,0,.82); backdrop-filter: blur(10px); }
+.admin-panel {
+  position: relative; z-index: 1; width: min(100%, 520px); max-height: min(88vh, 760px); overflow: auto;
+  padding: 30px 24px 24px; color: var(--blanco); background: #0b0b0b;
+  border: 1px solid rgba(213,178,104,.58); border-radius: 24px;
+  box-shadow: 0 28px 100px rgba(0,0,0,.75), 0 0 48px rgba(213,178,104,.12);
+}
+.admin-panel__cerrar { position: absolute; top: 12px; right: 14px; width: 38px; height: 38px; color: var(--blanco); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 50%; font-size: 1.4rem; }
+.admin-panel__eyebrow { margin: 0 0 7px; color: var(--dorado-claro); font-size: .68rem; font-weight: 800; letter-spacing: .16em; }
+.admin-panel h2 { margin: 0 38px 24px 0; font-size: clamp(1.25rem,4vw,1.7rem); }
+.admin-panel__label { display: block; margin-bottom: 8px; color: var(--gris); font-size: .78rem; }
+.admin-panel__input { width: 100%; min-height: 54px; padding: 0 16px; color: var(--blanco); background: #121212; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; font-size: 1.15rem; letter-spacing: .3em; text-align: center; }
+.admin-panel__error { margin: 9px 0 0; color: #ff9b9b; font-size: .76rem; }
+.admin-panel__boton { width: 100%; min-height: 54px; margin-top: 18px; color: #080808; background: linear-gradient(135deg,var(--dorado-claro),var(--dorado)); border: 0; border-radius: 14px; font-weight: 800; }
+.admin-opciones { display: grid; gap: 9px; }
+.admin-opcion { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 10px; min-height: 54px; padding: 10px 13px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.10); border-radius: 14px; }
+.admin-opcion:has(input:checked) { border-color: rgba(213,178,104,.75); background: rgba(213,178,104,.09); }
+.admin-opcion input { accent-color: var(--dorado); }
+.admin-opcion__nombre { font-size: .83rem; font-weight: 700; }
+.admin-opcion__cantidad { color: var(--gris-2); font-size: .7rem; }
+.admin-panel__estado { min-height: 20px; margin: 14px 0 -4px; color: var(--gris); font-size: .76rem; text-align: center; }
+.admin-panel__enlace { display: block; margin-top: 16px; color: var(--dorado-claro); font-size: .76rem; text-align: center; }
+body.admin-abierto { overflow: hidden; }
+
+@media (min-width: 761px) {
+  .lista-canciones[data-modo="todas"] { grid-template-rows: repeat(var(--filas-lista, 65), auto) !important; }
+}
+
+
+/* =========================================================
+   LIVE MANAGER V5.0
+   Cola pública, estados y panel maestro
+   ========================================================= */
+
+.cancion {
+  position: relative;
+  transition:
+    opacity .2s ease,
+    filter .2s ease,
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.cancion[data-estado="cola"] {
+  border-color: rgba(213,178,104,.62);
+  background:
+    linear-gradient(135deg, rgba(213,178,104,.11), rgba(255,255,255,.02)),
+    rgba(255,255,255,.025);
+}
+
+.cancion[data-estado="tocada"] {
+  opacity: .52;
+  filter: grayscale(.75);
+}
+
+.cancion__estado {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.cancion__estado--cola {
+  color: #17120a;
+  background: var(--dorado-claro);
+}
+
+.cancion__estado--tocada {
+  color: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.12);
+}
+
+.cancion__pedir {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 12px;
+  color: var(--blanco);
+  background: rgba(213,178,104,.09);
+  border: 1px solid rgba(213,178,104,.48);
+  border-radius: 12px;
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.cancion__pedir[disabled] {
+  cursor: default;
+  opacity: .66;
+}
+
+.show-en-vivo {
+  width: min(calc(100% - 40px), 1120px);
+  margin: 30px auto 64px;
+  padding: clamp(24px, 4vw, 40px);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(213,178,104,.1), transparent 42%),
+    rgba(255,255,255,.018);
+  border: 1px solid rgba(213,178,104,.18);
+  border-radius: 26px;
+}
+
+.show-en-vivo__encabezado {
+  max-width: 700px;
+  margin: 0 auto 25px;
+  text-align: center;
+}
+
+.show-en-vivo__encabezado h2 {
+  margin: 5px 0 9px;
+  color: var(--blanco);
+  font-size: clamp(1.65rem, 5vw, 2.6rem);
+}
+
+.show-en-vivo__encabezado p:last-child {
+  color: var(--gris);
+  line-height: 1.65;
+}
+
+.show-en-vivo__columnas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.show-en-vivo__bloque {
+  padding: 22px;
+  background: rgba(0,0,0,.24);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 18px;
+}
+
+.show-en-vivo__bloque h3 {
+  margin: 0 0 16px;
+  color: var(--dorado-claro);
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.cola-publica,
+.tocadas-publicas,
+.admin-cola {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cola-publica {
+  counter-reset: cola;
+}
+
+.cola-publica li,
+.tocadas-publicas li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px;
+  align-items: center;
+  padding: 12px 0;
+  color: var(--blanco-suave);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.cola-publica li::before {
+  counter-increment: cola;
+  content: counter(cola);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .72rem;
+  font-weight: 850;
+}
+
+.tocadas-publicas li::before {
+  content: "✓";
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.09);
+  border-radius: 50%;
+}
+
+.show-en-vivo__vacio {
+  margin: 0;
+  color: var(--gris-2);
+  font-size: .8rem;
+}
+
+.admin-panel--manager {
+  width: min(calc(100% - 24px), 760px);
+  max-height: min(92vh, 900px);
+  overflow-y: auto;
+}
+
+.admin-panel__cabecera,
+.admin-seccion__titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.firebase-estado {
+  padding: 6px 10px;
+  color: var(--gris);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 999px;
+  font-size: .67rem;
+  white-space: nowrap;
+}
+
+.firebase-estado.is-online {
+  color: #bfe8c9;
+  border-color: rgba(89,191,111,.35);
+}
+
+.firebase-estado.is-error {
+  color: #ffb2b2;
+  border-color: rgba(255,86,86,.38);
+}
+
+.admin-seccion {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.admin-seccion h3 {
+  margin: 0 0 13px;
+  color: var(--blanco);
+  font-size: .92rem;
+}
+
+.admin-configuracion {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-switch {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 14px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px;
+}
+
+.admin-switch input {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  accent-color: var(--dorado);
+}
+
+.admin-switch span {
+  display: grid;
+  gap: 3px;
+}
+
+.admin-switch strong {
+  color: var(--blanco);
+  font-size: .82rem;
+}
+
+.admin-switch small {
+  color: var(--gris);
+  font-size: .7rem;
+  line-height: 1.45;
+}
+
+.admin-resultados {
+  display: grid;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.admin-cancion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 11px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 13px;
+}
+
+.admin-cancion__info {
+  min-width: 0;
+}
+
+.admin-cancion__info strong,
+.admin-cancion__info small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-cancion__info strong {
+  color: var(--blanco);
+  font-size: .79rem;
+}
+
+.admin-cancion__info small {
+  margin-top: 3px;
+  color: var(--gris);
+  font-size: .68rem;
+}
+
+.admin-cancion__accion {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: .67rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-cancion__accion--cola {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 0;
+}
+
+.admin-cancion__accion--tocada {
+  color: var(--blanco);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+.admin-cola {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-cola li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 12px;
+}
+
+.admin-cola__numero {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .68rem;
+  font-weight: 850;
+}
+
+.admin-cola__nombre {
+  min-width: 0;
+  color: var(--blanco-suave);
+  font-size: .76rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-cola__boton {
+  min-height: 32px;
+  padding: 0 9px;
+  color: var(--blanco);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 8px;
+  font: inherit;
+  font-size: .63rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-panel__boton--peligro {
+  color: #ffd2d2;
+  background: rgba(188,44,44,.13);
+  border: 1px solid rgba(255,91,91,.3);
+}
+
+.admin-panel__nota {
+  margin: 13px 0 0;
+  color: var(--gris-2);
+  font-size: .67rem;
+  text-align: center;
+}
+
+.pedido-modal[hidden] {
+  display: none !important;
+}
+
+.pedido-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.pedido-modal__fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.82);
+  backdrop-filter: blur(8px);
+}
+
+.pedido-panel {
+  position: relative;
+  width: min(100%, 430px);
+  padding: 28px;
+  background: #101010;
+  border: 1px solid rgba(213,178,104,.26);
+  border-radius: 22px;
+  box-shadow: 0 26px 80px rgba(0,0,0,.55);
+}
+
+.pedido-panel h2 {
+  margin: 5px 0 15px;
+  color: var(--blanco);
+}
+
+.pedido-panel__cerrar {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  color: var(--blanco);
+  background: transparent;
+  border: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.pedido-panel__cancion {
+  margin: 0;
+  color: var(--dorado-claro);
+  font-weight: 750;
+}
+
+.pedido-panel__nota {
+  margin: 12px 0 20px;
+  color: var(--gris);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .show-en-vivo__columnas {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-cancion {
+    grid-template-columns: minmax(0, 1fr) 1fr 1fr;
+  }
+
+  .admin-cancion__info {
+    grid-column: 1 / -1;
+  }
+
+  .admin-acciones {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-cola li {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .admin-cola__boton--quitar {
+    grid-column: 2 / -1;
+  }
+}
+
+
+/* =========================================================
+   V5.1 — HERRAMIENTAS Y COMPARTIR
+   ========================================================= */
+
+.admin-herramientas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.admin-panel__boton--secundario {
+  color: var(--blanco-suave);
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.admin-panel__boton--whatsapp {
+  color: #eaffef;
+  background: rgba(37, 211, 102, .12);
+  border: 1px solid rgba(37, 211, 102, .38);
+}
+
+@media (max-width: 600px) {
+  .admin-herramientas {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   V5.2 — CONTACTOS GLOBALES Y FILTROS
+   ========================================================= */
+
+.pedido-panel__label {
+  display: block;
+  margin: 14px 0 7px;
+  color: var(--blanco-suave);
+  font-size: .76rem;
+  font-weight: 750;
+}
+
+.pedido-consentimiento {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px;
+  align-items: start;
+  margin: 14px 0 0;
+  color: var(--gris);
+  font-size: .7rem;
+  line-height: 1.5;
+}
+
+.pedido-consentimiento input {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--dorado);
+}
+
+.admin-filtros-contactos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.admin-filtro-contactos {
+  min-height: 36px;
+  padding: 0 12px;
+  color: var(--gris);
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 999px;
+  font: inherit;
+  font-size: .68rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.admin-filtro-contactos.is-active {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-color: var(--dorado-claro);
+}
+
+.admin-contactos {
+  display: grid;
+  gap: 9px;
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.admin-contacto {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 13px;
+}
+
+.admin-contacto__info {
+  min-width: 0;
+}
+
+.admin-contacto__info strong,
+.admin-contacto__info span,
+.admin-contacto__info small {
+  display: block;
+}
+
+.admin-contacto__info strong {
+  color: var(--blanco);
+  font-size: .78rem;
+}
+
+.admin-contacto__info span {
+  margin-top: 3px;
+  color: var(--dorado-claro);
+  font-size: .72rem;
+}
+
+.admin-contacto__info small {
+  margin-top: 4px;
+  color: var(--gris-2);
+  font-size: .64rem;
+}
+
+.admin-contacto__pedidos {
+  min-width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .68rem;
+  font-weight: 850;
+}
+
+.admin-herramientas--contactos {
+  margin-top: 14px;
+}
+
+
+/* =========================================================
+   V5.3 — PRIORIDAD “TOCADA” Y FINALIZAR SHOW
+   ========================================================= */
+
+.admin-panel__boton--finalizar {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 1px solid var(--dorado-claro);
+}
+
+.admin-cancion__accion--tocada {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-color: var(--dorado-claro);
+}
+
+.admin-cancion__accion--cola {
+  color: var(--blanco);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+
+/* =========================================================
+   V5.4 — ANOTACIONES AUTOMÁTICAS POR NOMBRE DE CANCIÓN
+   ========================================================= */
+
+.admin-cancion__accion--notas {
+  color: var(--dorado-claro);
+  background: rgba(213,178,104,.08);
+  border: 1px solid rgba(213,178,104,.34);
+}
+
+.notas-modal[hidden] {
+  display: none !important;
+}
+
+.notas-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100002;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+
+.notas-modal__fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(8px);
+}
+
+.notas-panel {
+  position: relative;
+  width: min(100%, 920px);
+  max-height: 95vh;
+  overflow: auto;
+  padding: 20px;
+  background: #0c0c0c;
+  border: 1px solid rgba(213,178,104,.26);
+  border-radius: 20px;
+  box-shadow: 0 28px 90px rgba(0,0,0,.7);
+}
+
+.notas-panel h2 {
+  margin: 0;
+  padding-right: 44px;
+  color: var(--blanco);
+}
+
+.notas-panel__cancion {
+  margin: 6px 0 16px;
+  color: var(--dorado-claro);
+  font-size: .82rem;
+}
+
+.notas-panel__cerrar {
+  position: sticky;
+  float: right;
+  top: 0;
+  width: 42px;
+  height: 42px;
+  color: var(--blanco);
+  background: rgba(0,0,0,.7);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%;
+  font-size: 1.55rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.notas-panel__imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 82vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 12px;
+}
+
+@media (max-width: 760px) {
+  .notas-panel {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .notas-panel__imagen {
+    max-height: 84vh;
+  }
+}
+
+
+/* =========================================================
+   PANEL MAESTRO V6.0 — FLUJO EN DOS PASOS
+   ========================================================= */
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: -6px -4px 14px;
+  padding: 8px 4px 13px;
+  background: linear-gradient(180deg, #101010 82%, rgba(16,16,16,0));
+}
+
+.admin-topbar h2 {
+  margin: 3px 0 0;
+}
+
+.admin-topbar__acciones {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.admin-menu-boton {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  padding: 0;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.admin-menu-boton span {
+  width: 20px;
+  height: 2px;
+  display: block;
+  background: var(--blanco);
+  border-radius: 999px;
+}
+
+.admin-menu-lateral {
+  position: sticky;
+  top: 64px;
+  z-index: 19;
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 12px;
+  background: #151515;
+  border: 1px solid rgba(213,178,104,.22);
+  border-radius: 15px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.42);
+}
+
+.admin-menu-lateral button {
+  min-height: 42px;
+  padding: 0 13px;
+  color: var(--blanco-suave);
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  font: inherit;
+  font-size: .74rem;
+  font-weight: 760;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-vista[hidden],
+.admin-menu-lateral[hidden] {
+  display: none !important;
+}
+
+.admin-perfil {
+  display: grid;
+  gap: 8px;
+  margin: 17px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.admin-perfil legend {
+  margin-bottom: 9px;
+  color: var(--blanco);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.admin-perfil label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 13px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  color: var(--blanco-suave);
+  font-size: .77rem;
+  font-weight: 700;
+}
+
+.admin-perfil input {
+  width: 19px;
+  height: 19px;
+  accent-color: var(--dorado);
+}
+
+.admin-panel__boton--comenzar {
+  min-height: 58px;
+  margin-top: 20px;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 1px solid var(--dorado-claro);
+}
+
+.admin-show-resumen {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 4px 0 14px;
+}
+
+.admin-show-resumen > div {
+  min-width: 0;
+  padding: 11px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 11px;
+}
+
+.admin-show-resumen small,
+.admin-show-resumen strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-show-resumen small {
+  color: var(--gris-2);
+  font-size: .6rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.admin-show-resumen strong {
+  margin-top: 4px;
+  color: var(--blanco);
+  font-size: .73rem;
+}
+
+.admin-buscador-fijo {
+  position: sticky;
+  top: 75px;
+  z-index: 14;
+  padding: 8px 0;
+  background: #101010;
+}
+
+.admin-lista-completa {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-lista-cancion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 14px;
+}
+
+.admin-lista-cancion[data-estado="tocada"] {
+  opacity: .53;
+  filter: grayscale(.8);
+}
+
+.admin-lista-cancion[data-estado="cola"] {
+  border-color: rgba(213,178,104,.55);
+  background: rgba(213,178,104,.07);
+}
+
+.admin-lista-cancion__info {
+  min-width: 0;
+}
+
+.admin-lista-cancion__info strong,
+.admin-lista-cancion__info small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-lista-cancion__info strong {
+  color: var(--blanco);
+  font-size: .8rem;
+}
+
+.admin-lista-cancion__info small {
+  margin-top: 4px;
+  color: var(--gris);
+  font-size: .67rem;
+}
+
+.admin-lista-cancion__boton {
+  min-height: 38px;
+  padding: 0 10px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: .65rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.admin-lista-cancion__boton--tocada {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 1px solid var(--dorado-claro);
+}
+
+.admin-lista-cancion__boton--cola,
+.admin-lista-cancion__boton--notas {
+  color: var(--blanco);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.admin-lista-cancion__boton--notas {
+  color: var(--dorado-claro);
+  border-color: rgba(213,178,104,.35);
+}
+
+.admin-show-final {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.admin-volver-vista {
+  min-height: 38px;
+  margin-bottom: 6px;
+  padding: 0 12px;
+  color: var(--blanco-suave);
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.admin-subir {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 100003;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-content: center;
+  gap: 0;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 2px solid rgba(255,255,255,.7);
+  border-radius: 50%;
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-subir span {
+  font-size: .48rem;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 760px) {
+  .admin-panel--manager {
+    width: min(calc(100% - 12px), 760px);
+    max-height: 97vh;
+    padding: 20px 14px;
+  }
+
+  .admin-show-resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-lista-cancion {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-lista-cancion__info {
+    grid-column: 1 / -1;
+  }
+
+  .admin-show-final {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   V6.7 — VISOR LIMPIO DE ANOTACIONES
+   ========================================================= */
+
+.notas-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  display: block !important;
+  padding: 0 !important;
+  background: #000 !important;
+}
+
+.notas-modal[hidden] {
+  display: none !important;
+}
+
+.notas-modal__fondo {
+  display: none !important;
+}
+
+.notas-panel {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #000 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.notas-panel h2,
+.notas-panel__cancion,
+.notas-navegacion {
+  display: none !important;
+}
+
+.notas-panel__imagen {
+  display: block !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+  background: #000 !important;
+  border-radius: 0 !important;
+}
+
+.notas-panel__cerrar {
+  position: fixed !important;
+  top: max(12px, env(safe-area-inset-top)) !important;
+  right: max(12px, env(safe-area-inset-right)) !important;
+  z-index: 2147483647 !important;
+  float: none !important;
+  width: 46px !important;
+  height: 46px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #fff !important;
+  background: rgba(0,0,0,.72) !important;
+  border: 1px solid rgba(255,255,255,.35) !important;
+  border-radius: 50% !important;
+  font-size: 1.7rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  backdrop-filter: blur(6px) !important;
+}
+
+body.notas-abiertas {
+  overflow: hidden !important;
+}
+
+
+/* =========================================================
+   V6.8 — BOTONES DE CONTROL JUNTO AL TÍTULO
+   ========================================================= */
+
+.admin-topbar__titulo {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.admin-topbar__controles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-topbar__controles[hidden] {
+  display: none !important;
+}
+
+.admin-topbar__boton {
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: .66rem;
+  font-weight: 850;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.admin-topbar__boton--volver {
+  color: var(--blanco-suave);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.13);
+}
+
+.admin-topbar__boton--finalizar {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 1px solid var(--dorado-claro);
+}
+
+@media (max-width: 760px) {
+  .admin-topbar {
+    align-items: flex-start;
+  }
+
+  .admin-topbar__titulo {
+    display: grid;
+    gap: 9px;
+  }
+
+  .admin-topbar__controles {
+    flex-wrap: wrap;
+  }
+
+  .admin-topbar__boton {
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: .62rem;
+  }
+}
+
+
+/* =========================================================
+   V6.9 — FLECHA EN “VOLVER A CONFIGURACIÓN”
+   ========================================================= */
+
+.admin-topbar__boton--volver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+ .admin-topbar__boton--finalizar {
+  color: #ffffff;
+  background: #d32f2f;
+  border: 1px solid #b71c1c;
+  font-weight: 800;
+  transition: .2s ease;
+}
+
+.admin-topbar__boton--finalizar:hover {
+  background: #b71c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(183,28,28,.35);
+}
