@@ -613,7 +613,9 @@ function renderizarColaFijaAdmin() {
 }
 
 function renderizarEstadoPublico() {
-  if (estado.vistaClientes || !estado.configRemota.mostrar_cola) {
+  // La cola debe aparecer también en teléfonos y en el enlace ?lista=todas.
+  // Solo se oculta cuando Elena la desactiva desde el Panel Maestro.
+  if (!estado.configRemota.mostrar_cola) {
     DOM.estadoShowPublico.hidden = true;
     document.body.classList.remove("cola-publica-visible");
     return;
