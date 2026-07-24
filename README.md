@@ -1,10 +1,12 @@
-# Elena Girjoaba Music — Panel Maestro v6.9
+# Elena Girjoaba Music — Versión 1.2
 
-Cambio final de interfaz:
+Cambios:
 
-- El botón ahora dice **← Volver a configuración**.
-- Se mantiene alineado junto a **Finalizar show**.
-- No se modificó ninguna lógica.
-- `script.js` fue validado correctamente.
-
-Siguiente paso del proyecto: generar el QR definitivo con el enlace público.
+- En la cola fija del Panel Maestro, cada canción tiene el botón **Tocada**.
+- Al pulsarlo:
+  - sale de la cola;
+  - queda marcada como tocada;
+  - deja de estorbar en la lista de pendientes.
+- En la página del público, la cola permanece fija en la parte inferior.
+- La cola sigue visible aunque la persona suba o baje por la página.
+- La cola pública solo aparece cuando hay canciones pendientes.

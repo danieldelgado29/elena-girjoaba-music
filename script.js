@@ -140,6 +140,7 @@ function capturarDOM() {
     volver: $("#volverArriba"),
     anio: $("#anioActual"),
     adminTrigger: $("#adminTrigger"),
+    adminTriggerPortada: $("#adminTriggerPortada"),
     adminModal: $("#adminModal"),
     adminAcceso: $("#adminAcceso"),
     adminSelector: $("#adminSelector"),
@@ -154,6 +155,9 @@ function capturarDOM() {
     adminLugar: $("#adminLugar"),
     adminBuscarCancion: $("#adminBuscarCancion"),
     adminListaCompleta: $("#adminListaCompleta"),
+    adminColaFija: $("#adminColaFija"),
+    adminColaFijaCantidad: $("#adminColaFijaCantidad"),
+    adminColaFijaVacia: $("#adminColaFijaVacia"),
     adminFinalizarShow: $("#adminFinalizarShow"),
     adminVolverConfiguracion: $("#adminVolverConfiguracion"),
     adminSubir: $("#adminSubir"),
@@ -538,6 +542,7 @@ function renderizar() {
 
 function sincronizarInterfazRemota() {
   renderizarEstadoPublico();
+  renderizarColaFijaAdmin();
 
   if (DOM.adminPasoCanciones && !DOM.adminPasoCanciones.hidden) {
     renderizarListaMaestra();
@@ -558,40 +563,94 @@ function sincronizarInterfazRemota() {
   }
 }
 
+function numeroCancionEnLista(idCancion) {
+  const indice = estado.base.findIndex(
+    (cancion) => cancion.id === idCancion
+  );
+
+  return indice >= 0 ? indice + 1 : null;
+}
+
+function renderizarColaFijaAdmin() {
+  if (!DOM.adminColaFija) return;
+
+  const canciones = estado.configRemota.cola
+    .map(obtenerCancion)
+    .filter(Boolean);
+
+  DOM.adminColaFijaCantidad.textContent = String(canciones.length);
+  DOM.adminColaFijaVacia.hidden = canciones.length > 0;
+
+  DOM.adminColaFija.innerHTML = canciones
+    .map((cancion) => {
+      const numero = numeroCancionEnLista(cancion.id);
+
+      return `
+        <li>
+          <span class="admin-cola-fija__numero">${numero || "—"}</span>
+          <span class="admin-cola-fija__cancion">${escapar(cancion.titulo)}</span>
+          <button
+            class="admin-cola-fija__tocada"
+            type="button"
+            data-cola-fija-tocada="${cancion.id}"
+          >
+            Tocada
+          </button>
+        </li>
+      `;
+    })
+    .join("");
+
+  DOM.adminColaFija
+    .querySelectorAll("[data-cola-fija-tocada]")
+    .forEach((boton) => {
+      boton.addEventListener("click", async () => {
+        await marcarTocada(boton.dataset.colaFijaTocada);
+        renderizarColaFijaAdmin();
+        renderizarListaMaestra();
+      });
+    });
+}
+
 function renderizarEstadoPublico() {
   if (estado.vistaClientes || !estado.configRemota.mostrar_cola) {
     DOM.estadoShowPublico.hidden = true;
+    document.body.classList.remove("cola-publica-visible");
     return;
   }
 
   DOM.estadoShowPublico.hidden = false;
+  document.body.classList.add("cola-publica-visible");
 
   const cancionesCola = estado.configRemota.cola
     .map(obtenerCancion)
     .filter(Boolean);
 
-  const cancionesTocadas = estado.configRemota.tocadas
-    .map(obtenerCancion)
-    .filter(Boolean)
-    .slice(-12)
-    .reverse();
-
   DOM.colaPublica.innerHTML = cancionesCola
-    .map(
-      (cancion) =>
-        `<li><span><strong>${escapar(cancion.titulo)}</strong><br><small>${escapar(cancion.artista)}</small></span></li>`
-    )
-    .join("");
+    .map((cancion) => {
+      const numero = numeroCancionEnLista(cancion.id);
 
-  DOM.tocadasPublicas.innerHTML = cancionesTocadas
-    .map(
-      (cancion) =>
-        `<li><span><strong>${escapar(cancion.titulo)}</strong><br><small>${escapar(cancion.artista)}</small></span></li>`
-    )
+      return `
+        <li>
+          <span class="cola-publica-compacta__numero">${numero || "—"}</span>
+          <span class="cola-publica-compacta__cancion">${escapar(cancion.titulo)}</span>
+          <span class="cola-publica-compacta__estado">A la cola</span>
+        </li>
+      `;
+    })
     .join("");
 
   DOM.colaPublicaVacia.hidden = cancionesCola.length > 0;
-  DOM.tocadasPublicasVacia.hidden = cancionesTocadas.length > 0;
+
+  const hayCancionesEnCola = cancionesCola.length > 0;
+  DOM.estadoShowPublico.classList.toggle(
+    "cola-publica-compacta--con-canciones",
+    hayCancionesEnCola
+  );
+  document.body.classList.toggle(
+    "cola-publica-visible",
+    hayCancionesEnCola
+  );
 }
 
 function mostrarApp() {
@@ -681,22 +740,9 @@ function abrirAplicacionConRespaldo(urlApp, urlWeb) {
     return;
   }
 
-  let paginaOculta = false;
-
-  const detectarSalida = () => {
-    if (document.visibilityState === "hidden") {
-      paginaOculta = true;
-    }
-  };
-
-  document.addEventListener("visibilitychange", detectarSalida, { once: true });
+  // En móvil abrimos únicamente la aplicación.
+  // Si la persona cancela el aviso del navegador, permanece en esta página.
   window.location.href = urlApp;
-
-  window.setTimeout(() => {
-    if (!paginaOculta && document.visibilityState === "visible") {
-      window.location.href = urlWeb;
-    }
-  }, 1200);
 }
 
 function abrirAdmin() {
@@ -963,6 +1009,7 @@ function mostrarVistaAdmin(vista) {
     DOM.adminShowPerfil.textContent =
       nombrePerfil(estado.configRemota.perfil_clientes);
     DOM.adminBuscarCancion.value = "";
+    renderizarColaFijaAdmin();
     renderizarListaMaestra();
     return;
   }
@@ -985,18 +1032,34 @@ function mostrarVistaAdmin(vista) {
 }
 
 function cancionesPanelMaestro() {
-  const consulta = normalizar(DOM.adminBuscarCancion?.value || "");
+  const consultaOriginal = String(
+    DOM.adminBuscarCancion?.value || ""
+  ).trim();
+
+  if (!consultaOriginal) {
+    return estado.base;
+  }
+
+  // Si Elena escribe únicamente un número, busca la posición
+  // consecutiva de la canción dentro de la lista activa.
+  if (/^\d+$/.test(consultaOriginal)) {
+    const numeroBuscado = Number(consultaOriginal);
+
+    return estado.base.filter(
+      (cancion, indice) => indice + 1 === numeroBuscado
+    );
+  }
+
+  const consulta = normalizar(consultaOriginal);
   const terminos = consulta.split(" ").filter(Boolean);
 
   return estado.base.filter((cancion) => {
-    if (!terminos.length) return true;
-
     const texto = normalizar(`${cancion.titulo} ${cancion.artista}`);
     return terminos.every((termino) => texto.includes(termino));
   });
 }
 
-async function crearFilaMaestra(cancion) {
+async function crearFilaMaestra(cancion, indice) {
   const situacion = estadoCancion(cancion.id);
   const fila = document.createElement("article");
 
@@ -1005,6 +1068,8 @@ async function crearFilaMaestra(cancion) {
   fila.dataset.cancionId = cancion.id;
 
   fila.innerHTML = `
+    <span class="admin-lista-cancion__numero" aria-hidden="true">${indice + 1}</span>
+
     <div class="admin-lista-cancion__info">
       <strong>${escapar(cancion.titulo)}</strong>
       <small>${escapar(cancion.artista)} · ${
@@ -1028,8 +1093,9 @@ async function crearFilaMaestra(cancion) {
       class="admin-lista-cancion__boton admin-lista-cancion__boton--cola"
       type="button"
       data-maestra-cola="${cancion.id}"
+      ${situacion === "cola" ? "disabled" : ""}
     >
-      A la cola
+      ${situacion === "cola" ? "En cola" : "A la cola"}
     </button>
   `;
 
@@ -1052,12 +1118,15 @@ async function crearFilaMaestra(cancion) {
       renderizarListaMaestra();
     });
 
-  fila
-    .querySelector("[data-maestra-cola]")
-    .addEventListener("click", async () => {
+  const botonCola = fila.querySelector("[data-maestra-cola]");
+
+  if (!botonCola.disabled) {
+    botonCola.addEventListener("click", async () => {
       await agregarACola(cancion.id);
+      renderizarColaFijaAdmin();
       renderizarListaMaestra();
     });
+  }
 
   return fila;
 }
@@ -1077,7 +1146,13 @@ async function renderizarListaMaestra() {
   const fragmento = document.createDocumentFragment();
 
   for (const cancion of canciones) {
-    fragmento.appendChild(await crearFilaMaestra(cancion));
+    const indiceOriginal = estado.base.findIndex(
+      (elemento) => elemento.id === cancion.id
+    );
+
+    fragmento.appendChild(
+      await crearFilaMaestra(cancion, indiceOriginal)
+    );
   }
 
   DOM.adminListaCompleta.appendChild(fragmento);
@@ -1808,21 +1883,32 @@ function registrarEventos() {
       });
     });
 
-  ["pointerdown", "touchstart"].forEach((evento) => {
-    DOM.adminTrigger.addEventListener(evento, iniciarPulsacionAdmin, {
-      passive: true
-    });
-  });
+  const accesosAdmin = [
+    DOM.adminTrigger,
+    DOM.adminTriggerPortada
+  ].filter(Boolean);
 
-  [
-    "pointerup",
-    "pointercancel",
-    "pointerleave",
-    "touchend",
-    "touchcancel"
-  ].forEach((evento) => {
-    DOM.adminTrigger.addEventListener(evento, cancelarPulsacionAdmin, {
-      passive: true
+  accesosAdmin.forEach((acceso) => {
+    ["pointerdown", "touchstart"].forEach((evento) => {
+      acceso.addEventListener(evento, iniciarPulsacionAdmin, {
+        passive: true
+      });
+    });
+
+    [
+      "pointerup",
+      "pointercancel",
+      "pointerleave",
+      "touchend",
+      "touchcancel"
+    ].forEach((evento) => {
+      acceso.addEventListener(evento, cancelarPulsacionAdmin, {
+        passive: true
+      });
+    });
+
+    acceso.addEventListener("contextmenu", (evento) => {
+      evento.preventDefault();
     });
   });
 

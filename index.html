@@ -103,7 +103,11 @@
       <p class="landing__marca">ELENA GIRJOABA MUSIC</p>
 
       <h1 id="landingTitulo" class="landing__titulo">
-        Música en vivo para tu evento
+        <span
+          id="adminTriggerPortada"
+          class="landing__admin-trigger"
+          aria-label="Acceso al Panel Maestro"
+        >Música</span> en vivo para tu evento
       </h1>
 
       <p class="landing__descripcion">
@@ -361,29 +365,21 @@
       </section>
 
 
-      <section id="estadoShowPublico" class="show-en-vivo" aria-labelledby="colaPublicaTitulo" hidden>
-        <div class="show-en-vivo__encabezado">
+      <section id="estadoShowPublico" class="cola-publica-compacta" aria-labelledby="colaPublicaTitulo" hidden>
+        <div class="cola-publica-compacta__encabezado">
           <p class="explorador__eyebrow">SHOW EN VIVO</p>
-          <h2 id="colaPublicaTitulo">Próximas canciones</h2>
-          <p>Esta lista se actualiza automáticamente durante el show.</p>
+          <h2 id="colaPublicaTitulo">Canciones a la cola</h2>
         </div>
 
-        <div class="show-en-vivo__columnas">
-          <article class="show-en-vivo__bloque">
-            <h3>En la cola</h3>
-            <ol id="colaPublica" class="cola-publica"></ol>
-            <p id="colaPublicaVacia" class="show-en-vivo__vacio">
-              Todavía no hay canciones en la cola.
-            </p>
-          </article>
+        <ol id="colaPublica" class="cola-publica-compacta__lista"></ol>
 
-          <article class="show-en-vivo__bloque">
-            <h3>Ya sonaron</h3>
-            <ul id="tocadasPublicas" class="tocadas-publicas"></ul>
-            <p id="tocadasPublicasVacia" class="show-en-vivo__vacio">
-              Aún no hemos marcado canciones como tocadas.
-            </p>
-          </article>
+        <p id="colaPublicaVacia" class="cola-publica-compacta__vacio">
+          Todavía no hay canciones a la cola.
+        </p>
+
+        <div hidden>
+          <ul id="tocadasPublicas"></ul>
+          <p id="tocadasPublicasVacia"></p>
         </div>
       </section>
 
@@ -478,8 +474,6 @@
     <div class="admin-modal__fondo" data-cerrar-admin></div>
 
     <section class="admin-panel admin-panel--manager" role="dialog" aria-modal="true" aria-labelledby="adminTitulo">
-      <button class="admin-panel__cerrar" type="button" data-cerrar-admin aria-label="Cerrar">×</button>
-
       <div id="adminAcceso">
         <p class="admin-panel__eyebrow">PANEL MAESTRO</p>
         <h2 id="adminTitulo">Control de Elena</h2>
@@ -534,6 +528,16 @@
               aria-controls="adminMenuLateral"
             >
               <span></span><span></span><span></span>
+            </button>
+
+            <button
+              id="adminCerrarBoton"
+              class="admin-cerrar-boton"
+              type="button"
+              data-cerrar-admin
+              aria-label="Cerrar Panel Maestro"
+            >
+              ×
             </button>
           </div>
         </header>
@@ -630,11 +634,24 @@
             <section id="adminControlCanciones" class="admin-seccion admin-seccion--sin-borde">
               <label class="sr-only" for="adminBuscarCancion">Buscar canción</label>
               <div class="admin-buscador-fijo">
+                <section class="admin-cola-fija" aria-labelledby="adminColaFijaTitulo">
+                  <div class="admin-cola-fija__titulo">
+                    <strong id="adminColaFijaTitulo">A la cola</strong>
+                    <span id="adminColaFijaCantidad">0</span>
+                  </div>
+
+                  <ol id="adminColaFija" class="admin-cola-fija__lista"></ol>
+
+                  <p id="adminColaFijaVacia" class="admin-cola-fija__vacio">
+                    No hay canciones a la cola.
+                  </p>
+                </section>
+
                 <input
                   id="adminBuscarCancion"
                   class="admin-panel__input"
                   type="search"
-                  placeholder="Buscar canción o artista…"
+                  placeholder="Buscar por número, canción o artista…"
                   autocomplete="off"
                 >
               </div>

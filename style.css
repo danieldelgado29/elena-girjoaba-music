@@ -4363,3 +4363,537 @@ body.notas-abiertas {
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(183,28,28,.35);
 }
+
+/* =========================================================
+   V6.11 — PULIDO DE BOTONES, GÉNEROS Y NUMERACIÓN
+   ========================================================= */
+
+/* Instagram principal y cierre: más grandes, centrados y sin cortes laterales. */
+.landing__acciones .boton--instagram,
+.cierre-instagram {
+  width: min(100%, 520px);
+  min-height: 76px;
+  padding: 13px 28px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      100deg,
+      var(--instagram-1) 0%,
+      var(--instagram-2) 55%,
+      var(--instagram-3) 100%
+    );
+  background-clip: border-box;
+  box-shadow:
+    0 14px 36px rgba(186,63,118,.30),
+    inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+.landing__acciones .boton--instagram .boton__icono,
+.cierre-instagram .boton__icono {
+  flex: 0 0 auto;
+  font-size: 1.35rem;
+}
+
+.landing__acciones .boton--instagram .boton__texto-doble,
+.cierre-instagram .boton__texto-doble {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.landing__acciones .boton--instagram .boton__texto-doble strong,
+.cierre-instagram .boton__texto-doble strong {
+  display: block;
+  max-width: 390px;
+  font-size: clamp(.92rem, 2.7vw, 1.08rem);
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.landing__acciones .boton--instagram .boton__texto-doble small,
+.cierre-instagram .boton__texto-doble small {
+  display: block;
+  font-size: .74rem;
+  opacity: .88;
+}
+
+/* Todos los géneros tienen el mismo estado normal y la misma animación. */
+.categoria,
+.categoria--rock {
+  color: var(--blanco-suave);
+  background: var(--negro-3);
+  border-color: rgba(255,255,255,.10);
+  box-shadow: none;
+}
+
+.categoria:hover,
+.categoria--rock:hover {
+  transform: translateY(-2px);
+  color: var(--blanco);
+  background: rgba(255,255,255,.055);
+  border-color: rgba(255,255,255,.24);
+}
+
+/* El género seleccionado se señala en rojo. */
+.categoria.is-active,
+.categoria[aria-pressed="true"],
+.categoria--rock.is-active,
+.categoria--rock[aria-pressed="true"] {
+  color: #fff;
+  background: #c62828;
+  border-color: #e57373;
+  box-shadow:
+    0 10px 24px rgba(198,40,40,.28),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+/* Numeración consecutiva dentro del Panel Maestro. */
+.admin-lista-cancion {
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+}
+
+.admin-lista-cancion__numero {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .landing__acciones .boton--instagram,
+  .cierre-instagram {
+    width: 100%;
+    min-height: 82px;
+    padding: 13px 20px;
+    border-radius: 28px;
+  }
+
+  .landing__acciones .boton--instagram .boton__texto-doble strong,
+  .cierre-instagram .boton__texto-doble strong {
+    max-width: 270px;
+  }
+
+  .admin-lista-cancion {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .admin-lista-cancion__info {
+    grid-column: auto;
+  }
+
+  .admin-lista-cancion__boton {
+    grid-column: auto;
+  }
+
+  .admin-lista-cancion__boton--tocada {
+    grid-column: 1 / 2;
+  }
+
+  .admin-lista-cancion__boton--cola,
+  .admin-lista-cancion__boton--notas {
+    grid-column: 2 / 3;
+  }
+}
+
+
+/* =========================================================
+   V6.12 — CIERRE ROJO JUNTO AL MENÚ
+   ========================================================= */
+
+.admin-topbar__acciones {
+  flex: 0 0 auto;
+}
+
+.admin-menu-boton,
+.admin-cerrar-boton {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 12px;
+}
+
+.admin-cerrar-boton {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #fff;
+  background: #d32f2f;
+  border: 1px solid #b71c1c;
+  font: inherit;
+  font-size: 1.7rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background .18s ease,
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+.admin-cerrar-boton:hover {
+  background: #b71c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(183, 28, 28, .34);
+}
+
+.admin-cerrar-boton:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 760px) {
+  .admin-topbar__acciones {
+    gap: 7px;
+  }
+
+  .admin-menu-boton,
+  .admin-cerrar-boton {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+}
+
+
+/* =========================================================
+   VERSIÓN 1.0 — ACCESO OCULTO DESDE “MÚSICA”
+   ========================================================= */
+
+.landing__admin-trigger {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
+  cursor: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+
+/* =========================================================
+   V1.1 — COLA SIEMPRE VISIBLE Y COLA PÚBLICA COMPACTA
+   ========================================================= */
+
+.admin-buscador-fijo {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-cola-fija {
+  padding: 11px;
+  background: rgba(0,0,0,.92);
+  border: 1px solid rgba(213,178,104,.34);
+  border-radius: 13px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.28);
+}
+
+.admin-cola-fija__titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.admin-cola-fija__titulo strong {
+  color: var(--dorado-claro);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.admin-cola-fija__titulo span {
+  min-width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .66rem;
+  font-weight: 900;
+}
+
+.admin-cola-fija__lista {
+  display: grid;
+  gap: 6px;
+  max-height: 132px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.admin-cola-fija__lista li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 35px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,.035);
+  border-radius: 9px;
+}
+
+.admin-cola-fija__numero {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .62rem;
+  font-weight: 900;
+}
+
+.admin-cola-fija__cancion {
+  min-width: 0;
+  color: var(--blanco-suave);
+  font-size: .71rem;
+  font-weight: 750;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-cola-fija__estado {
+  color: var(--dorado-claro);
+  font-size: .59rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.admin-cola-fija__vacio {
+  margin: 0;
+  color: var(--gris-2);
+  font-size: .68rem;
+}
+
+.admin-lista-cancion[data-estado="cola"] {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.admin-lista-cancion__boton--cola:disabled {
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-color: var(--dorado-claro);
+  opacity: 1;
+  cursor: default;
+}
+
+.cola-publica-compacta {
+  width: min(calc(100% - 40px), 900px);
+  margin: 26px auto 48px;
+  padding: 20px;
+  background: rgba(255,255,255,.018);
+  border: 1px solid rgba(213,178,104,.20);
+  border-radius: 20px;
+}
+
+.cola-publica-compacta__encabezado {
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.cola-publica-compacta__encabezado h2 {
+  margin: 4px 0 0;
+  color: var(--blanco);
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
+}
+
+.cola-publica-compacta__lista {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cola-publica-compacta__lista li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.055);
+  border-radius: 10px;
+}
+
+.cola-publica-compacta__numero {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border-radius: 50%;
+  font-size: .65rem;
+  font-weight: 900;
+}
+
+.cola-publica-compacta__cancion {
+  min-width: 0;
+  color: var(--blanco-suave);
+  font-size: .75rem;
+  font-weight: 760;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cola-publica-compacta__estado {
+  color: var(--dorado-claro);
+  font-size: .61rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cola-publica-compacta__vacio {
+  margin: 0;
+  color: var(--gris-2);
+  font-size: .72rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .admin-cola-fija__lista {
+    max-height: 110px;
+  }
+
+  .cola-publica-compacta {
+    width: min(calc(100% - 24px), 900px);
+    padding: 15px;
+  }
+
+  .cola-publica-compacta__lista li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .cola-publica-compacta__estado {
+    grid-column: 2;
+  }
+}
+
+
+/* =========================================================
+   V1.2 — TOCADA EN LA COLA Y COLA PÚBLICA SIEMPRE VISIBLE
+   ========================================================= */
+
+/* Panel Maestro: botón Tocada dentro de la cola fija. */
+.admin-cola-fija__lista li {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.admin-cola-fija__tocada {
+  min-height: 30px;
+  padding: 0 10px;
+  color: #17120a;
+  background: var(--dorado-claro);
+  border: 1px solid var(--dorado-claro);
+  border-radius: 8px;
+  font: inherit;
+  font-size: .61rem;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-cola-fija__tocada:hover {
+  filter: brightness(.94);
+}
+
+/* Página pública: la cola está al final del HTML, pero se mantiene fija
+   en la parte inferior mientras el público sube o baja por la página. */
+.cola-publica-compacta {
+  position: fixed;
+  left: 50%;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  z-index: 99990;
+  width: min(calc(100% - 24px), 900px);
+  max-height: min(34vh, 260px);
+  margin: 0;
+  padding: 12px 14px;
+  overflow-y: auto;
+  transform: translateX(-50%);
+  background: rgba(10,10,10,.96);
+  border: 1px solid rgba(213,178,104,.40);
+  border-radius: 16px;
+  box-shadow: 0 16px 50px rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
+}
+
+.cola-publica-compacta:not(.cola-publica-compacta--con-canciones) {
+  display: none !important;
+}
+
+.cola-publica-compacta__encabezado {
+  position: sticky;
+  top: -12px;
+  z-index: 2;
+  margin: -12px -14px 9px;
+  padding: 10px 14px 8px;
+  background: rgba(10,10,10,.98);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.cola-publica-compacta__encabezado .explorador__eyebrow {
+  display: none;
+}
+
+.cola-publica-compacta__encabezado h2 {
+  margin: 0;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dorado-claro);
+}
+
+body.cola-publica-visible {
+  padding-bottom: min(38vh, 290px);
+}
+
+@media (max-width: 600px) {
+  .cola-publica-compacta {
+    bottom: max(6px, env(safe-area-inset-bottom));
+    width: calc(100% - 12px);
+    max-height: 30vh;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .cola-publica-compacta__encabezado {
+    top: -10px;
+    margin: -10px -10px 7px;
+    padding: 9px 10px 7px;
+  }
+
+  .cola-publica-compacta__lista li {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .cola-publica-compacta__estado {
+    grid-column: auto;
+  }
+
+  body.cola-publica-visible {
+    padding-bottom: 34vh;
+  }
+}
