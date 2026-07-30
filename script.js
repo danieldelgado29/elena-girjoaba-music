@@ -1300,6 +1300,7 @@ function programarContinuacion() {
 }
 
 function abrirInstagram() {
+  guardarVisitaInstagram();
   abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
 }
 
