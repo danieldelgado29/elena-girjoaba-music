@@ -20,6 +20,8 @@ const MODOS = Object.freeze([
   { id: "principal-diario", nombre: "Principal diario" },
   { id: "solo-ingles", nombre: "Solo inglés" },
   { id: "principal-privados", nombre: "Principal privados" },
+  { id: "eventos-corporativos", nombre: "Eventos corporativos" },
+  { id: "tree-house", nombre: "Tree House" },
   { id: "tranquilas-principal", nombre: "Canciones tranquilas · Principal" },
   { id: "tranquilas-todas", nombre: "Canciones tranquilas · Todas + Jazz y Blues" },
   { id: "todas", nombre: "Todas las canciones" },
@@ -28,8 +30,8 @@ const MODOS = Object.freeze([
 
 const CONFIG = Object.freeze({
   claveAdmin: "2907",
-  duracionPulsacionAdmin: 5000,
-  rutaCanciones: "canciones.json",
+  duracionPulsacionAdmin: 3000,
+  rutaCanciones: "canciones.json?v=5",
   rutaConfiguracion: "configuracion.json",
   instagramApp: "instagram://user?username=elenagirjoabamusic",
   instagramWeb: "https://instagram.com/elenagirjoabamusic",
@@ -40,8 +42,25 @@ const CONFIG = Object.freeze({
   claveInstagramDesbloqueo: "egmInstagramDesbloqueo",
   demoraContinuacionInstagram: 5000,
   rutaAnotaciones: "assets/anotaciones",
+  rutaIndiceAnotaciones: "assets/anotaciones/index.json",
   extensionesAnotaciones: ["jpg", "jpeg", "png", "webp"]
 });
+
+function obtenerSeguridadLocal() {
+  try {
+    return {
+      password: CONFIG.claveAdmin,
+      danielPhone: CONFIG.telefonoDaniel,
+      elenaPhone: CONFIG.telefonoElena,
+      ...JSON.parse(localStorage.getItem("egm-security-settings") || "{}")
+    };
+  } catch (_) {
+    return { password: CONFIG.claveAdmin, danielPhone: CONFIG.telefonoDaniel, elenaPhone: CONFIG.telefonoElena };
+  }
+}
+function telefonoWhatsAppActual() {
+  return String(obtenerSeguridadLocal().elenaPhone || CONFIG.telefonoWhatsApp).replace(/\D/g, "");
+}
 
 const estado = {
   todas: [],
@@ -73,7 +92,17 @@ const estado = {
   reinicioEnCurso: false,
   contactos: [],
   filtroContactos: "show",
-  anotacionesCache: new Map()
+  anotacionesCache: new Map(),
+  indiceAnotaciones: {},
+  indiceAnotacionesCargado: false,
+  letras: {},
+  letraActualId: null,
+  letraModoPanel: false,
+  temporizadorEditarLetra: null,
+  letraOriginalEdicion: "",
+  confirmarResolver: null,
+  agregarLetraTipo: null,
+  nuevaCancionAbierta: false
 };
 
 const DOM = {};
@@ -91,6 +120,33 @@ function normalizar(valor = "") {
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+
+function depurarCanciones(canciones = []) {
+  const unicas = new Map();
+
+  canciones.forEach((cancion) => {
+    const clave = `${normalizar(cancion.titulo)}::${normalizar(cancion.artista)}`;
+    const categorias = [...new Set((cancion.categorias || ["Otros"]).filter(Boolean))];
+    const listas = [...new Set((cancion.listas || ["todas"]).filter(Boolean))];
+
+    if (!unicas.has(clave)) {
+      unicas.set(clave, {
+        ...cancion,
+        categorias: categorias.length ? categorias : ["Otros"],
+        listas: listas.includes("todas") ? listas : [...listas, "todas"]
+      });
+      return;
+    }
+
+    const existente = unicas.get(clave);
+    existente.categorias = [...new Set([...existente.categorias, ...categorias])];
+    existente.listas = [...new Set([...existente.listas, ...listas, "todas"])];
+    existente.tranquila = Boolean(existente.tranquila || cancion.tranquila);
+  });
+
+  return [...unicas.values()];
 }
 
 function escapar(valor = "") {
@@ -116,6 +172,399 @@ function nombreModo(id) {
 
 function obtenerCancion(id) {
   return estado.todas.find((cancion) => cancion.id === id) || null;
+}
+
+
+async function cargarLetras() {
+  try {
+    const respuesta = await fetch("data/letras.json?v=1", { cache: "no-store" });
+    if (!respuesta.ok) throw new Error("No se pudieron cargar las letras.");
+    estado.letras = await respuesta.json();
+
+    Object.keys(estado.letras).forEach((id) => {
+      const guardada = localStorage.getItem(`egmLetraEscenario:${id}`);
+      if (guardada) estado.letras[id].escenarioHtml = guardada;
+    });
+
+    const letrasLocales = JSON.parse(localStorage.getItem("egmLetrasLocales") || "{}");
+    estado.letras = { ...estado.letras, ...letrasLocales };
+  } catch (error) {
+    console.warn(error);
+    estado.letras = {};
+  }
+}
+
+function tieneLetra(idCancion) {
+  return Boolean(estado.letras[idCancion]);
+}
+
+function ocultarMenusLetra() {
+  [DOM.letraColorMenu, DOM.letraTamanoMenu, DOM.letraIconosMenu].forEach((menu) => {
+    if (!menu) return;
+    menu.hidden = true;
+    menu.classList.remove("is-open");
+  });
+  [DOM.letraColorBoton, DOM.letraTamanoBoton, DOM.letraIconosBoton].forEach((boton) => {
+    boton?.setAttribute("aria-expanded", "false");
+  });
+}
+
+function posicionarMenuLetra(menu, boton) {
+  if (!menu || !boton) return;
+
+  // En teléfono se conserva el menú tipo bandeja inferior.
+  if (window.matchMedia("(max-width: 720px)").matches) {
+    menu.style.removeProperty("top");
+    menu.style.removeProperty("left");
+    menu.style.removeProperty("right");
+    menu.style.removeProperty("bottom");
+    return;
+  }
+
+  // En escritorio usamos posición fija para que el menú no quede recortado
+  // por el contenedor del cancionero cuando la ventana está maximizada.
+  const rect = boton.getBoundingClientRect();
+  const margen = 12;
+  const anchoEstimado = menu.classList.contains("letra-toolbar__menu--iconos") ? 300 : 200;
+  const izquierda = Math.min(
+    Math.max(margen, rect.left),
+    Math.max(margen, window.innerWidth - anchoEstimado - margen)
+  );
+
+  menu.style.position = "fixed";
+  menu.style.left = `${izquierda}px`;
+  menu.style.right = "auto";
+  menu.style.bottom = "auto";
+  menu.style.top = `${Math.min(rect.bottom + 8, window.innerHeight - 260)}px`;
+}
+
+function alternarMenuLetra(menu, boton) {
+  if (!menu || !boton) return;
+  const abrir = !menu.classList.contains("is-open");
+  ocultarMenusLetra();
+  if (abrir) {
+    menu.hidden = false;
+    menu.classList.add("is-open");
+    posicionarMenuLetra(menu, boton);
+  }
+  boton.setAttribute("aria-expanded", String(abrir));
+}
+
+function confirmarAplicacion({ titulo, mensaje, confirmar = "Aceptar", cancelar = "Cancelar", peligro = false }) {
+  return new Promise((resolve) => {
+    if (!DOM.confirmacionModal) {
+      resolve(window.confirm(mensaje));
+      return;
+    }
+    DOM.confirmacionTitulo.textContent = titulo;
+    DOM.confirmacionMensaje.textContent = mensaje;
+    DOM.confirmacionAceptar.textContent = confirmar;
+    DOM.confirmacionCancelar.textContent = cancelar;
+    DOM.confirmacionAceptar.classList.toggle("confirmacion__aceptar--peligro", peligro);
+    DOM.confirmacionModal.hidden = false;
+    DOM.confirmacionAceptar.focus();
+    estado.confirmarResolver = resolve;
+  });
+}
+
+function resolverConfirmacion(valor) {
+  if (!DOM.confirmacionModal || DOM.confirmacionModal.hidden) return;
+  DOM.confirmacionModal.hidden = true;
+  const resolver = estado.confirmarResolver;
+  estado.confirmarResolver = null;
+  resolver?.(valor);
+}
+
+async function cerrarLetra() {
+  if (!DOM.letraModal) return;
+  if (estado.letraModoPanel) {
+    const aceptar = await confirmarAplicacion({
+      titulo: "Cerrar cancionero",
+      mensaje: "¿Seguro que deseas cerrar la letra?",
+      confirmar: "Cerrar",
+      cancelar: "Volver"
+    });
+    if (!aceptar) return;
+  }
+
+  DOM.letraModal.hidden = true;
+  DOM.letraContenido.contentEditable = "false";
+  DOM.letraToolbar.hidden = true;
+  ocultarMenusLetra();
+  DOM.letraEditar.hidden = !estado.letraModoPanel;
+  document.body.classList.remove("modal-abierto");
+
+  if (estado.letraModoPanel && DOM.adminModal && !DOM.adminModal.hidden) {
+    DOM.adminModal.focus?.();
+  }
+}
+
+function abrirLetra(cancion, modoPanel = false) {
+  const documento = estado.letras[cancion.id];
+  if (!documento || !DOM.letraModal) return;
+
+  estado.letraActualId = cancion.id;
+  estado.letraModoPanel = modoPanel;
+  estado.letraOriginalEdicion = "";
+
+  DOM.letraTitulo.textContent = documento.titulo || cancion.titulo;
+  DOM.letraArtista.textContent = documento.artista || cancion.artista;
+  DOM.letraContenido.innerHTML = modoPanel
+    ? documento.escenarioHtml
+    : documento.publicaHtml;
+
+  DOM.letraContenido.contentEditable = "false";
+  DOM.letraToolbar.hidden = true;
+  ocultarMenusLetra();
+  DOM.letraEditar.hidden = !modoPanel;
+  DOM.letraModal.hidden = false;
+  document.body.classList.add("modal-abierto");
+  DOM.letraContenido.scrollTop = 0;
+}
+
+function activarEdicionLetra() {
+  if (!estado.letraModoPanel || !DOM.letraContenido) return;
+  estado.letraOriginalEdicion = DOM.letraContenido.innerHTML;
+  DOM.letraContenido.contentEditable = "true";
+  DOM.letraToolbar.hidden = false;
+  DOM.letraEditar.hidden = true;
+  DOM.letraContenido.focus();
+}
+
+async function guardarLetraEscenario() {
+  const id = estado.letraActualId;
+  if (!id || !estado.letras[id]) return;
+  const aceptar = await confirmarAplicacion({
+    titulo: "Guardar cambios",
+    mensaje: "¿Seguro que deseas guardar los cambios?",
+    confirmar: "Guardar",
+    cancelar: "Seguir editando"
+  });
+  if (!aceptar) return;
+
+  const contenido = DOM.letraContenido.innerHTML;
+  estado.letras[id].escenarioHtml = contenido;
+  localStorage.setItem(`egmLetraEscenario:${id}`, contenido);
+  guardarLetrasLocales();
+  estado.letraOriginalEdicion = "";
+  DOM.letraContenido.contentEditable = "false";
+  DOM.letraToolbar.hidden = true;
+  ocultarMenusLetra();
+  DOM.letraEditar.hidden = false;
+  mostrarAviso("Cambios guardados exitosamente.");
+}
+
+function guardarLetrasLocales() {
+  const locales = {};
+  Object.entries(estado.letras).forEach(([id, doc]) => {
+    if (doc.local) locales[id] = doc;
+  });
+  localStorage.setItem("egmLetrasLocales", JSON.stringify(locales));
+}
+
+function mostrarAviso(texto) {
+  if (!DOM.avisoApp) return;
+  DOM.avisoApp.textContent = texto;
+  DOM.avisoApp.hidden = false;
+  clearTimeout(DOM.avisoApp._timer);
+  DOM.avisoApp._timer = setTimeout(() => { DOM.avisoApp.hidden = true; }, 2400);
+}
+
+async function cancelarEdicionLetra() {
+  const id = estado.letraActualId;
+  if (!id || !estado.letras[id]) return;
+  const aceptar = await confirmarAplicacion({
+    titulo: "Descartar cambios",
+    mensaje: "¿Seguro que deseas descartar los cambios?",
+    confirmar: "Descartar",
+    cancelar: "Seguir editando",
+    peligro: true
+  });
+  if (!aceptar) return;
+
+  DOM.letraContenido.innerHTML = estado.letraOriginalEdicion || estado.letras[id].escenarioHtml;
+  estado.letraOriginalEdicion = "";
+  DOM.letraContenido.contentEditable = "false";
+  DOM.letraToolbar.hidden = true;
+  ocultarMenusLetra();
+  DOM.letraEditar.hidden = false;
+}
+
+function ejecutarFormatoLetra(comando, valor = null) {
+  DOM.letraContenido.focus();
+  document.execCommand(comando, false, valor);
+}
+
+function insertarIconoLetra(icono) {
+  ejecutarFormatoLetra("insertText", `${icono} `);
+  ocultarMenusLetra();
+}
+
+function abrirMenuAgregarLetra() {
+  if (!DOM.adminAgregarMenu) return;
+  DOM.adminAgregarMenu.hidden = !DOM.adminAgregarMenu.hidden;
+  if (DOM.adminAgregarLetra) DOM.adminAgregarLetra.setAttribute("aria-expanded", String(!DOM.adminAgregarMenu.hidden));
+}
+
+function poblarSelectorCancionesLetra() {
+  if (!DOM.agregarLetraCancion) return;
+  const canciones = [...estado.todas].sort((a, b) =>
+    a.titulo.localeCompare(b.titulo, "es", { sensitivity: "base" })
+  );
+  DOM.agregarLetraCancion.innerHTML = '<option value="">Selecciona una canción…</option>' +
+    canciones.map((cancion) => `<option value="${escapar(cancion.id)}">${escapar(cancion.titulo)} · ${escapar(cancion.artista)}</option>`).join("");
+}
+
+function seleccionarModoNuevaCancion(esNueva) {
+  if (DOM.agregarLetraExistenteCampos) DOM.agregarLetraExistenteCampos.hidden = esNueva;
+  if (DOM.agregarLetraNuevaCampos) DOM.agregarLetraNuevaCampos.hidden = !esNueva;
+  if (DOM.agregarLetraModoExistente) DOM.agregarLetraModoExistente.classList.toggle("is-active", !esNueva);
+  if (DOM.agregarLetraNuevaCancion) DOM.agregarLetraNuevaCancion.classList.toggle("is-active", esNueva);
+  if (DOM.agregarLetraCancion) DOM.agregarLetraCancion.value = esNueva ? "__nueva__" : "";
+  if (DOM.agregarLetraError) DOM.agregarLetraError.hidden = true;
+  if (esNueva) setTimeout(() => DOM.agregarLetraNuevoTitulo?.focus(), 0);
+}
+
+function abrirAgregarLetra(tipo) {
+  estado.agregarLetraTipo = tipo;
+  DOM.adminAgregarMenu.hidden = true;
+  if (DOM.adminAgregarLetra) DOM.adminAgregarLetra.setAttribute("aria-expanded", "false");
+  poblarSelectorCancionesLetra();
+  DOM.agregarLetraTitulo.textContent = tipo === "publica" ? "Crear letra para clientes" : "Crear letra para administradora";
+  DOM.agregarLetraCancion.value = "";
+  DOM.agregarLetraTexto.value = "";
+  DOM.agregarLetraModal.hidden = false;
+}
+
+function cerrarAgregarLetra() {
+  DOM.agregarLetraModal.hidden = true;
+}
+
+function textoAHtmlLetra(texto) {
+  return texto.split(/\r?\n/).map((linea) => linea.trim() ? `<p>${escapar(linea)}</p>` : '<p><br></p>').join("");
+}
+
+function crearIdCancion(titulo) {
+  const base = normalizar(titulo).replace(/\s+/g, "-") || `cancion-${Date.now()}`;
+  let id = `local-${base}`;
+  let n = 2;
+  while (estado.todas.some((c) => c.id === id)) id = `local-${base}-${n++}`;
+  return id;
+}
+
+function guardarCancionesLocales() {
+  const locales = estado.todas.filter((c) => String(c.id).startsWith("local-"));
+  localStorage.setItem("egmCancionesLocales", JSON.stringify(locales));
+}
+
+async function guardarNuevaLetra() {
+  const valor = DOM.agregarLetraCancion.value;
+  const texto = DOM.agregarLetraTexto.value.trim();
+  if (!valor || !texto) {
+    DOM.agregarLetraError.textContent = "Selecciona una canción y pega la letra.";
+    DOM.agregarLetraError.hidden = false;
+    return;
+  }
+
+  const cancion = obtenerCancion(valor);
+  if (!cancion) return;
+
+  const html = textoAHtmlLetra(texto);
+  const existente = estado.letras[cancion.id] || {
+    titulo: cancion.titulo, artista: cancion.artista, publicaHtml: html, escenarioHtml: html, local: true
+  };
+  existente.local = true;
+  existente.titulo = cancion.titulo;
+  existente.artista = cancion.artista;
+  if (estado.agregarLetraTipo === "publica") {
+    existente.publicaHtml = html;
+    if (!existente.escenarioHtml) existente.escenarioHtml = html;
+  } else {
+    existente.escenarioHtml = html;
+    if (!existente.publicaHtml) existente.publicaHtml = html;
+  }
+  estado.letras[cancion.id] = existente;
+  guardarLetrasLocales();
+  cerrarAgregarLetra();
+  renderizarListaMaestra();
+  renderizar();
+  mostrarAviso("Letra guardada exitosamente.");
+}
+
+function poblarListasNuevaCancion() {
+  if (!DOM.nuevaCancionListas) return;
+  DOM.nuevaCancionListas.innerHTML = MODOS.filter((m) => m.id !== "todas").map((modo) => `
+    <label class="nueva-cancion-lista">
+      <input type="checkbox" value="${escapar(modo.id)}">
+      <span>${escapar(modo.nombre)}</span>
+    </label>`).join("") + `
+    <label class="nueva-cancion-lista nueva-cancion-lista--fija">
+      <input type="checkbox" value="todas" checked disabled>
+      <span>Todas las canciones</span>
+    </label>`;
+}
+
+function abrirNuevaCancion() {
+  poblarListasNuevaCancion();
+  DOM.nuevaCancionNombre.value = "";
+  DOM.nuevaCancionArtista.value = "";
+  DOM.nuevaCancionIdioma.value = "Inglés";
+  DOM.nuevaCancionGenero.value = "";
+  DOM.nuevaCancionLetraPublica.value = "";
+  DOM.nuevaCancionLetraElena.value = "";
+  DOM.nuevaCancionError.hidden = true;
+  DOM.nuevaCancionModal.hidden = false;
+  setTimeout(() => DOM.nuevaCancionNombre.focus(), 0);
+}
+
+function cerrarNuevaCancion() {
+  DOM.nuevaCancionModal.hidden = true;
+}
+
+async function guardarCancionDesdePanel() {
+  const titulo = DOM.nuevaCancionNombre.value.trim();
+  const artista = DOM.nuevaCancionArtista.value.trim();
+  if (!titulo) {
+    DOM.nuevaCancionError.textContent = "Escribe el título de la canción.";
+    DOM.nuevaCancionError.hidden = false;
+    return;
+  }
+  if (estado.todas.some((c) => normalizar(c.titulo) === normalizar(titulo) && normalizar(c.artista) === normalizar(artista))) {
+    DOM.nuevaCancionError.textContent = "Esta canción ya existe en la lista general.";
+    DOM.nuevaCancionError.hidden = false;
+    return;
+  }
+  const seleccionadas = [...DOM.nuevaCancionListas.querySelectorAll('input:checked:not(:disabled)')].map((i) => i.value);
+  const listas = [...new Set([...seleccionadas, "todas"])];
+  const categorias = DOM.nuevaCancionGenero.value.split(",").map((g) => g.trim()).filter(Boolean);
+  const cancion = {
+    id: crearIdCancion(titulo),
+    titulo,
+    artista,
+    idioma: DOM.nuevaCancionIdioma.value,
+    categorias: categorias.length ? categorias : ["Otros"],
+    tranquila: false,
+    listas
+  };
+  estado.todas.push(cancion);
+  estado.todas.sort((a,b) => a.titulo.localeCompare(b.titulo, "es", { sensitivity: "base" }));
+  guardarCancionesLocales();
+
+  const publica = DOM.nuevaCancionLetraPublica.value.trim();
+  const privada = DOM.nuevaCancionLetraElena.value.trim();
+  if (publica || privada) {
+    const publicaHtml = textoAHtmlLetra(publica || privada);
+    const escenarioHtml = textoAHtmlLetra(privada || publica);
+    estado.letras[cancion.id] = { titulo, artista, publicaHtml, escenarioHtml, local: true };
+    guardarLetrasLocales();
+  }
+
+  aplicarModo();
+  renderizarListaMaestra();
+  renderizar();
+  mostrarSelectorAdmin();
+  cerrarNuevaCancion();
+  mostrarAviso("Canción agregada exitosamente.");
 }
 
 function capturarDOM() {
@@ -149,6 +598,7 @@ function capturarDOM() {
     adminIngresar: $("#adminIngresar"),
     adminOpciones: $("#adminOpciones"),
     adminGuardar: $("#adminGuardar"),
+    adminNuevaCancion: $("#adminNuevaCancion"),
     adminEstado: $("#adminEstado"),
     adminPedidosWhatsapp: $("#adminPedidosWhatsapp"),
     adminMostrarCola: $("#adminMostrarCola"),
@@ -173,6 +623,56 @@ function capturarDOM() {
     adminMenuBoton: $("#adminMenuBoton"),
     adminMenuLateral: $("#adminMenuLateral"),
     adminCerrarSesion: $("#adminCerrarSesion"),
+    letraModal: $("#letraModal"),
+    letraTitulo: $("#letraTitulo"),
+    letraArtista: $("#letraArtista"),
+    letraContenido: $("#letraContenido"),
+    letraEditar: $("#letraEditar"),
+    letraToolbar: $("#letraToolbar"),
+    letraGuardar: $("#letraGuardar"),
+    letraCancelar: $("#letraCancelar"),
+    letraColorBoton: $("#letraColorBoton"),
+    letraColorMuestra: $("#letraColorMuestra"),
+    letraColorMenu: $("#letraColorMenu"),
+    letraTamanoBoton: $("#letraTamanoBoton"),
+    letraTamanoMenu: $("#letraTamanoMenu"),
+    letraIconosBoton: $("#letraIconosBoton"),
+    letraIconosMenu: $("#letraIconosMenu"),
+    letraDeshacer: $("#letraDeshacer"),
+    letraRehacer: $("#letraRehacer"),
+    adminAgregarLetra: $("#adminAgregarLetra"),
+    adminAgregarMenu: $("#adminAgregarMenu"),
+    agregarLetraModal: $("#agregarLetraModal"),
+    agregarLetraTitulo: $("#agregarLetraTitulo"),
+    agregarLetraCancion: $("#agregarLetraCancion"),
+    agregarLetraExistenteCampos: $("#agregarLetraExistenteCampos"),
+    agregarLetraModoExistente: $("#agregarLetraModoExistente"),
+    agregarLetraNuevaCancion: $("#agregarLetraNuevaCancion"),
+    agregarLetraNuevaCampos: $("#agregarLetraNuevaCampos"),
+    agregarLetraNuevoTitulo: $("#agregarLetraNuevoTitulo"),
+    agregarLetraNuevoArtista: $("#agregarLetraNuevoArtista"),
+    agregarLetraNuevoGenero: $("#agregarLetraNuevoGenero"),
+    agregarLetraTexto: $("#agregarLetraTexto"),
+    agregarLetraGuardar: $("#agregarLetraGuardar"),
+    agregarLetraCancelar: $("#agregarLetraCancelar"),
+    agregarLetraError: $("#agregarLetraError"),
+    nuevaCancionModal: $("#nuevaCancionModal"),
+    nuevaCancionNombre: $("#nuevaCancionNombre"),
+    nuevaCancionArtista: $("#nuevaCancionArtista"),
+    nuevaCancionIdioma: $("#nuevaCancionIdioma"),
+    nuevaCancionGenero: $("#nuevaCancionGenero"),
+    nuevaCancionListas: $("#nuevaCancionListas"),
+    nuevaCancionLetraPublica: $("#nuevaCancionLetraPublica"),
+    nuevaCancionLetraElena: $("#nuevaCancionLetraElena"),
+    nuevaCancionGuardar: $("#nuevaCancionGuardar"),
+    nuevaCancionCancelar: $("#nuevaCancionCancelar"),
+    nuevaCancionError: $("#nuevaCancionError"),
+    confirmacionModal: $("#confirmacionModal"),
+    confirmacionTitulo: $("#confirmacionTitulo"),
+    confirmacionMensaje: $("#confirmacionMensaje"),
+    confirmacionAceptar: $("#confirmacionAceptar"),
+    confirmacionCancelar: $("#confirmacionCancelar"),
+    avisoApp: $("#avisoApp"),
     firebaseEstado: $("#firebaseEstado"),
     estadoShowPublico: $("#estadoShowPublico"),
     colaPublica: $("#colaPublica"),
@@ -181,9 +681,7 @@ function capturarDOM() {
     tocadasPublicasVacia: $("#tocadasPublicasVacia"),
     pedidoModal: $("#pedidoModal"),
     pedidoCancion: $("#pedidoCancion"),
-    pedidoNombre: $("#pedidoNombre"),
     pedidoTelefono: $("#pedidoTelefono"),
-    pedidoConsentimiento: $("#pedidoConsentimiento"),
     pedidoError: $("#pedidoError"),
     pedidoEnviar: $("#pedidoEnviar"),
     adminCantidadContactos: $("#adminCantidadContactos"),
@@ -214,7 +712,13 @@ async function cargarDatos() {
     throw new Error("No se pudieron cargar las canciones.");
   }
 
-  estado.todas = await respuestaCanciones.json();
+  estado.todas = depurarCanciones(await respuestaCanciones.json());
+  const cancionesLocales = JSON.parse(localStorage.getItem("egmCancionesLocales") || "[]");
+  cancionesLocales.forEach((local) => {
+    estado.todas.push(local);
+  });
+  estado.todas = depurarCanciones(estado.todas);
+  estado.todas.sort((a,b) => a.titulo.localeCompare(b.titulo, "es", { sensitivity: "base" }));
 
   const configuracion = respuestaConfig.ok
     ? await respuestaConfig.json()
@@ -396,25 +900,18 @@ function obtenerVisibles() {
     return [];
   }
 
-  const terminos = normalizar(estado.consulta).split(" ").filter(Boolean);
+  const consulta = normalizar(estado.consulta).trim();
 
   return estado.base.filter((cancion) => {
     const coincideCategoria =
       !estado.categoria || cancion.categorias.includes(estado.categoria);
 
-    const texto = normalizar(
-      [
-        cancion.titulo,
-        cancion.artista,
-        cancion.categorias.join(" "),
-        cancion.idioma
-      ].join(" ")
-    );
+    // Búsqueda pública precisa: solo muestra títulos que comienzan
+    // con las letras escritas, ignorando mayúsculas y tildes.
+    const coincideInicioTitulo =
+      !consulta || normalizar(cancion.titulo).startsWith(consulta);
 
-    return (
-      coincideCategoria &&
-      terminos.every((termino) => texto.includes(termino))
-    );
+    return coincideCategoria && coincideInicioTitulo;
   });
 }
 
@@ -475,7 +972,7 @@ function crearTarjeta(cancion, indice) {
 
   articulo.innerHTML = `
     ${etiquetaEstado}
-    <div class="numero" aria-hidden="true">${indice + 1}</div>
+    <div class="numero" aria-hidden="true">${numeroCancionEnLista(cancion.id) || indice + 1}</div>
     <div class="info">
       <h3 class="titulo">${escapar(cancion.titulo)}</h3>
       <p class="artista">${escapar(cancion.artista)}</p>
@@ -484,9 +981,23 @@ function crearTarjeta(cancion, indice) {
           .map((categoria) => `<span class="tag">${escapar(categoria)}</span>`)
           .join("")}
       </div>
-      ${botonPedido}
+      <button class="cancion__cerrar" type="button" aria-label="Cerrar">×</button>
+      <div class="cancion__grita" aria-hidden="true">
+        <span>¡Grita el número o el nombre!</span>
+      </div>
+      <div class="cancion__acciones">
+        ${botonPedido}
+        ${tieneLetra(cancion.id) ? '<button class="cancion__letra" type="button">Letra</button>' : ""}
+      </div>
     </div>
   `;
+
+  articulo
+    .querySelector(".cancion__letra")
+    ?.addEventListener("click", (evento) => {
+      evento.stopPropagation();
+      abrirLetra(cancion, false);
+    });
 
   articulo
     .querySelector(".cancion__pedir:not([disabled])")
@@ -494,6 +1005,27 @@ function crearTarjeta(cancion, indice) {
       evento.stopPropagation();
       abrirPedido(cancion);
     });
+
+  if (!estado.vistaClientes && !estado.configRemota.pedidos_whatsapp && situacion === "disponible") {
+    const mostrarIndicacion = () => {
+      document.querySelectorAll(".cancion.is-grita-activa").forEach((otra) => {
+        if (otra !== articulo) otra.classList.remove("is-grita-activa");
+      });
+      articulo.classList.remove("is-grita-activa");
+      void articulo.offsetWidth;
+      articulo.classList.add("is-grita-activa");
+      // Permanece activa hasta que el cliente seleccione otra canción.
+    };
+    articulo.querySelector(".cancion__cerrar")?.addEventListener("click",(e)=>{e.stopPropagation();articulo.classList.remove("is-grita-activa");});
+
+articulo.addEventListener("click", mostrarIndicacion);
+    articulo.addEventListener("keydown", (evento) => {
+      if (evento.key === "Enter" || evento.key === " ") {
+        evento.preventDefault();
+        mostrarIndicacion();
+      }
+    });
+  }
 
   return articulo;
 }
@@ -589,12 +1121,23 @@ function renderizarColaFijaAdmin() {
         <li>
           <span class="admin-cola-fija__numero">${numero || "—"}</span>
           <span class="admin-cola-fija__cancion">${escapar(cancion.titulo)}</span>
+
           <button
             class="admin-cola-fija__tocada"
             type="button"
             data-cola-fija-tocada="${cancion.id}"
           >
             Tocada
+          </button>
+
+          <button
+            class="admin-cola-fija__quitar"
+            type="button"
+            data-cola-fija-quitar="${cancion.id}"
+            aria-label="Quitar ${escapar(cancion.titulo)} de la cola"
+            title="Quitar de la cola"
+          >
+            ×
           </button>
         </li>
       `;
@@ -610,6 +1153,46 @@ function renderizarColaFijaAdmin() {
         renderizarListaMaestra();
       });
     });
+
+  DOM.adminColaFija
+    .querySelectorAll("[data-cola-fija-quitar]")
+    .forEach((boton) => {
+      boton.addEventListener("click", async () => {
+        await quitarDeCola(boton.dataset.colaFijaQuitar);
+        renderizarColaFijaAdmin();
+        renderizarListaMaestra();
+      });
+    });
+}
+
+function actualizarPosicionMenuPublico() {
+  if (!DOM.volver) return;
+
+  const colaVisible =
+    DOM.estadoShowPublico &&
+    !DOM.estadoShowPublico.hidden &&
+    DOM.estadoShowPublico.classList.contains(
+      "cola-publica-compacta--con-canciones"
+    );
+
+  if (!colaVisible) {
+    DOM.volver.style.removeProperty("--menu-publico-bottom");
+    return;
+  }
+
+  const rectCola = DOM.estadoShowPublico.getBoundingClientRect();
+  // El borde inferior del botón queda exactamente unido al borde superior
+  // del panel que contiene el título “Canciones a la cola”. La variable CSS
+  // evita que las reglas responsive con !important anulen esta posición.
+  const distancia = Math.max(
+    0,
+    window.innerHeight - rectCola.top
+  );
+
+  DOM.volver.style.setProperty(
+    "--menu-publico-bottom",
+    `${Math.round(distancia)}px`
+  );
 }
 
 function renderizarEstadoPublico() {
@@ -618,6 +1201,7 @@ function renderizarEstadoPublico() {
   if (!estado.configRemota.mostrar_cola) {
     DOM.estadoShowPublico.hidden = true;
     document.body.classList.remove("cola-publica-visible");
+    actualizarPosicionMenuPublico();
     return;
   }
 
@@ -653,6 +1237,8 @@ function renderizarEstadoPublico() {
     "cola-publica-visible",
     hayCancionesEnCola
   );
+
+  requestAnimationFrame(actualizarPosicionMenuPublico);
 }
 
 function mostrarApp() {
@@ -675,7 +1261,7 @@ function fijarMenu() {
   Object.assign(DOM.volver.style, {
     position: "fixed",
     right: "16px",
-    bottom: "16px",
+    bottom: "max(16px, env(safe-area-inset-bottom))",
     zIndex: "99999",
     display: "inline-flex",
     visibility: "visible",
@@ -714,26 +1300,9 @@ function programarContinuacion() {
 }
 
 function abrirInstagram() {
-  if (esMovil()) {
-    window.location.href = CONFIG.instagramApp;
-    return;
-  }
-
-  const nuevaPestana = window.open(
-    CONFIG.instagramWeb,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-  if (!nuevaPestana) {
-    const enlace = document.createElement("a");
-    enlace.href = CONFIG.instagramWeb;
-    enlace.target = "_blank";
-    enlace.rel = "noopener noreferrer";
-    document.body.appendChild(enlace);
-    enlace.click();
-    enlace.remove();
-  }
+  // Abrir Instagram de forma confiable sin sacar la página pública de su sitio.
+  // Esto permite volver y encontrar el repertorio ya desbloqueado.
+  window.open(CONFIG.instagramWeb, "_blank", "noopener,noreferrer");
 }
 
 function abrirAplicacionConRespaldo(urlApp, urlWeb) {
@@ -748,13 +1317,17 @@ function abrirAplicacionConRespaldo(urlApp, urlWeb) {
 }
 
 function abrirAdmin() {
-  DOM.adminModal.hidden = false;
-  document.body.classList.add("admin-abierto");
-  DOM.adminAcceso.hidden = false;
-  DOM.adminSelector.hidden = true;
-  DOM.adminClave.value = "";
-  DOM.adminError.hidden = true;
-  window.setTimeout(() => DOM.adminClave.focus(), 100);
+  cancelarPulsacionAdmin();
+
+  const clave = window.prompt("Contraseña del panel");
+  if (clave === null) return;
+
+  if (clave.trim() !== CONFIG.claveAdmin) {
+    window.alert("Contraseña incorrecta.");
+    return;
+  }
+
+  window.location.href = "panel.html";
 }
 
 function cerrarAdmin() {
@@ -876,6 +1449,62 @@ function slugAnotacion(titulo = "") {
     .replace(/^-+|-+$/g, "");
 }
 
+async function cargarIndiceAnotaciones() {
+  if (estado.indiceAnotacionesCargado) {
+    return estado.indiceAnotaciones;
+  }
+
+  try {
+    const respuesta = await fetch(CONFIG.rutaIndiceAnotaciones, {
+      cache: "no-store"
+    });
+
+    if (!respuesta.ok) {
+      throw new Error("No se pudo cargar el índice de anotaciones.");
+    }
+
+    estado.indiceAnotaciones = await respuesta.json();
+  } catch (error) {
+    console.error("Error al cargar anotaciones:", error);
+    estado.indiceAnotaciones = {};
+  }
+
+  estado.indiceAnotacionesCargado = true;
+  return estado.indiceAnotaciones;
+}
+
+function variantesIndiceAnotacion(titulo = "") {
+  const completo = slugAnotacion(titulo);
+  const sinArticulo = completo.replace(
+    /^(el|la|los|las|un|una|the)-/,
+    ""
+  );
+
+  const especiales = {
+    "somebodys-watching-me": ["somebody-s-watching-me"],
+    "me-and-mr-jones": ["me-mr-jones"],
+    "tears-dry-on-their-own": ["tears-dry-original"],
+    "these-boots-are-made-for-walkin-sinatra": [
+      "these-boots-are-made-for-walkin",
+      "these-boots-are-made-for-walking"
+    ],
+    "ill-take-care-of-you": ["take-care-of-you"],
+    "its-a-pitty": ["its-a-pity"],
+    "la-muralla-verde": ["la-muralla", "muralla-verde"],
+    "una-luna-de-miel-en-la-mano": ["luna-de-miel"],
+    "fuck-me-pumps": ["fuck-me"],
+    "you-sent-me-flying": ["sent-me"]
+  };
+
+  return [
+    completo,
+    sinArticulo !== completo ? sinArticulo : null,
+    ...(especiales[completo] || [])
+  ].filter((valor, indice, lista) =>
+    valor && lista.indexOf(valor) === indice
+  );
+}
+
 async function detectarAnotacion(cancion) {
   if (!cancion) return null;
 
@@ -883,23 +1512,15 @@ async function detectarAnotacion(cancion) {
     return estado.anotacionesCache.get(cancion.id);
   }
 
-  const slug = slugAnotacion(cancion.titulo);
+  const indice = await cargarIndiceAnotaciones();
 
-  for (const extension of CONFIG.extensionesAnotaciones) {
-    const ruta = `${CONFIG.rutaAnotaciones}/${slug}.${extension}`;
+  for (const variante of variantesIndiceAnotacion(cancion.titulo)) {
+    const archivos = indice[variante];
 
-    try {
-      const respuesta = await fetch(ruta, {
-        method: "HEAD",
-        cache: "no-store"
-      });
-
-      if (respuesta.ok) {
-        estado.anotacionesCache.set(cancion.id, ruta);
-        return ruta;
-      }
-    } catch (error) {
-      // Probamos la siguiente extensión.
+    if (Array.isArray(archivos) && archivos.length) {
+      const ruta = `${CONFIG.rutaAnotaciones}/${archivos[0]}`;
+      estado.anotacionesCache.set(cancion.id, ruta);
+      return ruta;
     }
   }
 
@@ -1100,6 +1721,16 @@ async function crearFilaMaestra(cancion, indice) {
       ${situacion === "cola" ? "En cola" : "A la cola"}
     </button>
   `;
+
+  if (tieneLetra(cancion.id)) {
+    const botonLetra = document.createElement("button");
+    botonLetra.className =
+      "admin-lista-cancion__boton admin-lista-cancion__boton--letra";
+    botonLetra.type = "button";
+    botonLetra.textContent = "Letra";
+    botonLetra.addEventListener("click", () => abrirLetra(cancion, true));
+    fila.appendChild(botonLetra);
+  }
 
   const anotacion = await detectarAnotacion(cancion);
 
@@ -1388,9 +2019,7 @@ async function reiniciarShow() {
 function abrirPedido(cancion) {
   estado.pedidoSeleccionado = cancion;
   DOM.pedidoCancion.textContent = `${cancion.titulo} — ${cancion.artista}`;
-  DOM.pedidoNombre.value = "";
   DOM.pedidoTelefono.value = "";
-  DOM.pedidoConsentimiento.checked = false;
   DOM.pedidoError.hidden = true;
   DOM.pedidoModal.hidden = false;
 }
@@ -1405,13 +2034,10 @@ async function enviarPedidoWhatsApp() {
 
   if (!cancion) return;
 
-  const nombre = DOM.pedidoNombre.value.trim() || "Sin nombre";
+  const nombre = "Sin nombre";
   const telefono = normalizarTelefono(DOM.pedidoTelefono.value);
 
-  if (
-    !telefonoValido(telefono) ||
-    !DOM.pedidoConsentimiento.checked
-  ) {
+  if (!telefonoValido(telefono)) {
     DOM.pedidoError.hidden = false;
     return;
   }
@@ -1429,8 +2055,8 @@ async function enviarPedidoWhatsApp() {
       `Hola Elena Girjoaba Music 👋\n\nSoy ${nombre}. Quisiera pedir esta canción:\n${cancion.titulo} — ${cancion.artista}\n\n¡Gracias!`
     );
 
-    const app = `whatsapp://send?phone=${CONFIG.telefonoWhatsApp}&text=${mensaje}`;
-    const web = `https://wa.me/${CONFIG.telefonoWhatsApp}?text=${mensaje}`;
+    const app = `whatsapp://send?phone=${telefonoWhatsAppActual()}&text=${mensaje}`;
+    const web = `https://wa.me/${telefonoWhatsAppActual()}?text=${mensaje}`;
 
     cerrarPedido();
     abrirAplicacionConRespaldo(app, web);
@@ -1470,7 +2096,7 @@ function idShowActual() {
 }
 
 async function guardarContactoYPedido(cancion) {
-  const nombre = DOM.pedidoNombre.value.trim() || "Sin nombre";
+  const nombre = "Sin nombre";
   const telefono = normalizarTelefono(DOM.pedidoTelefono.value);
   const ahora = Date.now();
   const showId = idShowActual();
@@ -1796,7 +2422,7 @@ function registrarEventos() {
   DOM.seguirInstagram.addEventListener("click", (evento) => {
     evento.preventDefault();
     guardarVisitaInstagram();
-    programarContinuacion();
+    mostrarContinuacion();
     abrirInstagram();
   });
 
@@ -1837,12 +2463,8 @@ function registrarEventos() {
   DOM.buscar.addEventListener("input", (evento) => {
     estado.consulta = evento.target.value;
     estado.mostrar = false;
-    estado.categoria = null;
 
-    DOM.categorias.forEach((boton) =>
-      boton.classList.remove("is-active")
-    );
-
+    // Conserva el género activo para buscar dentro de él.
     actualizarControles();
     renderizar();
   });
@@ -1870,8 +2492,8 @@ function registrarEventos() {
       );
 
       abrirAplicacionConRespaldo(
-        `whatsapp://send?phone=${CONFIG.telefonoWhatsApp}&text=${mensaje}`,
-        `https://wa.me/${CONFIG.telefonoWhatsApp}?text=${mensaje}`
+        `whatsapp://send?phone=${telefonoWhatsAppActual()}&text=${mensaje}`,
+        `https://wa.me/${telefonoWhatsAppActual()}?text=${mensaje}`
       );
     });
   });
@@ -1891,27 +2513,58 @@ function registrarEventos() {
   ].filter(Boolean);
 
   accesosAdmin.forEach((acceso) => {
-    ["pointerdown", "touchstart"].forEach((evento) => {
-      acceso.addEventListener(evento, iniciarPulsacionAdmin, {
-        passive: true
-      });
-    });
+    let pulsacionActiva = false;
+    let idPuntero = null;
 
-    [
-      "pointerup",
-      "pointercancel",
-      "pointerleave",
-      "touchend",
-      "touchcancel"
-    ].forEach((evento) => {
-      acceso.addEventListener(evento, cancelarPulsacionAdmin, {
-        passive: true
-      });
-    });
+    const iniciarAccesoAdmin = (evento) => {
+      // En Android evita que la pulsación prolongada seleccione la palabra
+      // o abra el menú contextual antes de activar el acceso secreto.
+      if (evento.cancelable) evento.preventDefault();
+      evento.stopPropagation();
 
-    acceso.addEventListener("contextmenu", (evento) => {
-      evento.preventDefault();
-    });
+      pulsacionActiva = true;
+      idPuntero = evento.pointerId ?? null;
+
+      if (idPuntero !== null && acceso.setPointerCapture) {
+        try { acceso.setPointerCapture(idPuntero); } catch (_) {}
+      }
+
+      const seleccion = window.getSelection?.();
+      if (seleccion && seleccion.rangeCount) seleccion.removeAllRanges();
+
+      iniciarPulsacionAdmin();
+    };
+
+    const terminarAccesoAdmin = (evento) => {
+      if (!pulsacionActiva) return;
+      if (evento?.cancelable) evento.preventDefault();
+
+      pulsacionActiva = false;
+      cancelarPulsacionAdmin();
+
+      if (idPuntero !== null && acceso.releasePointerCapture) {
+        try { acceso.releasePointerCapture(idPuntero); } catch (_) {}
+      }
+      idPuntero = null;
+    };
+
+    if (window.PointerEvent) {
+      acceso.addEventListener("pointerdown", iniciarAccesoAdmin, { passive: false });
+      acceso.addEventListener("pointerup", terminarAccesoAdmin, { passive: false });
+      acceso.addEventListener("pointercancel", terminarAccesoAdmin, { passive: false });
+    } else {
+      acceso.addEventListener("touchstart", iniciarAccesoAdmin, { passive: false });
+      acceso.addEventListener("touchend", terminarAccesoAdmin, { passive: false });
+      acceso.addEventListener("touchcancel", terminarAccesoAdmin, { passive: false });
+      acceso.addEventListener("mousedown", iniciarAccesoAdmin);
+      acceso.addEventListener("mouseup", terminarAccesoAdmin);
+      acceso.addEventListener("mouseleave", terminarAccesoAdmin);
+    }
+
+    acceso.addEventListener("selectstart", (evento) => evento.preventDefault());
+    acceso.addEventListener("dragstart", (evento) => evento.preventDefault());
+    acceso.addEventListener("contextmenu", (evento) => evento.preventDefault());
+    acceso.addEventListener("click", (evento) => evento.preventDefault());
   });
 
   $$("[data-cerrar-admin]").forEach((elemento) =>
@@ -1919,7 +2572,7 @@ function registrarEventos() {
   );
 
   DOM.adminIngresar.addEventListener("click", () => {
-    if (DOM.adminClave.value === CONFIG.claveAdmin) {
+    if (DOM.adminClave.value === obtenerSeguridadLocal().password) {
       mostrarSelectorAdmin();
     } else {
       DOM.adminError.hidden = false;
@@ -1931,6 +2584,106 @@ function registrarEventos() {
   });
 
   DOM.adminGuardar.addEventListener("click", guardarConfiguracionAdmin);
+
+  document.querySelectorAll("[data-cerrar-letra]").forEach((elemento) => {
+    elemento.addEventListener("click", cerrarLetra);
+  });
+
+  if (DOM.letraEditar) {
+    const iniciar = (evento) => {
+      evento.preventDefault();
+      clearTimeout(estado.temporizadorEditarLetra);
+      estado.temporizadorEditarLetra = setTimeout(activarEdicionLetra, 2000);
+    };
+    const cancelar = () => clearTimeout(estado.temporizadorEditarLetra);
+
+    DOM.letraEditar.addEventListener("pointerdown", iniciar);
+    DOM.letraEditar.addEventListener("pointerup", cancelar);
+    DOM.letraEditar.addEventListener("pointerleave", cancelar);
+    DOM.letraEditar.addEventListener("pointercancel", cancelar);
+  }
+
+  document.querySelectorAll("[data-letra-comando]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      ejecutarFormatoLetra(boton.dataset.letraComando, boton.dataset.letraValor || null);
+    });
+  });
+
+  DOM.letraColorBoton?.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    evento.stopPropagation();
+    alternarMenuLetra(DOM.letraColorMenu, DOM.letraColorBoton);
+  });
+  DOM.letraTamanoBoton?.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    evento.stopPropagation();
+    alternarMenuLetra(DOM.letraTamanoMenu, DOM.letraTamanoBoton);
+  });
+  DOM.letraIconosBoton?.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    evento.stopPropagation();
+    alternarMenuLetra(DOM.letraIconosMenu, DOM.letraIconosBoton);
+  });
+
+  [DOM.letraColorMenu, DOM.letraTamanoMenu, DOM.letraIconosMenu].forEach((menu) => {
+    menu?.addEventListener("click", (evento) => evento.stopPropagation());
+  });
+  document.addEventListener("click", (evento) => {
+    if (!evento.target.closest(".letra-toolbar__desplegable")) ocultarMenusLetra();
+  });
+  window.addEventListener("resize", () => {
+    if (DOM.letraColorMenu?.classList.contains("is-open")) posicionarMenuLetra(DOM.letraColorMenu, DOM.letraColorBoton);
+    if (DOM.letraTamanoMenu?.classList.contains("is-open")) posicionarMenuLetra(DOM.letraTamanoMenu, DOM.letraTamanoBoton);
+    if (DOM.letraIconosMenu?.classList.contains("is-open")) posicionarMenuLetra(DOM.letraIconosMenu, DOM.letraIconosBoton);
+  });
+
+  document.querySelectorAll("[data-letra-color]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const color = boton.dataset.letraColor;
+      ejecutarFormatoLetra("foreColor", color);
+      DOM.letraColorMuestra.style.background = color;
+      ocultarMenusLetra();
+    });
+  });
+
+  document.querySelectorAll("[data-letra-tamano]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      ejecutarFormatoLetra("fontSize", boton.dataset.letraTamano);
+      DOM.letraTamanoBoton.textContent = `Tamaño: ${boton.dataset.letraTamanoNombre}`;
+      ocultarMenusLetra();
+    });
+  });
+
+  document.querySelectorAll("[data-letra-icono]").forEach((boton) => {
+    boton.addEventListener("click", () => insertarIconoLetra(boton.dataset.letraIcono));
+  });
+
+  DOM.letraDeshacer?.addEventListener("click", () => ejecutarFormatoLetra("undo"));
+  DOM.letraRehacer?.addEventListener("click", () => ejecutarFormatoLetra("redo"));
+  DOM.letraGuardar?.addEventListener("click", guardarLetraEscenario);
+  DOM.letraCancelar?.addEventListener("click", cancelarEdicionLetra);
+
+  DOM.adminNuevaCancion?.addEventListener("click", abrirNuevaCancion);
+  DOM.adminAgregarLetra?.addEventListener("click", (e) => { e.stopPropagation(); abrirMenuAgregarLetra(); });
+  document.querySelectorAll("[data-crear-letra]").forEach((boton) => {
+    boton.addEventListener("click", () => abrirAgregarLetra(boton.dataset.crearLetra));
+  });
+  DOM.agregarLetraCancion?.addEventListener("change", () => {
+    DOM.agregarLetraError.hidden = true;
+  });
+  DOM.agregarLetraGuardar?.addEventListener("click", guardarNuevaLetra);
+  DOM.nuevaCancionGuardar?.addEventListener("click", guardarCancionDesdePanel);
+  DOM.nuevaCancionCancelar?.addEventListener("click", cerrarNuevaCancion);
+  document.querySelectorAll("[data-cerrar-nueva-cancion]").forEach((el) => el.addEventListener("click", cerrarNuevaCancion));
+  DOM.agregarLetraCancelar?.addEventListener("click", cerrarAgregarLetra);
+  document.querySelectorAll("[data-cerrar-agregar-letra]").forEach((el) => el.addEventListener("click", cerrarAgregarLetra));
+  DOM.confirmacionAceptar?.addEventListener("click", () => resolverConfirmacion(true));
+  DOM.confirmacionCancelar?.addEventListener("click", () => resolverConfirmacion(false));
+  document.querySelectorAll("[data-confirmacion-cancelar]").forEach((el) => el.addEventListener("click", () => resolverConfirmacion(false)));
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".admin-agregar-letra")) DOM.adminAgregarMenu && (DOM.adminAgregarMenu.hidden = true);
+  });
+
   DOM.adminBuscarCancion.addEventListener("input", renderizarListaMaestra);
   DOM.adminFinalizarShow.addEventListener("click", finalizarShow);
 
@@ -2023,10 +2776,23 @@ function registrarEventos() {
   });
 
   window.addEventListener("pageshow", programarContinuacion);
+  window.addEventListener("resize", actualizarPosicionMenuPublico);
+  window.addEventListener("orientationchange", () => {
+    window.setTimeout(actualizarPosicionMenuPublico, 150);
+  });
+
+  if ("ResizeObserver" in window && DOM.estadoShowPublico) {
+    const observadorColaPublica = new ResizeObserver(() => {
+      actualizarPosicionMenuPublico();
+    });
+
+    observadorColaPublica.observe(DOM.estadoShowPublico);
+  }
 }
 
 async function iniciar() {
   capturarDOM();
+  await cargarLetras();
 
   DOM.anio.textContent = String(new Date().getFullYear());
   DOM.continuar.hidden = true;
@@ -2035,6 +2801,7 @@ async function iniciar() {
 
   registrarEventos();
   programarContinuacion();
+  cargarIndiceAnotaciones();
 
   try {
     await cargarDatos();

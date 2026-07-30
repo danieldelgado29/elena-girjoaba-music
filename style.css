@@ -4897,3 +4897,935 @@ body.cola-publica-visible {
     padding-bottom: 34vh;
   }
 }
+
+
+/* =========================================================
+   V1.5 — QUITAR CANCIÓN DE LA COLA
+   ========================================================= */
+
+.admin-cola-fija__lista li {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+}
+
+.admin-cola-fija__quitar {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #fff;
+  background: #c62828;
+  border: 1px solid #b71c1c;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background .18s ease,
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+.admin-cola-fija__quitar:hover {
+  background: #b71c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(183,28,28,.30);
+}
+
+.admin-cola-fija__quitar:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   V1.6 — MENÚ SOBRE EL BORDE DE LA COLA PÚBLICA
+   ========================================================= */
+
+.volver-arriba {
+  bottom: var(
+    --menu-publico-bottom,
+    max(16px, env(safe-area-inset-bottom))
+  ) !important;
+  transition:
+    bottom .24s ease,
+    transform .18s ease,
+    box-shadow .18s ease !important;
+}
+
+
+/* =========================================================
+   V1.7 — POSICIÓN ROBUSTA DEL BOTÓN ↑ MENÚ
+   ========================================================= */
+
+.volver-arriba {
+  transition:
+    bottom .2s ease,
+    transform .18s ease,
+    box-shadow .18s ease !important;
+}
+
+
+/* =========================================================
+   V1.8 — Botón flotante con mayor presencia
+   ========================================================= */
+
+.volver-arriba{
+  background: linear-gradient(180deg,#efd89a 0%,#d9b45d 100%) !important;
+  color:#18130b !important;
+  border:2px solid rgba(255,247,220,.75) !important;
+  box-shadow:
+      0 10px 26px rgba(0,0,0,.35),
+      0 0 0 1px rgba(255,231,170,.25) inset !important;
+}
+
+.volver-arriba:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:
+      0 14px 34px rgba(0,0,0,.42),
+      0 0 0 1px rgba(255,240,200,.45) inset !important;
+}
+
+.volver-arriba:active{
+  transform:translateY(0) scale(.98);
+}
+
+
+/* ===== Cancionero 2.0.2 ===== */
+.cancion__acciones { display:flex; flex-wrap:wrap; gap:.55rem; margin-top:.85rem; }
+.cancion__letra,
+.admin-lista-cancion__boton--letra {
+  border:1px solid rgba(64,42,30,.28);
+  background:#f6eee6;
+  color:#4a3026;
+  border-radius:999px;
+  padding:.65rem 1rem;
+  font:inherit;
+  font-weight:750;
+  cursor:pointer;
+}
+.letra-modal[hidden] { display:none !important; }
+.letra-modal { position:fixed; inset:0; z-index:10050; display:grid; place-items:center; padding:14px; }
+.letra-modal__fondo { position:absolute; inset:0; background:rgba(14,10,8,.76); backdrop-filter:blur(8px); }
+.letra-panel {
+  position:relative; width:min(920px,100%); height:min(94vh,980px); overflow:hidden;
+  display:flex; flex-direction:column; background:#fff; color:#111; border-radius:22px;
+  box-shadow:0 30px 90px rgba(0,0,0,.38);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Arial,sans-serif;
+}
+.letra-panel__cabecera {
+  display:flex; align-items:flex-start; justify-content:space-between; gap:1rem;
+  padding:20px 22px 14px; border-bottom:1px solid #e6e6e6; background:#fff;
+}
+.letra-panel__cabecera h2 { margin:0; font-size:clamp(1.45rem,3.2vw,2.1rem); color:#111; }
+.letra-panel__cabecera p { margin:.3rem 0 0; color:#686868; font-size:1rem; }
+.letra-panel__cerrar {
+  width:44px; height:44px; flex:0 0 44px; border:0; border-radius:50%;
+  background:#111; color:#fff; font-size:1.8rem; cursor:pointer;
+}
+.letra-panel__editar {
+  align-self:flex-end; margin:10px 18px 0; padding:.68rem 1rem;
+  border:1px solid #d3d3d3; border-radius:999px; background:#f4f4f4;
+  color:#222; font:inherit; font-weight:700; user-select:none; -webkit-user-select:none; touch-action:none;
+}
+.letra-toolbar {
+  display:flex; align-items:center; gap:7px; overflow-x:auto; padding:10px 14px;
+  border-bottom:1px solid #ddd; background:#f7f7f7;
+}
+.letra-toolbar button {
+  min-width:42px; min-height:40px; padding:.45rem .65rem; border:1px solid #ccc;
+  border-radius:10px; background:#fff; color:#111; font:inherit; font-weight:700;
+  cursor:pointer; white-space:nowrap;
+}
+.letra-toolbar__guardar { background:#111 !important; color:#fff !important; }
+.letra-toolbar__separador { width:1px; height:28px; background:#ccc; flex:0 0 1px; }
+.letra-contenido {
+  flex:1; overflow-y:auto; padding:26px clamp(22px,6vw,72px) 80px;
+  background:#fff; color:#111; font-size:clamp(1.2rem,2.5vw,1.65rem);
+  line-height:1.62; letter-spacing:.003em; outline:none; white-space:normal;
+}
+.letra-contenido p { margin:0 0 .38em; min-height:1em; }
+.letra-contenido[contenteditable="true"] { box-shadow:inset 0 0 0 3px #cfb69f; }
+@media (max-width:640px) {
+  .letra-modal { padding:0; }
+  .letra-panel { height:100dvh; border-radius:0; }
+  .letra-contenido { padding:22px 20px 90px; font-size:1.25rem; }
+}
+.admin-subir {
+  left:auto !important; right:max(16px,env(safe-area-inset-right)) !important;
+  background:#4a3026 !important; color:#fff !important;
+  border:2px solid rgba(255,255,255,.7) !important;
+}
+.admin-subir span { color:#fff !important; display:block !important; }
+.volver-arriba {
+  background:#4a3026 !important; color:#fff !important;
+  border:2px solid rgba(255,255,255,.75) !important;
+}
+.volver-arriba__flecha,
+.volver-arriba__texto { color:#fff !important; opacity:1 !important; }
+
+/* =========================================================
+   CANCIONERO 2.0.3 — barra de edición ordenada
+   ========================================================= */
+.letra-modal {
+  z-index: 2147483000 !important;
+}
+
+.letra-panel {
+  position: relative;
+  z-index: 1;
+  background: #fff !important;
+  color: #111 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.letra-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 10px;
+  margin: 0 0 12px;
+  border: 1px solid #d8d8d8;
+  border-radius: 14px;
+  background: rgba(255,255,255,.98);
+  box-shadow: 0 8px 24px rgba(0,0,0,.10);
+}
+
+.letra-toolbar[hidden] { display: none !important; }
+
+.letra-toolbar__grupo {
+  position: relative;
+  display: inline-flex;
+}
+
+.letra-toolbar__control,
+.letra-toolbar__guardar,
+.letra-toolbar__cancelar {
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid #c9c9c9;
+  border-radius: 10px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.letra-toolbar__control:hover,
+.letra-toolbar__control:focus-visible {
+  background: #f3f3f3;
+}
+
+.letra-toolbar__formato {
+  width: 42px;
+  padding: 0;
+  font-size: 18px;
+}
+
+.letra-toolbar__guardar {
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #111 !important;
+}
+
+.letra-toolbar__cancelar {
+  background: #fff !important;
+  color: #9f1f1f !important;
+  border-color: #cf9b9b !important;
+}
+
+.letra-toolbar__espacio {
+  flex: 1 1 18px;
+}
+
+.letra-color-muestra {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-left: 7px;
+  border: 1px solid #999;
+  border-radius: 50%;
+  background: #111;
+  vertical-align: -2px;
+}
+
+.letra-toolbar__menu {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  z-index: 50;
+  display: grid;
+  min-width: 180px;
+  padding: 7px;
+  border: 1px solid #d2d2d2;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+.letra-toolbar__menu[hidden] { display: none !important; }
+
+.letra-toolbar__menu button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 38px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #111;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.letra-toolbar__menu button:hover,
+.letra-toolbar__menu button:focus-visible {
+  background: #f1f1f1;
+}
+
+.letra-toolbar__menu button > span {
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 50%;
+}
+
+.letra-toolbar__menu--iconos {
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  min-width: 285px;
+}
+
+.letra-contenido {
+  background: #fff !important;
+  color: #111 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: clamp(19px, 2.15vw, 28px);
+  line-height: 1.55;
+}
+
+@media (max-width: 720px) {
+  .letra-toolbar {
+    gap: 6px;
+    padding: 8px;
+  }
+  .letra-toolbar__control,
+  .letra-toolbar__guardar,
+  .letra-toolbar__cancelar {
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  .letra-toolbar__espacio { display: none; }
+  .letra-toolbar__menu--iconos {
+    grid-template-columns: 1fr;
+    min-width: 190px;
+  }
+}
+
+
+/* v2.0.4: menús desplegables del cancionero */
+.letra-toolbar__menu.is-open {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.letra-toolbar__desplegable {
+  position: relative !important;
+}
+@media (max-width: 720px) {
+  .letra-toolbar__menu {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    max-height: 55vh;
+    overflow-y: auto;
+    min-width: 0 !important;
+    z-index: 2147483647 !important;
+  }
+  .letra-toolbar__menu--iconos {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* v2.0.5: menús del editor visibles también en escritorio maximizado */
+@media (min-width: 721px) {
+  .letra-toolbar__menu.is-open {
+    position: fixed !important;
+    z-index: 2147483647 !important;
+    max-height: min(52vh, 420px);
+    overflow-y: auto;
+  }
+}
+
+
+/* v2.0.6 · agregar letras y confirmaciones propias */
+.admin-agregar-letra { position: relative; display: flex; justify-content: flex-end; margin: 0 0 14px; z-index: 20; }
+.admin-agregar-letra__boton { border: 1px solid rgba(73,49,35,.25); background:#6c4935; color:#fff; border-radius:12px; padding:11px 16px; font:700 14px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif; cursor:pointer; }
+.admin-agregar-letra__menu { position:absolute; right:0; top:calc(100% + 8px); min-width:260px; padding:8px; background:#fff; border:1px solid rgba(0,0,0,.12); border-radius:14px; box-shadow:0 18px 50px rgba(0,0,0,.2); z-index:9999; }
+.admin-agregar-letra__menu button { width:100%; border:0; background:transparent; text-align:left; padding:12px; border-radius:9px; font-weight:700; cursor:pointer; }
+.admin-agregar-letra__menu button:hover { background:#f2ebe6; }
+.agregar-letra-modal,.confirmacion { position:fixed; inset:0; z-index:2147483647; display:grid; place-items:center; padding:18px; }
+.agregar-letra-modal[hidden],.confirmacion[hidden],.aviso-app[hidden] { display:none !important; }
+.agregar-letra-modal__fondo,.confirmacion__fondo { position:absolute; inset:0; background:rgba(0,0,0,.55); }
+.agregar-letra-panel { position:relative; z-index:1; width:min(760px,96vw); max-height:92vh; overflow:auto; background:#fff; color:#111; border-radius:18px; padding:24px; box-shadow:0 24px 80px rgba(0,0,0,.35); }
+.agregar-letra-panel__cerrar { position:absolute; right:14px; top:12px; width:40px; height:40px; border:0; border-radius:50%; background:#eee; font-size:26px; cursor:pointer; }
+.agregar-letra-panel__texto { width:100%; resize:vertical; border:1px solid #bbb; border-radius:12px; padding:14px; font:17px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif; }
+.agregar-letra-panel__acciones { display:flex; gap:10px; margin-top:16px; }
+.confirmacion__panel { position:relative; z-index:1; width:min(430px,94vw); background:#fff; color:#111; border-radius:18px; padding:24px; box-shadow:0 22px 70px rgba(0,0,0,.35); text-align:center; }
+.confirmacion__panel h2 { margin:0 0 10px; } .confirmacion__panel p { margin:0 0 20px; line-height:1.5; }
+.confirmacion__acciones { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+.confirmacion__acciones button { min-width:130px; border:0; border-radius:11px; padding:12px 16px; font-weight:800; cursor:pointer; }
+.confirmacion__cancelar { background:#ececec; color:#222; } .confirmacion__aceptar { background:#6c4935; color:#fff; } .confirmacion__aceptar--peligro { background:#a33131; }
+.aviso-app { position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:2147483647; padding:12px 18px; border-radius:999px; background:#1f5f3d; color:#fff; box-shadow:0 12px 35px rgba(0,0,0,.25); font-weight:800; }
+@media(max-width:720px){ .admin-agregar-letra{justify-content:stretch}.admin-agregar-letra__boton{width:100%}.admin-agregar-letra__menu{left:0;right:0;min-width:0}.agregar-letra-panel__acciones{flex-direction:column}.confirmacion__acciones{flex-direction:column}.confirmacion__acciones button{width:100%} }
+
+
+/* v2.0.7 · menú Nueva canción completamente legible */
+.admin-agregar-letra {
+  position: relative !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin: 0 0 14px !important;
+  z-index: 100 !important;
+  isolation: isolate;
+}
+.admin-agregar-letra__boton {
+  min-height: 46px !important;
+  border: 1px solid rgba(73,49,35,.28) !important;
+  background: #6c4935 !important;
+  color: #fff !important;
+  border-radius: 13px !important;
+  padding: 0 18px !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+  box-shadow: 0 7px 18px rgba(63, 40, 28, .18) !important;
+}
+.admin-agregar-letra__menu {
+  position: absolute !important;
+  right: 0 !important;
+  left: auto !important;
+  top: calc(100% + 9px) !important;
+  width: min(340px, calc(100vw - 36px)) !important;
+  min-width: 300px !important;
+  padding: 8px !important;
+  background: #fff !important;
+  color: #17120f !important;
+  border: 1px solid rgba(54, 38, 29, .16) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 20px 55px rgba(35, 22, 15, .24) !important;
+  z-index: 2147483000 !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.admin-agregar-letra__menu[hidden] { display: none !important; }
+.admin-agregar-letra__menu button {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: #fff !important;
+  color: #17120f !important;
+  text-align: left !important;
+  padding: 12px 14px !important;
+  border-radius: 10px !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 650 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  cursor: pointer !important;
+}
+.admin-agregar-letra__menu button + button {
+  border-top: 1px solid rgba(54,38,29,.09) !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+.admin-agregar-letra__menu button:hover,
+.admin-agregar-letra__menu button:focus-visible {
+  background: #f3ece7 !important;
+  color: #17120f !important;
+  outline: none !important;
+}
+.admin-agregar-letra__icono {
+  flex: 0 0 28px !important;
+  width: 28px !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  font-size: 21px !important;
+  line-height: 1 !important;
+}
+@media (max-width: 720px) {
+  .admin-agregar-letra { justify-content: stretch !important; }
+  .admin-agregar-letra__boton { width: 100% !important; }
+  .admin-agregar-letra__menu {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+
+/* v2.0.8 · acceso visible para crear una canción que no existe */
+.agregar-letra-panel__nueva {
+  width: 100%;
+  margin: 10px 0 16px;
+  padding: 13px 16px;
+  border: 1px solid rgba(91, 55, 39, 0.28);
+  border-radius: 12px;
+  background: #fff8f1;
+  color: #4b2f23;
+  font: 600 16px/1.2 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+.agregar-letra-panel__nueva:hover,
+.agregar-letra-panel__nueva:focus-visible {
+  background: #f6e9dc;
+  border-color: rgba(91, 55, 39, 0.5);
+  outline: none;
+}
+
+
+/* v2.0.9 · selector explícito para canción existente o nueva */
+.agregar-letra-panel__modo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0 18px;
+  padding: 6px;
+  background: #f2eee9;
+  border-radius: 14px;
+}
+.agregar-letra-panel__modo-boton {
+  appearance: none;
+  min-height: 48px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #34271f;
+  padding: 10px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.agregar-letra-panel__modo-boton.is-active {
+  background: #fff;
+  color: #4b2f20;
+  border-color: rgba(75,47,32,.18);
+  box-shadow: 0 4px 12px rgba(54,35,24,.10);
+}
+#agregarLetraNuevaCampos {
+  padding: 14px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(75,47,32,.16);
+  border-radius: 14px;
+  background: #fffaf6;
+}
+.version-prueba {
+  position: fixed;
+  right: 8px;
+  bottom: 6px;
+  z-index: 2;
+  font: 600 10px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  color: rgba(0,0,0,.28);
+  pointer-events: none;
+}
+@media (max-width: 620px) {
+  .agregar-letra-panel__modo { grid-template-columns: 1fr; }
+}
+
+
+/* v2.0.10 · Nueva canción desde la primera pantalla del Panel Maestro */
+.admin-panel__boton--nueva-cancion {
+  width: 100%;
+  margin: 16px 0 4px;
+  background: #6c4935 !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 8px 22px rgba(72,46,31,.18);
+}
+.nueva-cancion-panel { width: min(820px, 96vw); }
+.nueva-cancion-listas {
+  margin: 18px 0;
+  padding: 14px;
+  border: 1px solid rgba(75,47,32,.16);
+  border-radius: 14px;
+}
+.nueva-cancion-listas legend { padding: 0 8px; font-weight: 800; }
+#nuevaCancionListas { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px 14px; }
+.nueva-cancion-lista { display:flex; align-items:center; gap:9px; min-height:40px; padding:8px 10px; border-radius:10px; background:#f8f4f0; color:#2d211b; font-weight:650; }
+.nueva-cancion-lista input { width:18px; height:18px; }
+.nueva-cancion-lista--fija { opacity:.75; }
+@media (max-width:620px) { #nuevaCancionListas { grid-template-columns:1fr; } }
+
+/* La posición vertical del botón Menú se calcula en script.js para que
+   permanezca pegado al borde superior de la lista de espera mientras crece. */
+
+/* V1.6.2 · El botón Menú se une al filo superior de “Canciones a la cola”.
+   La posición se actualiza desde JavaScript al crecer la cola y al rotar o
+   redimensionar la pantalla. */
+.volver-arriba {
+  bottom: var(--menu-publico-bottom, max(16px, env(safe-area-inset-bottom))) !important;
+}
+
+
+/* V1.6.2 — acceso secreto estable en Android */
+.landing__admin-trigger,
+.footer__admin-trigger {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   ENTREGA 6.10 — toolbar del cancionero siempre visible con zoom
+   ========================================================= */
+.letra-panel__cabecera,
+.letra-panel__editar,
+.letra-toolbar {
+  flex-shrink: 0 !important;
+}
+
+.letra-toolbar {
+  position: relative !important;
+  top: auto !important;
+  z-index: 2147483600 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  align-content: flex-start !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: min(42dvh, 260px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  border-width: 0 0 1px !important;
+  border-radius: 0 !important;
+  background: #f7f7f7 !important;
+}
+
+.letra-toolbar > * {
+  flex-shrink: 0 !important;
+}
+
+.letra-contenido {
+  min-height: 0 !important;
+}
+
+@media (max-width: 720px), (max-height: 620px) {
+  .letra-panel__cabecera {
+    padding: 10px 12px 8px !important;
+  }
+
+  .letra-panel__cabecera h2 {
+    font-size: clamp(1.05rem, 5vw, 1.45rem) !important;
+  }
+
+  .letra-panel__cabecera p {
+    margin-top: 2px !important;
+    font-size: .82rem !important;
+  }
+
+  .letra-panel__cerrar {
+    width: 38px !important;
+    height: 38px !important;
+    flex-basis: 38px !important;
+  }
+
+  .letra-toolbar {
+    gap: 5px !important;
+    padding: 7px !important;
+    max-height: min(48dvh, 280px) !important;
+  }
+
+  .letra-toolbar__control,
+  .letra-toolbar__guardar,
+  .letra-toolbar__cancelar {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+  }
+
+  .letra-toolbar__formato {
+    width: 36px !important;
+    padding: 0 !important;
+  }
+
+  .letra-toolbar__espacio {
+    display: none !important;
+  }
+}
+
+
+/* Entrega 6.21 — Modal de pedido y tarjeta sin WhatsApp */
+.pedido-panel__cancion{
+  margin:5px 38px 18px 0;
+  color:var(--blanco);
+  font-size:clamp(1.25rem,4vw,1.7rem);
+  font-weight:800;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.pedido-panel__label{
+  margin-top:16px;
+  text-align:center;
+}
+.pedido-panel__nota{
+  width:100%;
+  margin:12px 0 4px;
+  text-align:center;
+}
+.cancion__grita{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  margin-top:18px;
+  padding:8px 12px 4px;
+  color:#fff4cf;
+  font-size:clamp(.88rem,3vw,1.18rem);
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:.015em;
+  text-align:center;
+  text-transform:none;
+  text-shadow:0 2px 8px rgba(0,0,0,.68),0 0 10px rgba(213,178,104,.42);
+}
+.cancion.is-grita-activa .cancion__grita span{
+  display:block;
+  animation:gritaLatido 1.55s ease-in-out infinite;
+}
+.cancion.is-grita-activa{
+  z-index:20;
+  transform:scale(1.055);
+  border-color:rgba(213,178,104,.82);
+  background:linear-gradient(150deg,rgba(213,178,104,.14),rgba(255,255,255,.025)),var(--negro-2);
+  box-shadow:0 24px 65px rgba(0,0,0,.5),0 0 0 1px rgba(213,178,104,.18);
+  animation:gritaCancion .5s cubic-bezier(.2,.85,.25,1.15);
+}
+.cancion.is-grita-activa .tags{display:none;}
+.cancion.is-grita-activa .cancion__grita{display:flex;animation:gritaTexto .38s .08s both;}
+.cancion.is-grita-activa .numero{
+  display:grid;
+  place-items:center;
+  width:58px;
+  height:58px;
+  border:2px solid var(--dorado-claro);
+  border-radius:50%;
+  box-shadow:0 0 0 6px rgba(213,178,104,.08),0 0 24px rgba(213,178,104,.22);
+  animation:numeroPulso 1s ease-in-out infinite alternate;
+}
+@keyframes gritaCancion{from{transform:scale(.96)}to{transform:scale(1.055)}}
+@keyframes gritaTexto{from{opacity:0;transform:translateY(10px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes gritaLatido{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.025);filter:brightness(1.1)}}
+@keyframes numeroPulso{to{transform:scale(1.08);box-shadow:0 0 0 9px rgba(213,178,104,.05),0 0 32px rgba(213,178,104,.35)}}
+@media(max-width:600px){
+  .pedido-panel__cancion{font-size:1.12rem;}
+  .cancion.is-grita-activa{transform:scale(1.025);}
+  .cancion__grita{font-size:clamp(.84rem,4vw,1.05rem);padding:7px 6px 3px;margin-top:16px;}
+}
+
+.cancion__cerrar{display:none;position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.35);color:#fff;cursor:pointer;z-index:30}
+.cancion.is-grita-activa .cancion__cerrar{display:block}
+.cancion.is-grita-activa{grid-template-columns:70px 1fr;align-items:start}
+.cancion.is-grita-activa .numero{transform:translateY(-10px)}
+.cancion.is-grita-activa .info{text-align:center}
+.cancion.is-grita-activa .titulo,.cancion.is-grita-activa .artista{margin-left:auto;margin-right:auto;max-width:100%}
+.cancion__grita{font-size:clamp(.78rem,2.6vw,.95rem)}
+
+/* Entrega 6.27 — centrado entre círculo y X + mensaje con mayor resplandor */
+.cancion.is-grita-activa{
+  grid-template-columns:70px minmax(0,1fr);
+  column-gap:18px;
+}
+.cancion.is-grita-activa .info{
+  width:100%;
+  min-width:0;
+  padding-right:40px;
+  text-align:center;
+}
+.cancion.is-grita-activa .titulo,
+.cancion.is-grita-activa .artista{
+  width:100%;
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+  text-align:center;
+}
+.cancion.is-grita-activa .cancion__grita{
+  width:calc(100% + 128px);
+  margin-left:-88px;
+  margin-right:-40px;
+  padding-left:12px;
+  padding-right:12px;
+  font-size:clamp(1.02rem,3.35vw,1.36rem);
+  font-weight:850;
+  letter-spacing:.018em;
+  text-shadow:
+    0 2px 9px rgba(0,0,0,.72),
+    0 0 8px rgba(255,244,207,.52),
+    0 0 18px rgba(213,178,104,.72),
+    0 0 34px rgba(213,178,104,.38);
+}
+.cancion.is-grita-activa .cancion__grita span{
+  filter:drop-shadow(0 0 9px rgba(213,178,104,.58));
+}
+@media(max-width:600px){
+  .cancion.is-grita-activa .info{padding-right:36px;}
+  .cancion.is-grita-activa .cancion__grita{
+    width:calc(100% + 124px);
+    margin-right:-36px;
+    font-size:clamp(.98rem,4.4vw,1.18rem);
+  }
+}
+
+/* Entrega 6.28 — bloque activo centrado verticalmente; X sin cambios */
+.cancion.is-grita-activa{
+  align-items:center;
+}
+.cancion.is-grita-activa .numero{
+  transform:none;
+  align-self:center;
+}
+.cancion.is-grita-activa .info{
+  align-self:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* Entrega 6.29 — tarjeta seleccionada conserva el formato normal */
+.cancion.is-grita-activa{
+  grid-template-columns:62px 1fr;
+  align-items:center;
+  gap:18px;
+  transform:scale(1.045);
+  padding:20px;
+}
+.cancion.is-grita-activa .numero{
+  align-self:auto;
+  transform:none;
+  width:58px;
+  height:58px;
+}
+.cancion.is-grita-activa .info{
+  width:auto;
+  min-width:0;
+  padding-right:36px;
+  display:block;
+  align-self:auto;
+  text-align:left;
+}
+.cancion.is-grita-activa .titulo,
+.cancion.is-grita-activa .artista{
+  width:auto;
+  max-width:100%;
+  margin-left:0;
+  margin-right:0;
+  text-align:left;
+}
+.cancion.is-grita-activa .tags{
+  display:none;
+}
+.cancion.is-grita-activa .cancion__grita{
+  display:flex;
+  justify-content:flex-start;
+  width:100%;
+  margin:10px 0 0;
+  padding:0;
+  color:#fff4cf;
+  font-size:clamp(.88rem,2.4vw,1.05rem);
+  font-weight:850;
+  line-height:1.25;
+  letter-spacing:.01em;
+  text-align:left;
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.7),
+    0 0 10px rgba(255,244,207,.42),
+    0 0 20px rgba(213,178,104,.56);
+}
+.cancion.is-grita-activa .cancion__grita span{
+  width:100%;
+  text-align:left;
+  filter:drop-shadow(0 0 7px rgba(213,178,104,.42));
+}
+@keyframes gritaCancion{
+  from{transform:scale(1)}
+  to{transform:scale(1.045)}
+}
+@media(max-width:600px){
+  .cancion.is-grita-activa{
+    grid-template-columns:62px 1fr;
+    gap:18px;
+    transform:scale(1.025);
+  }
+  .cancion.is-grita-activa .info{
+    padding-right:32px;
+  }
+  .cancion.is-grita-activa .cancion__grita{
+    width:100%;
+    margin:10px 0 0;
+    padding:0;
+    font-size:clamp(.82rem,3.7vw,1rem);
+  }
+  @keyframes gritaCancion{
+    from{transform:scale(1)}
+    to{transform:scale(1.025)}
+  }
+}
+
+/* =========================================================
+   ENTREGA 6.30 — BORDE DORADO EN BOTÓN INSTAGRAM
+   ========================================================= */
+.landing__acciones .boton--instagram {
+  border: 1px solid rgba(213,178,104,.62);
+}
+
+.barra__enlaces > a:first-child{
+  padding:9px 14px;
+  border:1px solid rgba(213,178,104,.55);
+  border-radius:999px;
+  background:rgba(0,0,0,.25);
+  box-shadow:0 0 0 1px rgba(213,178,104,.15),0 0 18px rgba(213,178,104,.18);
+}

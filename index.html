@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=7">
 
   <script>
     // Respaldo independiente para desbloquear Música a la Carta.
@@ -70,7 +70,7 @@
     });
   </script>
 
-  <script type="module" src="script.js"></script>
+  <script type="module" src="script.js?v=8"></script>
 </head>
 
 <body>
@@ -608,6 +608,8 @@
               </div>
             </section>
 
+            <button id="adminNuevaCancion" class="admin-panel__boton admin-panel__boton--nueva-cancion" type="button">＋ Nueva canción</button>
+
             <p id="adminEstado" class="admin-panel__estado" aria-live="polite"></p>
 
             <button id="adminGuardar" class="admin-panel__boton admin-panel__boton--comenzar" type="button">
@@ -632,6 +634,13 @@
             </div>
 
             <section id="adminControlCanciones" class="admin-seccion admin-seccion--sin-borde">
+              <div class="admin-agregar-letra">
+                <button id="adminAgregarLetra" class="admin-agregar-letra__boton" type="button" aria-haspopup="true" aria-expanded="false">Letras</button>
+                <div id="adminAgregarMenu" class="admin-agregar-letra__menu" hidden>
+                  <button type="button" data-crear-letra="publica"><span class="admin-agregar-letra__icono" aria-hidden="true">📄</span><span>Letra para clientes</span></button>
+                  <button type="button" data-crear-letra="administradora"><span class="admin-agregar-letra__icono" aria-hidden="true">🎤</span><span>Cancionero de Elena</span></button>
+                </div>
+              </div>
               <label class="sr-only" for="adminBuscarCancion">Buscar canción</label>
               <div class="admin-buscador-fijo">
                 <section class="admin-cola-fija" aria-labelledby="adminColaFijaTitulo">
@@ -750,19 +759,9 @@
     <section class="pedido-panel" role="dialog" aria-modal="true" aria-labelledby="pedidoTitulo">
       <button class="pedido-panel__cerrar" type="button" data-cerrar-pedido aria-label="Cerrar">×</button>
       <p class="admin-panel__eyebrow">PEDIR CANCIÓN</p>
-      <h2 id="pedidoTitulo">Enviar por WhatsApp</h2>
       <p id="pedidoCancion" class="pedido-panel__cancion"></p>
 
-      <label class="pedido-panel__label" for="pedidoNombre">Nombre</label>
-      <input
-        id="pedidoNombre"
-        class="admin-panel__input"
-        type="text"
-        autocomplete="name"
-        placeholder="Tu nombre"
-      >
-
-      <label class="pedido-panel__label" for="pedidoTelefono">Número de WhatsApp</label>
+      <label class="pedido-panel__label" for="pedidoTelefono">Escribe tu número de teléfono</label>
       <input
         id="pedidoTelefono"
         class="admin-panel__input"
@@ -772,21 +771,14 @@
         placeholder="Ejemplo: 0991234567"
       >
 
-      <label class="pedido-consentimiento">
-        <input id="pedidoConsentimiento" type="checkbox">
-        <span>
-          Acepto que Elena Girjoaba Music guarde mis datos para responder a este pedido
-          y mantener el contacto.
-        </span>
-      </label>
+      <p class="pedido-panel__nota">
+        Acepto abrir WhatsApp para enviar mi canción.
+      </p>
 
       <p id="pedidoError" class="admin-panel__error" hidden>
-        Ingresa un número válido y acepta el uso de tus datos.
+        Ingresa un número de WhatsApp válido.
       </p>
 
-      <p class="pedido-panel__nota">
-        Al continuar, la canción se agregará a la cola del show.
-      </p>
 
       <button id="pedidoEnviar" class="admin-panel__boton" type="button">
         Enviar por WhatsApp
@@ -805,6 +797,155 @@
       <img id="notasImagen" class="notas-panel__imagen" alt="">
     </section>
   </div>
+
+
+  <div id="letraModal" class="letra-modal" hidden>
+    <div class="letra-modal__fondo" data-cerrar-letra></div>
+    <section class="letra-panel" role="dialog" aria-modal="true" aria-labelledby="letraTitulo">
+      <header class="letra-panel__cabecera">
+        <div>
+          <h2 id="letraTitulo">Letra</h2>
+          <p id="letraArtista"></p>
+        </div>
+        <button class="letra-panel__cerrar" type="button" data-cerrar-letra aria-label="Cerrar">×</button>
+      </header>
+
+      <div id="letraToolbar" class="letra-toolbar" hidden>
+        <div class="letra-toolbar__grupo letra-toolbar__desplegable">
+          <button id="letraColorBoton" class="letra-toolbar__control" type="button" aria-expanded="false">Color <span id="letraColorMuestra" class="letra-color-muestra"></span></button>
+          <div id="letraColorMenu" class="letra-toolbar__menu" hidden>
+            <button type="button" data-letra-color="#111111"><span style="background:#111111"></span>Negro</button>
+            <button type="button" data-letra-color="#d7263d"><span style="background:#d7263d"></span>Rojo</button>
+            <button type="button" data-letra-color="#1557b0"><span style="background:#1557b0"></span>Azul</button>
+            <button type="button" data-letra-color="#16794f"><span style="background:#16794f"></span>Verde</button>
+            <button type="button" data-letra-color="#b7791f"><span style="background:#e9b949"></span>Amarillo</button>
+            <button type="button" data-letra-color="#7b3fa1"><span style="background:#7b3fa1"></span>Morado</button>
+          </div>
+        </div>
+
+        <div class="letra-toolbar__grupo letra-toolbar__desplegable">
+          <button id="letraTamanoBoton" class="letra-toolbar__control" type="button" aria-expanded="false">Tamaño: Normal</button>
+          <div id="letraTamanoMenu" class="letra-toolbar__menu" hidden>
+            <button type="button" data-letra-tamano="2" data-letra-tamano-nombre="Muy pequeño">Muy pequeño</button>
+            <button type="button" data-letra-tamano="3" data-letra-tamano-nombre="Pequeño">Pequeño</button>
+            <button type="button" data-letra-tamano="4" data-letra-tamano-nombre="Normal">Normal</button>
+            <button type="button" data-letra-tamano="5" data-letra-tamano-nombre="Grande">Grande</button>
+            <button type="button" data-letra-tamano="6" data-letra-tamano-nombre="Muy grande">Muy grande</button>
+          </div>
+        </div>
+
+        <button class="letra-toolbar__control letra-toolbar__formato" type="button" data-letra-comando="bold" aria-label="Negrita"><strong>B</strong></button>
+        <button class="letra-toolbar__control letra-toolbar__formato" type="button" data-letra-comando="italic" aria-label="Cursiva"><em>I</em></button>
+
+        <div class="letra-toolbar__grupo letra-toolbar__desplegable">
+          <button id="letraIconosBoton" class="letra-toolbar__control" type="button" aria-expanded="false">Iconos</button>
+          <div id="letraIconosMenu" class="letra-toolbar__menu letra-toolbar__menu--iconos" hidden>
+            <button type="button" data-letra-icono="🎤" title="Voz">🎤 Voz</button>
+            <button type="button" data-letra-icono="🎸" title="Guitarra">🎸 Guitarra</button>
+            <button type="button" data-letra-icono="🥁" title="Batería">🥁 Batería</button>
+            <button type="button" data-letra-icono="🎹" title="Teclado">🎹 Teclado</button>
+            <button type="button" data-letra-icono="🎷" title="Sax">🎷 Sax</button>
+            <button type="button" data-letra-icono="🎺" title="Metales">🎺 Metales</button>
+            <button type="button" data-letra-icono="👥" title="Coros">👥 Coros</button>
+            <button type="button" data-letra-icono="🎼" title="Cambio">🎼 Cambio</button>
+            <button type="button" data-letra-icono="⚠️" title="Atención">⚠️ Atención</button>
+            <button type="button" data-letra-icono="⭐" title="Importante">⭐ Importante</button>
+          </div>
+        </div>
+
+        <button id="letraDeshacer" class="letra-toolbar__control" type="button">↶ Deshacer</button>
+        <button id="letraRehacer" class="letra-toolbar__control" type="button">↷ Rehacer</button>
+        <span class="letra-toolbar__espacio"></span>
+        <button id="letraGuardar" class="letra-toolbar__guardar" type="button">Guardar</button>
+        <button id="letraCancelar" class="letra-toolbar__cancelar" type="button">Cancelar</button>
+      </div>
+
+      <button id="letraEditar" class="letra-panel__editar" type="button">
+        Mantén 2 segundos para editar
+      </button>
+
+      <article id="letraContenido" class="letra-contenido" aria-label="Letra de la canción"></article>
+    </section>
+  </div>
+
+
+  <div id="agregarLetraModal" class="agregar-letra-modal" hidden>
+    <div class="agregar-letra-modal__fondo" data-cerrar-agregar-letra></div>
+    <section class="agregar-letra-panel" role="dialog" aria-modal="true" aria-labelledby="agregarLetraTitulo">
+      <button class="agregar-letra-panel__cerrar" type="button" data-cerrar-agregar-letra aria-label="Cerrar">×</button>
+      <h2 id="agregarLetraTitulo">Crear letra</h2>
+      <div id="agregarLetraExistenteCampos">
+        <label class="admin-panel__label" for="agregarLetraCancion">Seleccionar canción</label>
+        <select id="agregarLetraCancion" class="admin-panel__input"></select>
+      </div>
+
+      <label class="admin-panel__label" for="agregarLetraTexto">Letra</label>
+      <textarea id="agregarLetraTexto" class="agregar-letra-panel__texto" rows="16" placeholder="Pega aquí la letra..."></textarea>
+      <p id="agregarLetraError" class="admin-panel__error" hidden></p>
+      <div class="agregar-letra-panel__acciones">
+        <button id="agregarLetraGuardar" class="admin-panel__boton" type="button">Guardar</button>
+        <button id="agregarLetraCancelar" class="admin-panel__boton admin-panel__boton--secundario" type="button">Cancelar</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="nuevaCancionModal" class="agregar-letra-modal" hidden>
+    <div class="agregar-letra-modal__fondo" data-cerrar-nueva-cancion></div>
+    <section class="agregar-letra-panel nueva-cancion-panel" role="dialog" aria-modal="true" aria-labelledby="nuevaCancionTitulo">
+      <button class="agregar-letra-panel__cerrar" type="button" data-cerrar-nueva-cancion aria-label="Cerrar">×</button>
+      <h2 id="nuevaCancionTitulo">Nueva canción</h2>
+
+      <label class="admin-panel__label" for="nuevaCancionNombre">Título</label>
+      <input id="nuevaCancionNombre" class="admin-panel__input" type="text" autocomplete="off">
+
+      <label class="admin-panel__label" for="nuevaCancionArtista">Artista</label>
+      <input id="nuevaCancionArtista" class="admin-panel__input" type="text" autocomplete="off">
+
+      <label class="admin-panel__label" for="nuevaCancionIdioma">Idioma</label>
+      <select id="nuevaCancionIdioma" class="admin-panel__input">
+        <option value="Inglés">Inglés</option>
+        <option value="Español">Español</option>
+        <option value="Otro">Otro</option>
+      </select>
+
+      <label class="admin-panel__label" for="nuevaCancionGenero">Género o géneros</label>
+      <input id="nuevaCancionGenero" class="admin-panel__input" type="text" placeholder="Ejemplo: Rock, Pop">
+
+      <fieldset class="nueva-cancion-listas">
+        <legend>Agregar a repertorios</legend>
+        <div id="nuevaCancionListas"></div>
+      </fieldset>
+
+      <label class="admin-panel__label" for="nuevaCancionLetraPublica">Letra para clientes (opcional)</label>
+      <textarea id="nuevaCancionLetraPublica" class="agregar-letra-panel__texto" rows="8" placeholder="Pega aquí la letra pública..."></textarea>
+
+      <label class="admin-panel__label" for="nuevaCancionLetraElena">Cancionero de Elena (opcional)</label>
+      <textarea id="nuevaCancionLetraElena" class="agregar-letra-panel__texto" rows="8" placeholder="Pega aquí la versión privada..."></textarea>
+
+      <p id="nuevaCancionError" class="admin-panel__error" hidden></p>
+      <div class="agregar-letra-panel__acciones">
+        <button id="nuevaCancionGuardar" class="admin-panel__boton" type="button">Guardar canción</button>
+        <button id="nuevaCancionCancelar" class="admin-panel__boton admin-panel__boton--secundario" type="button">Cancelar</button>
+      </div>
+    </section>
+  </div>
+
+
+  <div id="confirmacionModal" class="confirmacion" hidden>
+    <div class="confirmacion__fondo" data-confirmacion-cancelar></div>
+    <section class="confirmacion__panel" role="dialog" aria-modal="true" aria-labelledby="confirmacionTitulo">
+      <h2 id="confirmacionTitulo">Confirmar</h2>
+      <p id="confirmacionMensaje"></p>
+      <div class="confirmacion__acciones">
+        <button id="confirmacionCancelar" class="confirmacion__cancelar" type="button">Cancelar</button>
+        <button id="confirmacionAceptar" class="confirmacion__aceptar" type="button">Aceptar</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="avisoApp" class="aviso-app" hidden role="status" aria-live="polite"></div>
+
+  <div class="version-prueba" aria-hidden="true">v2.0.9</div>
 
   <noscript>
     <div class="noscript">

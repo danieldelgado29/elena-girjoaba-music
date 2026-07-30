@@ -5,15 +5,16 @@
     "artista": "Inner Cycle",
     "idioma": "Inglés",
     "categorias": [
-      "Reggae",
-      "Bailables"
+      "Reggae"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -56,8 +57,8 @@
     "artista": "Bill Withers",
     "idioma": "Inglés",
     "categorias": [
-      "Blues",
-      "Románticas"
+      "Románticas",
+      "Blues"
     ],
     "tranquila": true,
     "listas": [
@@ -80,7 +81,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -89,6 +92,7 @@
     "artista": "Ace of Base",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -96,7 +100,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -112,7 +118,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -121,7 +129,9 @@
     "artista": "Selena",
     "idioma": "Español",
     "categorias": [
-      "Pop"
+      "Pop",
+      "Bailables",
+      "Románticas"
     ],
     "tranquila": false,
     "listas": [
@@ -137,8 +147,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -152,14 +162,17 @@
     "artista": "Queen",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -175,7 +188,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -184,14 +199,16 @@
     "artista": "L. Kravitz",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -217,9 +234,9 @@
     "artista": "Etta James",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
+      "Románticas",
       "Blues",
-      "Románticas"
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -243,7 +260,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -276,7 +295,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -292,7 +313,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -301,6 +324,7 @@
     "artista": "Michael Jackson",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -308,7 +332,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -333,14 +359,17 @@
     "artista": "Blondie",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -349,6 +378,7 @@
     "artista": "Emmanuel",
     "idioma": "Español",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -389,7 +419,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -416,7 +448,9 @@
     "artista": "Angeles azules",
     "idioma": "Español",
     "categorias": [
-      "Pop"
+      "Pop",
+      "Bailables",
+      "Románticas"
     ],
     "tranquila": false,
     "listas": [
@@ -433,15 +467,15 @@
     "idioma": "Español",
     "categorias": [
       "Rock",
-      "Rock Español",
-      "Bailables"
+      "Rock Español"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "principal-privados",
       "todas",
-      "solo-espanol"
+      "solo-espanol",
+      "eventos-corporativos"
     ]
   },
   {
@@ -457,7 +491,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -473,7 +509,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -482,6 +520,7 @@
     "artista": "Queen",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -489,7 +528,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -507,7 +548,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -523,7 +565,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -558,7 +602,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -574,7 +620,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -590,7 +638,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -617,8 +667,7 @@
     "idioma": "Español",
     "categorias": [
       "Rock",
-      "Rock Español",
-      "Bailables"
+      "Rock Español"
     ],
     "tranquila": false,
     "listas": [
@@ -634,6 +683,7 @@
     "artista": "Depeche M.",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -641,7 +691,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -681,7 +733,8 @@
     "artista": "Police",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": true,
     "listas": [
@@ -690,7 +743,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -709,7 +763,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -718,8 +773,8 @@
     "artista": "Nina Simone",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Blues"
+      "Blues",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -733,7 +788,7 @@
     "artista": "Gondwana",
     "idioma": "Español",
     "categorias": [
-      "Pop"
+      "Reggae"
     ],
     "tranquila": true,
     "listas": [
@@ -747,8 +802,8 @@
     "artista": "Peggy Lee",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Blues"
+      "Blues",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -769,7 +824,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -778,8 +835,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -800,7 +857,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -809,6 +868,7 @@
     "artista": "ABBA",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -816,7 +876,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -832,7 +894,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -848,7 +912,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -857,7 +923,7 @@
     "artista": "CCR",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock"
     ],
     "tranquila": true,
     "listas": [
@@ -866,7 +932,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -875,14 +943,16 @@
     "artista": "Miley Cyrus",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -891,8 +961,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Reggae"
+      "Reggae",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -913,7 +983,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -922,14 +994,16 @@
     "artista": "Pat Benatar",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -945,7 +1019,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -961,7 +1037,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -970,6 +1048,7 @@
     "artista": "Donna Summer",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -977,7 +1056,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -993,7 +1074,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1002,7 +1085,9 @@
     "artista": "Aerosmith",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock",
+      "Pop",
+      "Románticas"
     ],
     "tranquila": true,
     "listas": [
@@ -1011,7 +1096,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1020,14 +1107,16 @@
     "artista": "Joan Jett",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1043,7 +1132,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1052,8 +1143,8 @@
     "artista": "Jeff Beck & Joss Stone",
     "idioma": "Inglés",
     "categorias": [
-      "Blues",
-      "Rock"
+      "Rock",
+      "Blues"
     ],
     "tranquila": true,
     "listas": [
@@ -1067,14 +1158,17 @@
     "artista": "Queen",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1083,6 +1177,7 @@
     "artista": "Kiss",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -1090,7 +1185,8 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos"
     ]
   },
   {
@@ -1099,8 +1195,8 @@
     "artista": "Etta James",
     "idioma": "Inglés",
     "categorias": [
-      "Blues",
-      "Románticas"
+      "Románticas",
+      "Blues"
     ],
     "tranquila": true,
     "listas": [
@@ -1114,8 +1210,8 @@
     "artista": "Beth Hart",
     "idioma": "Inglés",
     "categorias": [
-      "Blues",
-      "Románticas"
+      "Románticas",
+      "Blues"
     ],
     "tranquila": true,
     "listas": [
@@ -1139,7 +1235,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1158,26 +1256,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
-    ]
-  },
-  {
-    "id": "c072",
-    "titulo": "I'm Yours",
-    "artista": "Jason Mraz",
-    "idioma": "Inglés",
-    "categorias": [
-      "Pop",
-      "Románticas"
-    ],
-    "tranquila": true,
-    "listas": [
-      "principal-diario",
-      "solo-ingles",
-      "principal-privados",
-      "tranquilas-principal",
-      "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1186,8 +1267,8 @@
     "artista": "Bob Marley",
     "idioma": "Inglés",
     "categorias": [
-      "Reggae",
-      "Románticas"
+      "Románticas",
+      "Reggae"
     ],
     "tranquila": true,
     "listas": [
@@ -1196,7 +1277,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1205,8 +1288,8 @@
     "artista": "Tanya Stephens",
     "idioma": "Inglés",
     "categorias": [
-      "Reggae",
-      "Románticas"
+      "Románticas",
+      "Reggae"
     ],
     "tranquila": true,
     "listas": [
@@ -1227,7 +1310,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1243,7 +1328,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1252,6 +1339,7 @@
     "artista": "Chuck Berry",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -1259,7 +1347,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1268,8 +1358,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -1298,8 +1388,7 @@
     "idioma": "Español",
     "categorias": [
       "Rock",
-      "Rock Español",
-      "Bailables"
+      "Rock Español"
     ],
     "tranquila": false,
     "listas": [
@@ -1357,7 +1446,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -1376,7 +1466,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -1392,7 +1483,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1410,7 +1503,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -1419,6 +1513,7 @@
     "artista": "Bon Jovy",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -1442,7 +1537,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1460,7 +1557,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -1469,8 +1567,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Románticas"
+      "Románticas",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -1501,14 +1599,18 @@
     "artista": "Lou Bega",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock",
+      "Pop",
+      "Bailables"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1524,7 +1626,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1533,6 +1637,7 @@
     "artista": "Michael Sembello",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -1540,7 +1645,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1549,8 +1656,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -1627,6 +1734,8 @@
     "artista": "Soda Stereo",
     "idioma": "Español",
     "categorias": [
+      "Rock",
+      "Rock Español",
       "Pop"
     ],
     "tranquila": false,
@@ -1634,7 +1743,8 @@
       "principal-diario",
       "principal-privados",
       "todas",
-      "solo-espanol"
+      "solo-espanol",
+      "eventos-corporativos"
     ]
   },
   {
@@ -1643,14 +1753,17 @@
     "artista": "The Knack",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1682,7 +1795,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1724,6 +1839,7 @@
     "artista": "Blondie",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -1731,7 +1847,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1740,8 +1858,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Románticas"
+      "Románticas",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -1756,8 +1874,7 @@
     "idioma": "Español",
     "categorias": [
       "Rock",
-      "Rock Español",
-      "Bailables"
+      "Rock Español"
     ],
     "tranquila": false,
     "listas": [
@@ -1774,15 +1891,15 @@
     "idioma": "Español",
     "categorias": [
       "Rock",
-      "Rock Español",
-      "Bailables"
+      "Rock Español"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "principal-privados",
       "todas",
-      "solo-espanol"
+      "solo-espanol",
+      "eventos-corporativos"
     ]
   },
   {
@@ -1799,7 +1916,8 @@
       "principal-diario",
       "principal-privados",
       "todas",
-      "solo-espanol"
+      "solo-espanol",
+      "eventos-corporativos"
     ]
   },
   {
@@ -1808,14 +1926,17 @@
     "artista": "Depeche Mode",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1831,7 +1952,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1879,7 +2002,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1897,7 +2022,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1913,7 +2040,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1929,7 +2058,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1947,7 +2078,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -1965,7 +2097,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1974,6 +2108,7 @@
     "artista": "The Rolling Sones",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -1981,7 +2116,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -1990,7 +2127,7 @@
     "artista": "Gondwana",
     "idioma": "Español",
     "categorias": [
-      "Pop"
+      "Reggae"
     ],
     "tranquila": true,
     "listas": [
@@ -2011,7 +2148,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2027,7 +2166,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2083,8 +2224,8 @@
     "artista": "Beth Hart",
     "idioma": "Inglés",
     "categorias": [
-      "Blues",
-      "Rock"
+      "Rock",
+      "Blues"
     ],
     "tranquila": true,
     "listas": [
@@ -2114,8 +2255,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Blues"
+      "Blues",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2129,6 +2270,7 @@
     "artista": "Rockwell",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -2155,7 +2297,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2174,7 +2317,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2183,8 +2327,8 @@
     "artista": "Gary Moore",
     "idioma": "Inglés",
     "categorias": [
-      "Blues",
-      "Románticas"
+      "Románticas",
+      "Blues"
     ],
     "tranquila": true,
     "listas": [
@@ -2198,8 +2342,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2213,8 +2357,8 @@
     "artista": "Ella Fitzgerald",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Blues"
+      "Blues",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2224,18 +2368,20 @@
   },
   {
     "id": "c137",
-    "titulo": "Sweet child of Mine",
-    "artista": "G&R",
+    "titulo": "Sweet Child O' Mine",
+    "artista": "Guns N' Roses",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2244,6 +2390,7 @@
     "artista": "Eurythmics",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -2251,7 +2398,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2260,6 +2409,7 @@
     "artista": "A-ha",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -2267,7 +2417,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2276,8 +2428,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Románticas"
+      "Románticas",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2308,8 +2460,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2333,7 +2485,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2342,6 +2495,7 @@
     "artista": "M. Jackson",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -2349,7 +2503,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2371,6 +2527,7 @@
     "artista": "M. Jackson",
     "idioma": "Inglés",
     "categorias": [
+      "Rock",
       "Pop"
     ],
     "tranquila": false,
@@ -2397,7 +2554,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2406,8 +2565,8 @@
     "artista": "PMJ",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2439,8 +2598,8 @@
     "artista": "Dread Mar",
     "idioma": "Español",
     "categorias": [
-      "Reggae",
-      "Románticas"
+      "Románticas",
+      "Reggae"
     ],
     "tranquila": true,
     "listas": [
@@ -2463,7 +2622,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2472,7 +2633,8 @@
     "artista": "Mark Anthony",
     "idioma": "Español",
     "categorias": [
-      "Pop"
+      "Pop",
+      "Bailables"
     ],
     "tranquila": false,
     "listas": [
@@ -2488,8 +2650,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Románticas"
+      "Románticas",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2510,7 +2672,8 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2526,7 +2689,8 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2544,7 +2708,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2569,8 +2735,8 @@
     "artista": "Peggy Lee",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Blues"
+      "Blues",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2584,7 +2750,9 @@
     "artista": "Chris Isaak",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock",
+      "Pop",
+      "Románticas"
     ],
     "tranquila": true,
     "listas": [
@@ -2593,7 +2761,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2602,8 +2771,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Románticas"
+      "Románticas",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2627,7 +2796,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2636,8 +2806,8 @@
     "artista": "Nina Simone",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Blues"
+      "Blues",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2661,7 +2831,8 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2692,7 +2863,9 @@
       "principal-privados",
       "tranquilas-principal",
       "tranquilas-todas",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2708,7 +2881,8 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos"
     ]
   },
   {
@@ -2717,8 +2891,8 @@
     "artista": "Amy Winehouse",
     "idioma": "Inglés",
     "categorias": [
-      "Jazz",
-      "Pop"
+      "Pop",
+      "Jazz"
     ],
     "tranquila": true,
     "listas": [
@@ -2732,14 +2906,16 @@
     "artista": "ACDC",
     "idioma": "Inglés",
     "categorias": [
-      "Pop"
+      "Rock"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   },
   {
@@ -2748,14 +2924,16 @@
     "artista": "The Outfield",
     "idioma": "Inglés",
     "categorias": [
-      "Rock"
+      "Rock",
+      "Pop"
     ],
     "tranquila": false,
     "listas": [
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "tree-house"
     ]
   },
   {
@@ -2771,7 +2949,9 @@
       "principal-diario",
       "solo-ingles",
       "principal-privados",
-      "todas"
+      "todas",
+      "eventos-corporativos",
+      "tree-house"
     ]
   }
 ]

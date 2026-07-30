@@ -1,9 +1,10 @@
-# Elena Girjoaba Music — Versión 1.3
+# Elena Girjoaba Music — Versión 1.7
 
-Corrección móvil:
+Corrección:
 
-- La cola pública ahora aparece también en teléfonos.
-- También aparece cuando el enlace abierto contiene `?lista=todas`.
-- Antes, ese modo estaba excluido por el código y por eso podía funcionar en
-  computadora con el enlace normal, pero no en el teléfono con la lista completa.
-- La cola continúa fija en la parte inferior mientras la persona navega.
+- El botón flotante **↑ MENÚ** ahora calcula directamente el borde superior
+  del cuadro de canciones a la cola.
+- Se coloca siempre 10 px por encima del cuadro.
+- Se reajusta cuando entran o salen canciones, al girar el teléfono y al
+  cambiar el tamaño de la pantalla.
+- Ya no depende de una variable CSS que podía fallar en algunos móviles.
