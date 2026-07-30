@@ -1003,6 +1003,14 @@ function crearTarjeta(cancion, indice) {
     .querySelector(".cancion__pedir:not([disabled])")
     ?.addEventListener("click", (evento) => {
       evento.stopPropagation();
+
+      document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((otra) => {
+        if (otra !== articulo) otra.classList.remove("is-whatsapp-activa");
+      });
+
+      articulo.classList.remove("is-whatsapp-activa");
+      void articulo.offsetWidth;
+      articulo.classList.add("is-whatsapp-activa");
       abrirPedido(cancion);
     });
 
@@ -2025,6 +2033,9 @@ function abrirPedido(cancion) {
 function cerrarPedido() {
   DOM.pedidoModal.hidden = true;
   estado.pedidoSeleccionado = null;
+  document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((tarjeta) => {
+    tarjeta.classList.remove("is-whatsapp-activa");
+  });
 }
 
 async function enviarPedidoWhatsApp() {
