@@ -1300,7 +1300,6 @@ function programarContinuacion() {
 }
 
 function abrirInstagram() {
-  guardarVisitaInstagram();
   abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
 }
 
@@ -2420,8 +2419,14 @@ function exportarDatosShow() {
 function registrarEventos() {
   DOM.seguirInstagram.addEventListener("click", (evento) => {
     evento.preventDefault();
+
+    // Mantener oculto el acceso y mostrarlo únicamente al cumplirse 3 segundos.
+    DOM.continuar.hidden = true;
+    DOM.entrar.hidden = true;
+    DOM.continuar.classList.remove("is-visible");
+
     guardarVisitaInstagram();
-    mostrarContinuacion();
+    programarContinuacion();
     abrirInstagram();
   });
 
