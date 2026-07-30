@@ -1300,9 +1300,7 @@ function programarContinuacion() {
 }
 
 function abrirInstagram() {
-  // Abrir Instagram de forma confiable sin sacar la página pública de su sitio.
-  // Esto permite volver y encontrar el repertorio ya desbloqueado.
-  window.open(CONFIG.instagramWeb, "_blank", "noopener,noreferrer");
+  abrirAplicacionConRespaldo(CONFIG.instagramApp, CONFIG.instagramWeb);
 }
 
 function abrirAplicacionConRespaldo(urlApp, urlWeb) {
