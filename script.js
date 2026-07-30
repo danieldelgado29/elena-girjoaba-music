@@ -1003,16 +1003,28 @@ function crearTarjeta(cancion, indice) {
     .querySelector(".cancion__pedir:not([disabled])")
     ?.addEventListener("click", (evento) => {
       evento.stopPropagation();
-
-      document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((otra) => {
-        if (otra !== articulo) otra.classList.remove("is-whatsapp-activa");
-      });
-
-      articulo.classList.remove("is-whatsapp-activa");
-      void articulo.offsetWidth;
-      articulo.classList.add("is-whatsapp-activa");
+      activarTarjetaWhatsApp(articulo, true);
       abrirPedido(cancion);
     });
+
+  if (!estado.vistaClientes && estado.configRemota.pedidos_whatsapp && situacion === "disponible") {
+    const alternarSeleccionWhatsApp = (evento) => {
+      if (evento?.target?.closest("button, a, input, textarea, select")) return;
+      const yaActiva = articulo.classList.contains("is-whatsapp-activa");
+      document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((otra) => {
+        otra.classList.remove("is-whatsapp-activa");
+      });
+      if (!yaActiva) activarTarjetaWhatsApp(articulo, true);
+    };
+
+    articulo.addEventListener("click", alternarSeleccionWhatsApp);
+    articulo.addEventListener("keydown", (evento) => {
+      if ((evento.key === "Enter" || evento.key === " ") && evento.target === articulo) {
+        evento.preventDefault();
+        alternarSeleccionWhatsApp(evento);
+      }
+    });
+  }
 
   if (!estado.vistaClientes && !estado.configRemota.pedidos_whatsapp && situacion === "disponible") {
     const mostrarIndicacion = () => {
@@ -2022,6 +2034,20 @@ async function reiniciarShow() {
   }
 }
 
+function activarTarjetaWhatsApp(articulo, forzar = false) {
+  if (!articulo) return;
+  document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((otra) => {
+    if (otra !== articulo) otra.classList.remove("is-whatsapp-activa");
+  });
+  articulo.classList.toggle("is-whatsapp-activa", forzar ? true : undefined);
+}
+
+function limpiarSeleccionWhatsApp() {
+  document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((tarjeta) => {
+    tarjeta.classList.remove("is-whatsapp-activa");
+  });
+}
+
 function abrirPedido(cancion) {
   estado.pedidoSeleccionado = cancion;
   DOM.pedidoCancion.textContent = `${cancion.titulo} — ${cancion.artista}`;
@@ -2033,9 +2059,7 @@ function abrirPedido(cancion) {
 function cerrarPedido() {
   DOM.pedidoModal.hidden = true;
   estado.pedidoSeleccionado = null;
-  document.querySelectorAll(".cancion.is-whatsapp-activa").forEach((tarjeta) => {
-    tarjeta.classList.remove("is-whatsapp-activa");
-  });
+  limpiarSeleccionWhatsApp();
 }
 
 async function enviarPedidoWhatsApp() {

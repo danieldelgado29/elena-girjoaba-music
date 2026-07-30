@@ -5830,78 +5830,68 @@ body.cola-publica-visible {
   box-shadow:0 0 0 1px rgba(213,178,104,.15),0 0 18px rgba(213,178,104,.18);
 }
 
-/* Entrega 6.32 — selección animada cuando pedidos por WhatsApp está activo */
+
+/* Entrega WhatsApp — selección visible de canción */
 .cancion.is-whatsapp-activa {
-  z-index: 20;
-  transform: scale(1.045);
-  border-color: rgba(213,178,104,.88);
+  z-index: 8;
+  transform: scale(1.055);
+  border-color: rgba(213,178,104,.92);
   background:
-    linear-gradient(150deg,rgba(213,178,104,.14),rgba(255,255,255,.025)),
+    linear-gradient(135deg, rgba(213,178,104,.14), rgba(255,255,255,.025)),
     var(--negro-2);
   box-shadow:
-    0 24px 65px rgba(0,0,0,.5),
-    0 0 0 1px rgba(213,178,104,.2),
-    0 0 30px rgba(213,178,104,.16);
-  animation: whatsappTarjetaEntrada .45s cubic-bezier(.2,.85,.25,1.15);
+    0 0 0 1px rgba(213,178,104,.22),
+    0 20px 52px rgba(0,0,0,.42),
+    0 0 28px rgba(213,178,104,.22);
+  animation: whatsappTarjetaEntrada .42s cubic-bezier(.2,.85,.25,1.15) both;
 }
 
 .cancion.is-whatsapp-activa .numero {
-  display: grid;
-  place-items: center;
   width: 58px;
   height: 58px;
-  border: 2px solid var(--dorado-claro);
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(245,211,136,.96);
   border-radius: 50%;
+  background: rgba(213,178,104,.10);
   box-shadow:
-    0 0 0 6px rgba(213,178,104,.08),
-    0 0 24px rgba(213,178,104,.3);
+    0 0 0 5px rgba(213,178,104,.10),
+    0 0 22px rgba(245,211,136,.72);
   animation: whatsappNumeroTitila 1s ease-in-out infinite;
 }
 
 .cancion.is-whatsapp-activa .cancion__pedir:not([disabled]) {
-  border-color: rgba(255,224,145,.95);
-  background: rgba(213,178,104,.2);
-  box-shadow:
-    0 0 0 0 rgba(213,178,104,.42),
-    0 0 18px rgba(213,178,104,.24);
-  animation: whatsappBotonTitila 1.05s ease-in-out infinite;
+  border-color: rgba(245,211,136,.95);
+  background: rgba(213,178,104,.20);
+  box-shadow: 0 0 20px rgba(213,178,104,.38);
+  animation: whatsappBotonTitila 1s ease-in-out infinite;
 }
 
 @keyframes whatsappTarjetaEntrada {
-  from { transform: scale(1); }
-  to { transform: scale(1.045); }
+  from { transform: scale(.98); }
+  to { transform: scale(1.055); }
 }
 
 @keyframes whatsappNumeroTitila {
-  0%,100% {
-    transform: scale(1);
-    filter: brightness(1);
-    box-shadow: 0 0 0 6px rgba(213,178,104,.08),0 0 18px rgba(213,178,104,.24);
-  }
-  50% {
-    transform: scale(1.1);
-    filter: brightness(1.28);
-    box-shadow: 0 0 0 10px rgba(213,178,104,.04),0 0 36px rgba(213,178,104,.62);
-  }
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 5px rgba(213,178,104,.10), 0 0 18px rgba(245,211,136,.48); }
+  50% { opacity: .66; transform: scale(1.10); box-shadow: 0 0 0 8px rgba(213,178,104,.04), 0 0 34px rgba(245,211,136,.95); }
 }
 
 @keyframes whatsappBotonTitila {
-  0%,100% {
-    transform: scale(1);
-    filter: brightness(1);
-    box-shadow: 0 0 0 0 rgba(213,178,104,.38),0 0 14px rgba(213,178,104,.18);
-  }
-  50% {
-    transform: scale(1.025);
-    filter: brightness(1.22);
-    box-shadow: 0 0 0 7px rgba(213,178,104,0),0 0 28px rgba(213,178,104,.52);
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .70; transform: scale(1.025); }
+}
+
+@media (max-width: 760px) {
+  .cancion.is-whatsapp-activa { transform: scale(1.025); }
+  @keyframes whatsappTarjetaEntrada {
+    from { transform: scale(.985); }
+    to { transform: scale(1.025); }
   }
 }
 
-@media (max-width:600px) {
-  .cancion.is-whatsapp-activa { transform: scale(1.025); }
-  @keyframes whatsappTarjetaEntrada {
-    from { transform: scale(1); }
-    to { transform: scale(1.025); }
-  }
+@media (prefers-reduced-motion: reduce) {
+  .cancion.is-whatsapp-activa,
+  .cancion.is-whatsapp-activa .numero,
+  .cancion.is-whatsapp-activa .cancion__pedir { animation: none !important; }
 }
