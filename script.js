@@ -40,7 +40,7 @@ const CONFIG = Object.freeze({
   telefonoDaniel: "593992890540",
   claveInstagramVisitado: "egmInstagramVisitado",
   claveInstagramDesbloqueo: "egmInstagramDesbloqueo",
-  demoraContinuacionInstagram: 5000,
+  demoraContinuacionInstagram: 3000,
   rutaAnotaciones: "assets/anotaciones",
   rutaIndiceAnotaciones: "assets/anotaciones/index.json",
   extensionesAnotaciones: ["jpg", "jpeg", "png", "webp"]
